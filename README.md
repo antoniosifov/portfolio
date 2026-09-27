@@ -23,7 +23,7 @@ It includes:
 
 | Project | Summary | Links |
 | --- | --- | --- |
-| Ceru | Six-language, multi-currency mobile expense sharing with offline-first sync and AI-powered voice and receipt input | [Product site](https://ceruapp.com/) |
+| Ceru | App Store release for six-language, multi-currency mobile expense sharing with offline-first sync and AI-powered voice and receipt input | [App Store](https://apps.apple.com/us/app/ceru-split-group-expenses/id6759336973) · [Product site](https://ceruapp.com/) |
 | Sea’cret Residences | Four-language real-estate marketing and lead-generation platform with Sanity CMS, SEO/GEO, analytics, accessibility, and enquiry workflows | [Live site](https://www.seacret-residence.com/) |
 | Campus42 | Interactive student-housing platform with floor and studio selection, CMS content, localization, SEO/GEO, and transactional enquiries | [Live site](https://campus42.gr/en) |
 | AWS EC2 Observability | Interactive dashboard for CloudWatch CPU, network, disk, credit, and health metrics | [Demo](https://aws-cpu-utilization-metrics-six.vercel.app/) · [Source](https://github.com/antoniosifov/aws-cpu-utilization-metrics) |
