@@ -4,6 +4,7 @@ out
 dist
 tsconfig.tsbuildinfo
 previews/
+.superpowers/
 # local duplicate / nested folder — not part of site build
 portfolio/
 .DS_Store
