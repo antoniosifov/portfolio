@@ -9,9 +9,6 @@ export function Experience() {
             <p className="eyebrow">Career</p>
             <h2 id="experience-title">Experience</h2>
           </div>
-          <a className="link-arrow" href="/Anton_Iosifov_CV.pdf" target="_blank" rel="noreferrer">
-            Download CV
-          </a>
         </div>
 
         <ol className="timeline">

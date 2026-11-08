@@ -28,9 +28,6 @@ export function Hero() {
             <a className="btn btn-primary" href="#work">
               View my work <Icon name="arrow-right" size={18} />
             </a>
-            <a className="btn btn-outline" href="/Anton_Iosifov_CV.pdf" target="_blank" rel="noreferrer">
-              Download CV
-            </a>
             <a className="btn btn-outline" href="mailto:iosifov.a.14@gmail.com">
               Email me
             </a>

@@ -60,7 +60,6 @@ data/
 public/
 |-- img/                # Optimized project and profile media
 |-- og-image.png        # Social sharing image
-|-- Anton_Iosifov_CV.pdf
 `-- CNAME               # GitHub Pages custom domain
 scripts/
 |-- optimize-images.mjs

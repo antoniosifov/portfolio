@@ -1,4 +1,3 @@
-import { Icon } from "./Icons";
 import { OliveBranch } from "./OliveBranch";
 
 const facts = [
@@ -45,9 +44,6 @@ export function About() {
                 </div>
               ))}
             </dl>
-            <a className="btn btn-outline btn-sm" href="/Anton_Iosifov_CV.pdf" target="_blank" rel="noreferrer">
-              Download CV <Icon name="arrow-right" size={16} />
-            </a>
           </div>
           <OliveBranch className="leaf leaf-about" />
         </article>

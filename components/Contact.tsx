@@ -24,9 +24,6 @@ export function Contact() {
               <a className="btn btn-light btn-sm" href="mailto:iosifov.a.14@gmail.com">
                 Email me <Icon name="arrow-right" size={16} />
               </a>
-              <a className="btn btn-on-dark btn-sm" href="/Anton_Iosifov_CV.pdf" target="_blank" rel="noreferrer">
-                Download CV
-              </a>
             </div>
           </div>
         </div>
