@@ -151,7 +151,7 @@ ol {
 }
 
 .curtain-mark {
-  width: 60px;
+  width: 66px;
   height: 50px;
   animation: mark-in 0.9s var(--ease-out) 0.1s both;
 }
@@ -217,7 +217,7 @@ ol {
 }
 
 .logo-mark {
-  width: 30px;
+  width: 33px;
   height: 25px;
 }
 
@@ -1904,7 +1904,7 @@ h2 {
 }
 
 .footer-mark {
-  width: 20px;
+  width: 22px;
   height: 17px;
 }
 

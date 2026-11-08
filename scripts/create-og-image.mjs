@@ -3,9 +3,8 @@ import sharp from "sharp";
 // Light editorial card matching the site: cream paper, the ΛI monogram, bronze italic accent.
 const mark = (x, y, scale, fill) => `
   <g transform="translate(${x} ${y}) scale(${scale})" fill="${fill}">
-    <path d="M0 92 42 8h9L9 92Z"/>
-    <path d="M42 8h18l32 84H74Z"/>
-    <rect x="104" y="8" width="16" height="84"/>
+    <path d="M443 0H508Q516 0 516 8V518Q516 526 508 526H443Q435 526 435 518V116L89 517Q81 527 72 527H6C0 527 -2 521 2.3 515L435.5 4Q439 0 443 0Z"/>
+    <path d="M623 0H688Q696 0 696 8V518Q696 526 688 526H623Q615 526 615 518V8Q615 0 623 0Z"/>
   </g>`;
 
 const svg = `
@@ -29,7 +28,7 @@ const svg = `
   <rect width="1200" height="630" fill="url(#paper)"/>
   <ellipse cx="960" cy="330" rx="330" ry="118" transform="rotate(-16 960 330)" fill="none" stroke="url(#ring)" stroke-width="28" opacity="0.9"/>
   <ellipse cx="960" cy="322" rx="330" ry="118" transform="rotate(-16 960 322)" fill="none" stroke="#ffffff" stroke-width="5" opacity="0.6"/>
-  ${mark(64, 56, 0.34, "#1f1c18")}
+  ${mark(64, 58, 0.06, "#1f1c18")}
   <rect x="124" y="60" width="1" height="26" fill="#1f1c18" opacity="0.25"/>
   <text x="142" y="80" fill="#1f1c18" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="600">Anton Iosifov</text>
   <line x1="64" y1="196" x2="92" y2="196" stroke="#cfa872" stroke-width="2"/>

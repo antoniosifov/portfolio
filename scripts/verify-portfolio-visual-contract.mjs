@@ -12,7 +12,7 @@ const stage = read("components/HeroStage.tsx");
 const work = read("components/Work.tsx");
 
 // Brand
-assert.match(logo, /viewBox="0 0 120 100"/, "Logo must render the ΛI monogram on its 120x100 grid");
+assert.match(logo, /viewBox="0 0 696 527"/, "Logo must render the traced AI monogram");
 assert.match(intro, /className="curtain"/, "Intro must render the brand curtain");
 assert.match(css, /@keyframes curtain-up/, "Curtain must lift with the curtain-up animation");
 assert.match(page, /<Intro \/>/, "Home page must open with the curtain");
