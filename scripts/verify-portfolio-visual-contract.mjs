@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 
 const read = (path) => readFileSync(new URL(`../${path}`, import.meta.url), "utf8");
 
@@ -19,8 +19,11 @@ assert.match(page, /<Intro \/>/, "Home page must open with the curtain");
 
 // Hero
 assert.match(hero, /solve real problems\./, "Hero headline must keep the approved copy");
-assert.match(stage, /<Ring part="back" \/>[\s\S]*<Ring part="front" \/>/, "Hero stage must draw the ring behind and in front of the devices");
-assert.match(stage, /className="laptop"[\s\S]*className="phone"/, "Hero stage must show the laptop and the phone");
+for (const name of ["stone", "ribbon", "laptop", "phone", "chip-code", "chip-cloud", "chip-spark", "leaf"]) {
+  assert.match(stage, new RegExp(`name: "${name}"`), `Hero stage must render the ${name} cut-out`);
+  assert.ok(existsSync(new URL(`../public/img/hero/${name}.webp`, import.meta.url)), `${name}.webp must exist`);
+  assert.match(css, new RegExp(`\\.el-${name} \\{[\\s\\S]*?--path: path-`), `${name} needs its own motion path`);
+}
 assert.doesNotMatch(stage, /scene-stage1-chaos|hero-network/, "Old hero scenes must be gone");
 
 // Work

@@ -2,15 +2,15 @@ import type { CSSProperties } from "react";
 import { capabilities } from "@/data/portfolio";
 import { HeroStage } from "./HeroStage";
 import { Icon } from "./Icons";
-import { OliveBranch } from "./OliveBranch";
 
 const order = (index: number) => ({ "--i": index }) as CSSProperties;
 
 export function Hero() {
   return (
     <section id="top" className="hero" aria-labelledby="hero-title">
-      <OliveBranch className="leaf leaf-corner" />
-      <OliveBranch className="leaf leaf-left" />
+      <div className="hero-bg" aria-hidden="true" />
+      <img className="leaf leaf-corner" src="/img/hero/leaf.webp" alt="" width="552" height="244" aria-hidden="true" />
+      <img className="leaf leaf-left" src="/img/hero/leaf.webp" alt="" width="552" height="244" aria-hidden="true" />
 
       <div className="shell hero-grid">
         <div className="hero-copy">
