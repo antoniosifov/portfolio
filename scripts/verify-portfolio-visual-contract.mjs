@@ -29,7 +29,7 @@ assert.doesNotMatch(stage, /scene-stage1-chaos|hero-network/, "Old hero scenes m
 // Work
 assert.match(work, /dv-laptop/, "Selected work must show projects on a laptop");
 assert.match(work, /dv-phones/, "Mobile products must show a set of phones");
-const wording = read("components/Header.tsx") + hero + read("components/AboutRow.tsx") + read("components/Contact.tsx");
+const wording = read("components/Header.tsx") + hero + read("components/About.tsx") + read("components/Contact.tsx");
 assert.doesNotMatch(wording, /Available for projects|client projects|build something together/, "Copy must speak to employers, not clients");
 assert.match(work, /additionalProjects/, "View all must include the additional projects list");
 

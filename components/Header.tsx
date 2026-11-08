@@ -41,10 +41,6 @@ export function Header() {
         </nav>
 
         <div className="header-side">
-          <a className="availability" href="#contact">
-            <span className="availability-dot" aria-hidden="true" />
-            Open to work
-          </a>
           <button
             type="button"
             className="menu-button"

@@ -61,7 +61,7 @@ const personSchema = {
   "@type": "Person",
   name: "Anton Iosifov",
   url: siteUrl,
-  image: `${siteUrl}/img/1758025908213.webp`,
+  image: `${siteUrl}/img/anton-iosifov.webp`,
   jobTitle: "Full-Stack Software Engineer",
   alumniOf: {
     "@type": "CollegeOrUniversity",

@@ -22,6 +22,7 @@ export type Project = {
 export const navigation = [
   { label: "Work", href: "#work" },
   { label: "Experience", href: "#experience" },
+  { label: "Education", href: "#education" },
   { label: "Skills", href: "#skills" },
   { label: "About", href: "#about" },
   { label: "Contact", href: "#contact" },
@@ -64,23 +65,19 @@ export const processSteps: { icon: IconName; title: string; text: string }[] = [
   { icon: "rocket", title: "Launch", text: "CI/CD, monitoring and iteration in production" },
 ];
 
-export const aboutSummary =
-  "Software engineer with a strong product mindset, combining development, system design and real-world delivery. I enjoy turning complex ideas into simple, reliable and meaningful products.";
-
-export const alsoWorkWith = ["AWS", "OpenAI", "FastAPI", "LangChain", "Laravel", "Expo", "Sanity", "Vercel"];
 
 export const stackGroups = [
   {
     label: "Frontend",
-    items: ["TypeScript", "React", "Next.js", "React Native", "Redux", "Tailwind CSS"],
+    items: ["TypeScript", "React", "Next.js", "React Native", "Expo", "Redux", "Tailwind CSS"],
   },
   {
     label: "Backend & data",
-    items: ["Node.js", "Express", "FastAPI", "REST APIs", "PostgreSQL", "Supabase", "MongoDB", "SQL"],
+    items: ["Node.js", "Express", "FastAPI", "Laravel", "Spring Boot", "REST APIs", "PostgreSQL", "Supabase", "MongoDB", "MySQL"],
   },
   {
     label: "Cloud & delivery",
-    items: ["AWS", "Docker", "GitHub Actions", "Vercel", "Sentry", "Automated testing"],
+    items: ["AWS", "Docker", "GitHub Actions", "Vercel", "Render", "Sentry", "Automated testing"],
   },
   {
     label: "Applied AI",
@@ -91,7 +88,7 @@ export const stackGroups = [
 export const projects: Project[] = [
   {
     index: "01",
-    title: "Ceru — Multilingual Expense Sharing",
+    title: "Ceru — Multilingual Expense-Sharing App",
     shortTitle: "Ceru",
     year: "2026",
     type: "Independent mobile product",
@@ -100,11 +97,12 @@ export const projects: Project[] = [
       "A six-language, multi-currency expense-sharing app that I independently planned, designed, architected, developed, and launched on the App Store.",
     statement: "Six languages. Multiple currencies. One shared version of the truth.",
     presentation: "mobile",
-    stack: ["React Native", "Expo", "TypeScript", "Supabase", "PostgreSQL", "SQLite", "OpenAI", "Sentry"],
+    stack: ["React Native", "Expo", "TypeScript", "Supabase", "PostgreSQL", "SQLite", "Drizzle", "Zustand", "NativeWind", "OpenAI", "Sentry"],
     highlights: [
-      "Flexible group expenses, balances, settlements, analytics, notifications, and PDF/Excel exports.",
-      "AI-powered voice and receipt input with offline-first local storage and resilient synchronization.",
-      "Authentication, localization, automated testing, production monitoring, subscriptions, and end-to-end App Store release delivery.",
+      "Built flexible group expenses, balances, settlements, analytics, notifications, and PDF/Excel exports.",
+      "Implemented AI-powered voice and receipt input using OpenAI.",
+      "Designed offline-first local storage with SQLite and Drizzle, synchronized with Supabase/PostgreSQL.",
+      "Delivered authentication, localization, automated testing, Sentry error monitoring, subscriptions, and the App Store release.",
     ],
     live: "https://ceruapp.com/",
     cover: "/img/projects/ceru/cover.webp",
@@ -124,20 +122,20 @@ export const projects: Project[] = [
   },
   {
     index: "02",
-    title: "Sea’cret Residences — Real Estate Platform",
-    shortTitle: "Sea’cret Residences",
+    title: "Sea’cret Residence — Multilingual Real Estate Platform",
+    shortTitle: "Sea’cret Residence",
     year: "2026",
     type: "Commercial client platform",
     status: "Live · Greece",
-    description:
-      "A production four-language marketing and lead-generation platform for a luxury coastal real-estate development, delivered from requirements through launch.",
+    description: "Planned, designed, architected, developed, and launched a production multilingual platform for a luxury coastal real-estate development in Greece.",
     statement: "Four languages, one clear path from discovery to enquiry.",
     presentation: "web",
-    stack: ["Next.js", "React", "TypeScript", "Sanity", "Resend", "Vercel", "PostHog"],
+    stack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Sanity", "Resend", "Vercel"],
     highlights: [
-      "Four-language localization, CMS-managed content, responsive property discovery, and structured enquiry workflows.",
-      "Localized SEO and Generative Engine Optimization, analytics, accessibility, and privacy-conscious consent flows.",
-      "Production deployment with image optimization, security headers, bot protection, and post-launch iteration.",
+      "Built responsive pages and reusable UI components with Next.js, React, TypeScript, and Tailwind CSS.",
+      "Implemented four-language localization, CMS-managed content with Sanity, and inquiry flows with transactional email delivery through Resend.",
+      "Delivered localized SEO, Generative Engine Optimization (GEO), analytics integrations, accessibility improvements, and production deployment on Vercel.",
+      "Worked directly with the client from requirements and content structure through launch and post-release iteration.",
     ],
     live: "https://www.seacret-residence.com/",
     cover: "/img/projects/seacret/og-hero.webp",
@@ -153,20 +151,21 @@ export const projects: Project[] = [
   },
   {
     index: "03",
-    title: "Campus42 — Student Housing Platform",
+    title: "Campus42 — Interactive Student Housing Platform",
     shortTitle: "Campus42",
     year: "2026",
     type: "Commercial client platform",
     status: "Live · Greece",
-    description:
-      "A bilingual student-housing and lead-generation platform for an 83-studio development in Patras, independently delivered from planning through production.",
+    description: "Independently planned, designed, architected, developed, and launched a bilingual student-housing platform for an 83-studio development in Patras, Greece.",
     statement: "A building with a story, translated into an interactive digital experience.",
     presentation: "web",
-    stack: ["Next.js", "React", "TypeScript", "Sanity", "Resend", "Vercel"],
+    stack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Sanity", "Resend"],
     highlights: [
-      "Interactive floor and studio selection with availability, layouts, photography, and 3D tours.",
-      "CMS-managed content, transactional enquiries, localized SEO and GEO, analytics, and accessibility.",
-      "A custom browser-based arcade game designed as an interactive engagement feature.",
+      "Built an interactive floor and studio selection experience with availability, layouts, photos, and 3D tours.",
+      "Implemented bilingual localization, CMS-managed content with Sanity, and inquiry flows with transactional email delivery through Resend.",
+      "Delivered localized SEO, Generative Engine Optimization (GEO), analytics integrations, accessibility improvements, and production deployment.",
+      "Developed a custom browser-based arcade game as an interactive engagement feature.",
+      "Worked directly with the client from requirements and content architecture through launch and post-release iteration.",
     ],
     live: "https://campus42.gr/en",
     cover: "/img/projects/campus42/cover.webp",
@@ -203,15 +202,15 @@ export const projects: Project[] = [
     year: "2026",
     type: "Cloud engineering project",
     status: "Live interactive demo",
-    description:
-      "An interactive observability dashboard for exploring EC2 CPU, network, disk I/O, credit, and health metrics from Amazon CloudWatch.",
+    description: "Designed and built a full-stack observability dashboard for Amazon EC2, resolving instances by private IP and retrieving CPU, network, disk I/O, credit balance, and status-check metrics from Amazon CloudWatch through AWS SDK v3.",
     statement: "CloudWatch telemetry made readable before it becomes urgent.",
     presentation: "dashboard",
-    stack: ["React", "AWS EC2", "CloudWatch", "AWS SDK", "Chart.js", "Vercel"],
+    stack: ["React", "Node.js", "Express", "AWS SDK v3", "Amazon EC2", "CloudWatch", "Chart.js", "Three.js", "Vercel", "Render"],
     highlights: [
-      "Turns raw CloudWatch telemetry into a focused operations view with time-range and instance controls.",
-      "Surfaces CPU pressure, burst-credit risk, network throughput, disk activity, and instance health in one workflow.",
-      "Built as a practical cloud-metrics project and extended beyond the original technical brief.",
+      "Built an interactive React and Chart.js interface with selectable time windows, sampling intervals, metric switching, and summary statistics.",
+      "Added a zero-credential demo mode with realistic synthetic data for a publicly accessible deployment.",
+      "Created an optimized Three.js exploded-view CPU visualization with reduced-motion support and graceful fallbacks.",
+      "Deployed the frontend on Vercel and the Node.js/Express API on Render.",
     ],
     live: "https://aws-cpu-utilization-metrics-six.vercel.app/",
     github: "https://github.com/antoniosifov/aws-cpu-utilization-metrics",
@@ -226,15 +225,15 @@ export const projects: Project[] = [
     year: "2026",
     type: "AI engineering project",
     status: "Live full-stack deployment",
-    description:
-      "An agentic knowledge assistant that retrieves, cites, and reasons over an indexed enterprise knowledge base while disclosing general-knowledge fallback.",
+    description: "Built a full-stack RAG knowledge assistant that answers enterprise IT support questions using an internal knowledge base and shows the sources behind each grounded response.",
     statement: "Grounded answers, visible sources, and honest fallback behavior.",
     presentation: "dashboard",
-    stack: ["Next.js", "TypeScript", "FastAPI", "LangChain", "OpenAI", "MongoDB Atlas Vector Search"],
+    stack: ["Python", "FastAPI", "LangChain", "OpenAI", "MongoDB Atlas Vector Search", "Next.js", "React", "TypeScript", "Tailwind CSS"],
     highlights: [
-      "Multi-turn chat with grounded answers, cited sources, relevance scores, and explicit fallback status.",
-      "FastAPI backend with an agentic retrieval pipeline, vector search, ingestion utilities, and typed contracts.",
-      "Separately deployed frontend and backend with production-oriented documentation and error states.",
+      "Developed a FastAPI chat API with a LangChain tool-calling agent that decides when to retrieve company knowledge and when to use a clearly labeled general-knowledge fallback.",
+      "Implemented CSV knowledge ingestion, OpenAI embeddings, and semantic retrieval with MongoDB Atlas Vector Search.",
+      "Returned source topics and relevance scores with grounded answers while keeping conversation history client-controlled through a stateless API.",
+      "Built a Next.js and TypeScript chat interface with suggested prompts, cited-source panels, fallback indicators, and loading and error states.",
     ],
     live: "https://rag-chat-frontend-sigma.vercel.app/",
     github: "https://github.com/antoniosifov/rag-chat-backend",
@@ -242,20 +241,20 @@ export const projects: Project[] = [
   },
   {
     index: "06",
-    title: "Ski Shop — Full-Stack E-Commerce",
+    title: "Ski Shop — Full-Stack E-Commerce Platform",
     shortTitle: "Ski Shop",
     year: "2026",
     type: "Full-stack product project",
     status: "Live demo",
-    description:
-      "A winter-sports commerce platform with separate customer and admin workflows, advanced catalog filtering, analytics, and AI-powered recommendations.",
+    description: "Built a full-stack e-commerce platform for winter sports equipment with separate customer and admin experiences.",
     statement: "One product surface for customers, inventory, operations, and recommendations.",
     presentation: "web",
-    stack: ["React", "Redux Toolkit", "Node.js", "Express", "MongoDB", "JWT", "OpenAI"],
+    stack: ["React", "Redux Toolkit", "Vite", "Node.js", "Express", "MongoDB", "Mongoose", "JWT", "Google OAuth", "Recharts", "OpenAI"],
     highlights: [
-      "Product discovery, cart, checkout, order history, customer profiles, and protected admin operations.",
-      "Layered REST API, JWT and Google authentication, stock control, and MongoDB aggregation analytics.",
-      "AI-assisted cart recommendations with separately deployed frontend, API, and database services.",
+      "Implemented product discovery with search, sorting, category and attribute filters, shopping cart, order placement, order history, and customer profiles.",
+      "Built protected admin workflows for category and product management, stock control, customer order visibility, and sales analytics.",
+      "Developed a layered REST API with Node.js, Express, MongoDB/Mongoose, JWT authentication and role-based authorization, password hashing, and Google Sign-In.",
+      "Added AI-powered cart recommendations with OpenAI and deployed the frontend, API, and database across Vercel, Render, and MongoDB Atlas.",
     ],
     live: "https://e-commerce-ski.vercel.app/",
     github: "https://github.com/antoniosifov/e-commerce-ski",
@@ -270,7 +269,19 @@ export const projects: Project[] = [
   },
 ];
 
-export const additionalProjects = [
+export const additionalProjects: { year: string; title: string; type: string; description: string; href?: string }[] = [
+  {
+    year: "2026",
+    title: "FullFace",
+    type: "Confidential multi-tenant SaaS platform",
+    description: "Contributed to the development of a private multi-tenant SaaS platform for a commercial client.",
+  },
+  {
+    year: "2026",
+    title: "Real Estate CRM & Document Management",
+    type: "CRM and document-management platform",
+    description: "A centralized platform for a real-estate developer, replacing fragmented Excel-based operations.",
+  },
   {
     year: "2026",
     title: "LiveBetter",
@@ -288,15 +299,15 @@ export const additionalProjects = [
   {
     year: "2025",
     title: "Factory Management System",
-    type: "Full-stack operations platform",
-    description: "Employee, department, shift, reporting, and AI-assisted scheduling workflows.",
+    type: "AI-assisted workforce scheduling",
+    description: "A full-stack factory operations platform for managing employees, departments, shifts, and weekly workforce scheduling.",
     href: "https://factory-management-system-eight.vercel.app/",
   },
   {
     year: "2025",
     title: "Popcorn Palace",
-    type: "Java / Spring Boot backend",
-    description: "A tested REST API for movie catalog management and seat-level ticket booking.",
+    type: "Movie ticket booking system",
+    description: "A backend-focused movie ticket booking system with REST APIs for managing movies, showtimes, and seat reservations.",
     href: "https://github.com/antoniosifov/popcorn-palace",
   },
 ];
@@ -304,52 +315,49 @@ export const additionalProjects = [
 export const experience = [
   {
     period: "Feb 2026 — Present",
-    role: "Freelance Full-Stack Developer",
-    company: "Freelance",
-    meta: "Client & independent products · Israel / Remote",
+    role: "Full-Stack Software Engineer",
+    company: "Freelance · Self-employed",
+    meta: "Israel · Remote",
+    summary:
+      "I build and ship client and independent products across web, mobile, and AI-enabled systems, taking ownership from requirements and system design through testing, deployment, and production support.",
     bullets: [
-      "Build and ship client and independent products across web, mobile, cloud, and AI-enabled systems.",
-      "Delivered multilingual production platforms for real-estate and student-housing clients, including CMS-managed content, localized SEO/GEO, analytics, accessibility, and enquiry flows.",
-      "Architecting a custom CRM for a Greek real-estate developer, replacing fragmented Excel-based operations with structured data and centralized workflows.",
-      "Building an AI agent for a dental business and contributing to a confidential multi-tenant SaaS platform for a healthcare client.",
-      "Work directly with clients from requirements and system design through testing, deployment, iteration, and production support.",
+      "Delivered multilingual production platforms for real-estate and student-housing projects, including CMS-managed content, localized SEO, analytics, accessibility, and inquiry flows.",
+      "Developing a custom CRM for a Greek real-estate developer, consolidating fragmented Excel-based operations into a centralized system for structured data and business workflows.",
+      "Developing an AI agent for a dental business to support customer-facing and internal workflows.",
+      "Built a six-language, multi-currency expense-sharing mobile app from concept to App Store release, with offline synchronization and an Android release in preparation.",
+      "Work directly with clients to translate business needs into scoped releases, iterate on feedback, and maintain products after launch.",
     ],
   },
   {
-    period: "Sep 2025 — Feb 2026",
-    role: "Full-Stack Development Program",
-    company: "Yaniv Arad — Tech Training Labs",
-    meta: "250 hours · Israel / Remote",
+    period: "Dec 2024 — May 2025",
+    role: "Full Stack Engineer",
+    company: "Platforma365 · Full-time",
+    meta: "Israel · Remote",
+    summary:
+      "Worked across the stack on internal SaaS products in a fast-paced startup environment, contributing to frontend features, backend services, APIs, and data-processing workflows.",
     bullets: [
-      "Built production-style applications with React, TypeScript, Node.js, Express, MongoDB, REST APIs, authentication, and AI integrations.",
-      "Applied modular architecture, database modeling, automated workflows, Docker, and collaborative Git-based delivery.",
-    ],
-  },
-  {
-    period: "Dec 2024 — Apr 2025",
-    role: "Full-Stack Developer",
-    company: "Platforma365",
-    meta: "Product startup · Israel / Remote",
-    bullets: [
-      "Worked across internal SaaS products, developing JavaScript frontend features, REST APIs, Laravel backend services, and MySQL-based data workflows.",
-      "Implemented authentication, business logic, external API integrations, and parsing and normalization of unstructured legal and business data.",
-      "Collaborated through debugging, code review, sprint planning, and iterative feature delivery in an Agile team.",
+      "Developed JavaScript frontend features and dynamic UI components using Blade and Bootstrap.",
+      "Built and maintained REST API endpoints and backend business logic with Laravel and PHP.",
+      "Integrated external APIs and developed workflows for parsing and normalizing unstructured legal and business data.",
+      "Implemented authentication flows, improved MySQL database performance, and applied security best practices across internal systems.",
+      "Collaborated in an Agile environment through debugging, code reviews, sprint planning, and feature delivery.",
     ],
   },
 ];
 
 export const education = [
   {
-    period: "2021 — 2024",
-    title: "B.Sc. in Computer Science",
-    institution: "Holon Institute of Technology (HIT)",
-    detail: "Grade 90 · Algorithms, data structures, OOP, databases, software engineering, and web development",
+    period: "Oct 2021 — Nov 2024",
+    title: "Bachelor of Science, Computer Science",
+    institution: "Holon Institute of Technology",
+    detail:
+      "Grade: 90. Relevant areas of study included algorithms and data structures, object-oriented programming, databases, software engineering, and web development.",
   },
   {
     period: "Issued Feb 2026",
     title: "Full Stack Development (250 Hours)",
-    institution: "Yaniv Arad — Tech Training Labs",
-    detail: "React, TypeScript, Node.js, REST APIs, databases, testing, Docker, and AI integration",
+    institution: "Yaniv Arad - Tech Training Labs",
+    detail: "Certificate of Achievement for completing a 250-hour Full Stack Development program at Yaniv Arad Training Labs.",
   },
 ];
 

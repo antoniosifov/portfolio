@@ -202,12 +202,20 @@ export function Work() {
           <ul className="work-list">
             {listed.map((project) => (
               <li key={project.title}>
-                <a href={project.href} target="_blank" rel="noreferrer">
-                  <span className="work-list-year">{project.year}</span>
-                  <span className="work-list-title">{project.title}</span>
-                  <span className="work-list-type">{project.type}</span>
-                  <Icon name="arrow-up-right" size={16} />
-                </a>
+                {project.href ? (
+                  <a className="work-list-row" href={project.href} target="_blank" rel="noreferrer">
+                    <span className="work-list-year">{project.year}</span>
+                    <span className="work-list-title">{project.title}</span>
+                    <span className="work-list-type">{project.type}</span>
+                    <Icon name="arrow-up-right" size={16} />
+                  </a>
+                ) : (
+                  <div className="work-list-row">
+                    <span className="work-list-year">{project.year}</span>
+                    <span className="work-list-title">{project.title}</span>
+                    <span className="work-list-type">{project.type}</span>
+                  </div>
+                )}
               </li>
             ))}
           </ul>

@@ -1,4 +1,4 @@
-import { education, experience } from "@/data/portfolio";
+import { experience } from "@/data/portfolio";
 
 export function Experience() {
   return (
@@ -6,8 +6,8 @@ export function Experience() {
       <div className="shell">
         <div className="section-head">
           <div>
-            <p className="eyebrow">Background</p>
-            <h2 id="experience-title">Experience &amp; education</h2>
+            <p className="eyebrow">Career</p>
+            <h2 id="experience-title">Experience</h2>
           </div>
           <a className="link-arrow" href="/Anton_Iosifov_CV.pdf" target="_blank" rel="noreferrer">
             Download CV
@@ -24,27 +24,17 @@ export function Experience() {
                   {item.company} · {item.meta}
                 </p>
               </div>
-              <ul>
-                {item.bullets.map((bullet) => (
-                  <li key={bullet}>{bullet}</li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ol>
-
-        <ul className="education">
-          {education.map((item) => (
-            <li key={item.title}>
-              <span className="timeline-period">{item.period}</span>
               <div>
-                <h3>{item.title}</h3>
-                <p className="timeline-meta">{item.institution}</p>
-                <p>{item.detail}</p>
+                <p className="timeline-summary">{item.summary}</p>
+                <ul>
+                  {item.bullets.map((bullet) => (
+                    <li key={bullet}>{bullet}</li>
+                  ))}
+                </ul>
               </div>
             </li>
           ))}
-        </ul>
+        </ol>
       </div>
     </section>
   );
