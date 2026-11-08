@@ -6,12 +6,13 @@ import { SectionHeading } from "./SectionHeading";
 
 function ProjectVisual({ project }: { project: Project }) {
   if (project.presentation === "mobile") {
-    const screens = project.gallery?.slice(0, 2) ?? [];
+    const screens = project.gallery?.slice(0, 3) ?? [];
+    const positions = ["is-left", "is-center", "is-right"] as const;
 
     return (
       <div className="project-mobile-showcase">
         {screens.map((screen, index) => (
-          <div className={`device-phone ${index === 0 ? "is-back" : "is-front"}`} key={screen.src}>
+          <div className={`device-phone ${positions[index]}`} key={screen.src}>
             <span className="device-phone-speaker" aria-hidden="true" />
             <img
               src={screen.src}
@@ -101,7 +102,7 @@ function ProjectCard({ project }: { project: Project }) {
           <div className="project-actions">
             {project.live ? (
               <a href={project.live} target="_blank" rel="noreferrer">
-                Live project <span aria-hidden="true">↗</span>
+                Visit live website <span aria-hidden="true">↗</span>
               </a>
             ) : null}
             {project.github ? (
@@ -195,7 +196,7 @@ export function Projects() {
           ))}
         </div>
 
-        <div className="projects-carousel-footer section-content">
+        <div className="projects-carousel-footer">
           <div className="projects-carousel-controls" aria-label="Project carousel controls">
             <button
               type="button"

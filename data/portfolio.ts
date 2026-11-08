@@ -67,10 +67,15 @@ export const projects: Project[] = [
     cover: "/img/projects/ceru/cover.webp",
     coverAlt: "Ceru expense-sharing app with voice expense input on an iPhone",
     gallery: [
-      { src: "/img/projects/splitai/IMG_8857.webp", alt: "Ceru group expense overview" },
-      { src: "/img/projects/splitai/IMG_8858.webp", alt: "Ceru expense entry flow" },
-      { src: "/img/projects/splitai/IMG_8859.webp", alt: "Ceru balances and settlements" },
-      { src: "/img/projects/splitai/IMG_8860.webp", alt: "Ceru multilingual mobile interface" },
+      {
+        src: "/img/projects/ceru/ceru-home.webp",
+        alt: "Ceru home screen with total balance, groups, and recent expenses",
+      },
+      { src: "/img/projects/ceru/ceru-launch.webp", alt: "Ceru launch screen" },
+      {
+        src: "/img/projects/ceru/ceru-analytics.webp",
+        alt: "Ceru group analytics with spending by category",
+      },
     ],
     accent: "lime",
   },
