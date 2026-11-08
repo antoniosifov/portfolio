@@ -73,6 +73,7 @@ export function HeroStage() {
               width={element.width}
               height={element.height}
               decoding="sync"
+              fetchPriority={element.name === "laptop" || element.name === "ribbon" ? "high" : "auto"}
               draggable={false}
             />
             {element.name === "ribbon" ? <span className="ribbon-sheen" /> : null}

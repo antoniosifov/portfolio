@@ -51,6 +51,9 @@ assert.ok(contrast("#ffffff", token("olive")) >= 4.5, "White text must reach 4.5
 // Content must be readable before and without hydration
 assert.doesNotMatch(css, /\.reveal \{[^}]*opacity: 0/, "Reveal must not hide content by default");
 
+assert.doesNotMatch(css, /background-clip: text/, "Headings use solid colour, not gradient text");
+assert.match(read("components/Hero.tsx"), /<MotionToggle \/>/, "Endless motion needs a visible pause control");
+
 // Motion safety
 assert.match(css, /prefers-reduced-motion: reduce\)[\s\S]*\.curtain \{\s*display: none;/, "Reduced motion must skip the curtain");
 

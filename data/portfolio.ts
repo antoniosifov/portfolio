@@ -39,6 +39,8 @@ export type IconName =
   | "arrow-right"
   | "arrow-up-right"
   | "menu"
+  | "pause"
+  | "play"
   | "close";
 
 export const capabilities: { icon: IconName; label: string; detail: string }[] = [

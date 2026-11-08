@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import { capabilities } from "@/data/portfolio";
 import { HeroStage } from "./HeroStage";
 import { Icon } from "./Icons";
+import { MotionToggle } from "./MotionToggle";
 
 const order = (index: number) => ({ "--i": index }) as CSSProperties;
 
@@ -22,7 +23,7 @@ export function Hero() {
             <br className="hero-br" /> <em className="h1-accent">solve real problems.</em>
           </h1>
           <p className="hero-lede" style={order(2)}>
-            I build with React, TypeScript and Node.js. My work includes Ceru, released on the App Store, and a shift-scheduling system used at a public hospital. Looking for my next engineering role.
+            I build with React, TypeScript and Node.js. Recently shipped Ceru to the App Store and a shift-scheduling system used at a public hospital. Looking for my next engineering role.
           </p>
           <div className="hero-actions" style={order(3)}>
             <a className="btn btn-primary" href="#work">
@@ -46,6 +47,7 @@ export function Hero() {
         </div>
 
         <HeroStage />
+        <MotionToggle />
       </div>
     </section>
   );

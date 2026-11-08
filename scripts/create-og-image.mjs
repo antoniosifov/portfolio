@@ -35,7 +35,7 @@ const svg = `
   <text x="104" y="201" fill="#69716b" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" letter-spacing="3">SOFTWARE ENGINEER</text>
   <text x="62" y="300" fill="#20251f" font-family="Arial, Helvetica, sans-serif" font-size="84" font-weight="700" letter-spacing="-3">Building digital</text>
   <text x="62" y="392" fill="#20251f" font-family="Arial, Helvetica, sans-serif" font-size="84" font-weight="700" letter-spacing="-3">products <tspan fill="#5f6761" font-weight="400">that</tspan></text>
-  <text x="62" y="484" fill="url(#bronze)" font-family="Georgia, 'Times New Roman', serif" font-size="88" font-style="italic" font-weight="700" letter-spacing="-2">solve real problems.</text>
+  <text x="62" y="484" fill="#85623a" font-family="Georgia, 'Times New Roman', serif" font-size="88" font-style="italic" font-weight="700" letter-spacing="-2">solve real problems.</text>
   <text x="64" y="556" fill="#5f6761" font-family="Arial, Helvetica, sans-serif" font-size="22">Web · Mobile · Cloud · Applied AI — from idea to production</text>
   <rect x="958" y="534" width="178" height="40" rx="20" fill="#586b40"/>
   <text x="1047" y="560" text-anchor="middle" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700">antoniosifov.com</text>

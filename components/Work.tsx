@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { additionalProjects, projects, type Project } from "@/data/portfolio";
 import { Icon } from "./Icons";
 
@@ -50,7 +50,7 @@ function Devices({ project, eager }: { project: Project; eager: boolean }) {
   );
 }
 
-function Slide({ project, active, index }: { project: Project; active: boolean; index: number }) {
+function Slide({ project, active, index, ready }: { project: Project; active: boolean; index: number; ready: boolean }) {
   const [open, setOpen] = useState(false);
   const detailsId = `work-details-${project.index}`;
 
@@ -59,6 +59,7 @@ function Slide({ project, active, index }: { project: Project; active: boolean; 
       className={`slide accent-${project.accent} ${active ? "is-active" : ""}`.trim()}
       aria-roledescription="slide"
       aria-label={project.shortTitle}
+      inert={ready && !active}
     >
       <div className="slide-main">
         <div className="slide-media">
@@ -142,6 +143,9 @@ function MoreRow({ project }: { project: MoreProject }) {
 export function Work() {
   const trackRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => setReady(true), []);
 
   // The carousel needs something to put on the screens; a project without any
   // capture is listed below instead of being shown in an empty laptop.
@@ -206,7 +210,7 @@ export function Work() {
           aria-label="Selected projects"
         >
           {showcase.map((project, index) => (
-            <Slide key={project.index} project={project} active={index === active} index={index} />
+            <Slide key={project.index} project={project} active={index === active} index={index} ready={ready} />
           ))}
         </div>
 
