@@ -22,7 +22,7 @@ export function Hero() {
             <br className="hero-br" /> <em className="h1-accent">solve real problems.</em>
           </h1>
           <p className="hero-lede" style={order(2)}>
-            React, TypeScript and Node.js engineer shipping web, mobile and AI-enabled products to production. Looking for my next engineering role.
+            I build with React, TypeScript and Node.js. My work includes Ceru, released on the App Store, and a shift-scheduling system used at a public hospital. Looking for my next engineering role.
           </p>
           <div className="hero-actions" style={order(3)}>
             <a className="btn btn-primary" href="#work">

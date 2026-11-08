@@ -17,8 +17,8 @@ export function Contact() {
               to join your team?
             </h2>
             <p>
-              I’m open to full-stack, React/Next.js, Node.js and product-focused engineering roles. Happy to send my CV
-              or walk you through any project.
+              I’m open to full-stack, React/Next.js, Node.js and product-focused engineering roles. Happy to walk you
+              through any project.
             </p>
             <div className="contact-banner-actions">
               <a className="btn btn-light btn-sm" href="mailto:iosifov.a.14@gmail.com">

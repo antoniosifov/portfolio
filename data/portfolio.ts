@@ -84,8 +84,8 @@ export const projects: Project[] = [
     type: "Independent mobile product",
     status: "Live on the App Store · Android in development",
     description:
-      "A six-language, multi-currency expense-sharing app that I independently planned, designed, architected, developed, and launched on the App Store.",
-    statement: "Six languages. Multiple currencies. One shared version of the truth.",
+      "Independently built and launched a six-language, multi-currency expense-sharing app on the App Store.",
+    statement: "Offline-first expense sharing with voice and receipt input.",
     presentation: "mobile",
     stack: ["React Native", "Expo", "TypeScript", "Supabase", "PostgreSQL", "SQLite", "Drizzle", "Zustand", "NativeWind", "OpenAI", "Sentry"],
     highlights: [
@@ -117,8 +117,8 @@ export const projects: Project[] = [
     year: "2026",
     type: "Commercial client platform",
     status: "Live · Greece",
-    description: "Planned, designed, architected, developed, and launched a production multilingual platform for a luxury coastal real-estate development in Greece.",
-    statement: "Four languages, one clear path from discovery to enquiry.",
+    description: "Built and launched a production multilingual platform for a luxury coastal real-estate development in Greece.",
+    statement: "Four languages, one clear path from discovery to inquiry.",
     presentation: "web",
     stack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Sanity", "Resend", "Vercel"],
     highlights: [
@@ -129,13 +129,13 @@ export const projects: Project[] = [
     ],
     live: "https://www.seacret-residence.com/",
     cover: "/img/projects/seacret/og-hero.webp",
-    coverAlt: "Sea’cret Residences website on a laptop",
+    coverAlt: "Sea’cret Residence website on a laptop",
     devices: { desktop: "/img/projects/seacret/laptop.webp", mobile: "/img/projects/seacret/phone.webp" },
     gallery: [
-      { src: "/img/projects/seacret/seacret1.webp", alt: "Sea’cret Residences landing page" },
-      { src: "/img/projects/seacret/seacret2.webp", alt: "Sea’cret Residences property discovery" },
-      { src: "/img/projects/seacret/seacret3.webp", alt: "Sea’cret Residences multilingual content" },
-      { src: "/img/projects/seacret/seacret4.webp", alt: "Sea’cret Residences development details" },
+      { src: "/img/projects/seacret/seacret1.webp", alt: "Sea’cret Residence landing page" },
+      { src: "/img/projects/seacret/seacret2.webp", alt: "Sea’cret Residence property discovery" },
+      { src: "/img/projects/seacret/seacret3.webp", alt: "Sea’cret Residence multilingual content" },
+      { src: "/img/projects/seacret/seacret4.webp", alt: "Sea’cret Residence development details" },
     ],
     accent: "blue",
   },
@@ -146,8 +146,8 @@ export const projects: Project[] = [
     year: "2026",
     type: "Commercial client platform",
     status: "Live · Greece",
-    description: "Independently planned, designed, architected, developed, and launched a bilingual student-housing platform for an 83-studio development in Patras, Greece.",
-    statement: "A building with a story, translated into an interactive digital experience.",
+    description: "Independently built and launched a bilingual student-housing platform for an 83-studio development in Patras, Greece.",
+    statement: "Interactive floor and studio selection for an 83-studio student-housing development.",
     presentation: "web",
     stack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Sanity", "Resend"],
     highlights: [
@@ -270,7 +270,7 @@ export const additionalProjects: { year: string; title: string; type: string; de
     year: "2026",
     title: "Real Estate CRM & Document Management",
     type: "CRM and document-management platform",
-    description: "A centralized platform for a real-estate developer, replacing fragmented Excel-based operations.",
+    description: "Developing a CRM and document-management platform to consolidate a real-estate developer's Excel-based operations.",
   },
   {
     year: "2026",
@@ -324,7 +324,7 @@ export const experience = [
     company: "Platforma365 · Full-time",
     meta: "Israel · Remote",
     summary:
-      "Worked across the stack on internal SaaS products in a fast-paced startup environment, contributing to frontend features, backend services, APIs, and data-processing workflows.",
+      "Built frontend features, Laravel/PHP APIs, and workflows for parsing and normalizing unstructured legal and business data for internal SaaS products.",
     bullets: [
       "Developed JavaScript frontend features and dynamic UI components using Blade and Bootstrap.",
       "Built and maintained REST API endpoints and backend business logic with Laravel and PHP.",
@@ -347,7 +347,7 @@ export const education = [
     period: "Issued Feb 2026",
     title: "Full Stack Development (250 Hours)",
     institution: "Yaniv Arad - Tech Training Labs",
-    detail: "Certificate of Achievement for completing a 250-hour Full Stack Development program at Yaniv Arad Training Labs.",
+    detail: "Covered React, TypeScript, Node.js, REST APIs, databases, testing, Docker, and AI integration.",
   },
 ];
 

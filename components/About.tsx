@@ -37,10 +37,6 @@ export function About() {
               products, from multilingual business platforms and a custom real-estate CRM to Ceru, a six-language
               expense-sharing mobile app.
             </p>
-            <p>
-              I use AI-assisted engineering to move faster through research, implementation, and testing, while keeping
-              ownership of architecture, validation, security, and code quality.
-            </p>
             <dl className="about-facts">
               {facts.map(([label, value]) => (
                 <div key={label}>
