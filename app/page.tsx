@@ -6,7 +6,6 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { Intro } from "@/components/Intro";
-import { Process } from "@/components/Process";
 import { Reveal } from "@/components/Reveal";
 import { Skills } from "@/components/Skills";
 import { Stats } from "@/components/Stats";
@@ -36,9 +35,6 @@ export default function Home() {
         </Reveal>
         <Reveal>
           <About />
-        </Reveal>
-        <Reveal>
-          <Process />
         </Reveal>
         <Reveal>
           <Contact />

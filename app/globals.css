@@ -1444,70 +1444,6 @@ a.work-list-row:hover {
   font-size: 12.5px;
 }
 
-/* ── Process ───────────────────────────────────────────────────────────── */
-
-.process {
-  display: grid;
-  grid-template-columns: minmax(0, 0.8fr) minmax(0, 2.2fr);
-  gap: 32px;
-  align-items: center;
-}
-
-.process-intro h2 {
-  font-size: clamp(30px, 2.8vw, 40px);
-}
-
-.steps {
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-}
-
-.steps::before {
-  content: "";
-  position: absolute;
-  top: 24px;
-  right: 12.5%;
-  left: 12.5%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--line-strong) 15%, var(--line-strong) 85%, transparent);
-}
-
-.steps li {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  color: var(--ink-2);
-  font-size: 12.5px;
-  line-height: 1.4;
-  text-align: center;
-}
-
-.step-icon {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  place-items: center;
-  width: 48px;
-  height: 48px;
-  margin-bottom: 8px;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  background: linear-gradient(160deg, #ffffff, #f1eee7);
-  color: var(--olive-700);
-  box-shadow:
-    0 12px 24px -14px rgba(45, 50, 40, 0.45),
-    inset 0 1px 0 #fff;
-}
-
-.steps strong {
-  color: var(--ink);
-  font-size: 15px;
-  font-weight: 700;
-}
-
 /* ── Skills ────────────────────────────────────────────────────────────── */
 
 .skills-grid {
@@ -1956,11 +1892,6 @@ a.work-list-row:hover {
     padding: 32px;
   }
 
-  .process {
-    grid-template-columns: 1fr;
-    gap: 28px;
-  }
-
   .stats {
     grid-template-columns: repeat(2, 1fr);
     row-gap: 12px;
@@ -2123,15 +2054,6 @@ a.work-list-row:hover {
 
   .leaf-cta {
     width: 170px;
-  }
-
-  .steps {
-    grid-template-columns: 1fr 1fr;
-    gap: 24px 12px;
-  }
-
-  .steps::before {
-    display: none;
   }
 
   .section-head .work-controls {

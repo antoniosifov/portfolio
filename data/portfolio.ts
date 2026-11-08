@@ -36,9 +36,6 @@ export type IconName =
   | "users"
   | "globe"
   | "star"
-  | "search"
-  | "pen"
-  | "rocket"
   | "arrow-right"
   | "arrow-up-right"
   | "menu"
@@ -56,13 +53,6 @@ export const stats: { icon: IconName; value: string; label: string }[] = [
   { icon: "users", value: "4", label: "Commercial platforms in production" },
   { icon: "globe", value: "3", label: "Languages · EN / HE / RU" },
   { icon: "star", value: "Grade 90", label: "B.Sc. Computer Science (HIT)" },
-];
-
-export const processSteps: { icon: IconName; title: string; text: string }[] = [
-  { icon: "search", title: "Discover", text: "Clarify the problem with product and users" },
-  { icon: "pen", title: "Design", text: "Model the data, APIs and UX before the code" },
-  { icon: "code", title: "Build", text: "Typed, tested and reviewed in small steps" },
-  { icon: "rocket", title: "Launch", text: "CI/CD, monitoring and iteration in production" },
 ];
 
 
