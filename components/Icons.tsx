@@ -41,6 +41,7 @@ const paths: Record<IconName, ReactElement> = {
   menu: <path d="M4 7h16M4 12h16M4 17h16" />,
   pause: <path d="M9 5v14M15 5v14" />,
   check: <path d="M20 6 9 17l-5-5" />,
+  home: <path d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1ZM9 22v-8h6v8" />,
   "circle-check": (
     <>
       <circle cx="12" cy="12" r="9" />

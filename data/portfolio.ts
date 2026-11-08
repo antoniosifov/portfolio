@@ -1,4 +1,7 @@
+export type Category = "web" | "mobile" | "ai" | "automation";
+
 export type Project = {
+  categories: Category[];
   index: string;
   title: string;
   shortTitle: string;
@@ -53,6 +56,7 @@ export type IconName =
   | "bot"
   | "box"
   | "workflow"
+  | "home"
   | "close";
 
 export const capabilities: { icon: IconName; label: string; detail: string }[] = [
@@ -100,6 +104,7 @@ export const stackGroups: { label: string; icon: IconName; description: string; 
 export const projects: Project[] = [
   {
     index: "01",
+    categories: ["mobile", "ai"],
     title: "Ceru — Multilingual Expense-Sharing App",
     shortTitle: "Ceru",
     year: "2026",
@@ -134,6 +139,7 @@ export const projects: Project[] = [
   },
   {
     index: "02",
+    categories: ["web"],
     title: "Sea’cret Residence — Multilingual Real Estate Platform",
     shortTitle: "Sea’cret Residence",
     year: "2026",
@@ -163,6 +169,7 @@ export const projects: Project[] = [
   },
   {
     index: "03",
+    categories: ["web"],
     title: "Campus42 — Interactive Student Housing Platform",
     shortTitle: "Campus42",
     year: "2026",
@@ -187,6 +194,7 @@ export const projects: Project[] = [
   },
   {
     index: "07",
+    categories: ["web", "automation"],
     title: "ICU Shift Scheduling",
     shortTitle: "ICU Shift Scheduling",
     year: "2026",
@@ -209,6 +217,7 @@ export const projects: Project[] = [
   },
   {
     index: "04",
+    categories: ["web"],
     title: "AWS EC2 Observability Dashboard",
     shortTitle: "EC2 Observability",
     year: "2026",
@@ -232,6 +241,7 @@ export const projects: Project[] = [
   },
   {
     index: "05",
+    categories: ["web", "ai"],
     title: "Agentic RAG Knowledge Assistant",
     shortTitle: "RAG Assistant",
     year: "2026",
@@ -253,6 +263,7 @@ export const projects: Project[] = [
   },
   {
     index: "06",
+    categories: ["web", "ai"],
     title: "Ski Shop — Full-Stack E-Commerce Platform",
     shortTitle: "Ski Shop",
     year: "2026",
@@ -281,22 +292,74 @@ export const projects: Project[] = [
   },
 ];
 
-export const additionalProjects: { year: string; title: string; type: string; description: string; href?: string }[] = [
+export const compactProjects: {
+  title: string;
+  kind: string;
+  icon: IconName;
+  description: string;
+  categories: Category[];
+  image?: string;
+  href?: string;
+  status?: string;
+  tools?: string[];
+}[] = [
+  {
+    title: "Sea’cret Residence",
+    kind: "Web platform",
+    icon: "layers",
+    description: "Commercial real-estate marketing platform.",
+    categories: ["web"],
+    image: "/img/projects/seacret/laptop.webp",
+    href: "https://www.seacret-residence.com/",
+  },
+  {
+    title: "Campus42",
+    kind: "Web platform",
+    icon: "home",
+    description: "Student housing platform (Patras, Greece).",
+    categories: ["web"],
+    image: "/img/projects/campus42/laptop.webp",
+    href: "https://campus42.gr/en",
+  },
+  {
+    title: "Factory Management",
+    kind: "Web app",
+    icon: "box",
+    description: "Employees, shifts and AI-assisted weekly scheduling.",
+    categories: ["web", "ai"],
+    image: "/img/projects/factory/employees.webp",
+    href: "https://factory-management-system-eight.vercel.app/",
+  },
+  {
+    title: "Dental Clinic Automations",
+    kind: "AI automation",
+    icon: "sparkles",
+    description: "WhatsApp → CRM (Monday) → Appointments (Optima).",
+    categories: ["ai", "automation"],
+    status: "In development",
+    tools: ["WhatsApp", "monday.com", "Optima"],
+  },
+];
+
+export const additionalProjects: { year: string; title: string; type: string; description: string; href?: string; categories: Category[] }[] = [
   {
     year: "2026",
     title: "FullFace",
+    categories: ["web", "ai"],
     type: "Confidential multi-tenant SaaS platform",
     description: "Contributed to the development of a private multi-tenant SaaS platform for a commercial client.",
   },
   {
     year: "2026",
     title: "Real Estate CRM & Document Management",
+    categories: ["web", "automation"],
     type: "CRM and document-management platform",
     description: "Developing a CRM and document-management platform to consolidate a real-estate developer's Excel-based operations.",
   },
   {
     year: "2026",
     title: "LiveBetter",
+    categories: ["web"],
     type: "Commercial real-estate platform",
     description: "A production customer-facing platform for a Greek real-estate developer and its property portfolio.",
     href: "https://livebettergr.com/en",
@@ -304,20 +367,15 @@ export const additionalProjects: { year: string; title: string; type: string; de
   {
     year: "2026",
     title: "UK Bright Future",
+    categories: ["web"],
     type: "Commercial business website",
     description: "A responsive production website for a UK-based education and consulting client.",
     href: "https://ukbrightfuture.com/",
   },
   {
     year: "2025",
-    title: "Factory Management System",
-    type: "AI-assisted workforce scheduling",
-    description: "A full-stack factory operations platform for managing employees, departments, shifts, and weekly workforce scheduling.",
-    href: "https://factory-management-system-eight.vercel.app/",
-  },
-  {
-    year: "2025",
     title: "Popcorn Palace",
+    categories: ["web"],
     type: "Movie ticket booking system",
     description: "A backend-focused movie ticket booking system with REST APIs for managing movies, showtimes, and seat reservations.",
     href: "https://github.com/antoniosifov/popcorn-palace",

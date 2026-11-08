@@ -1,16 +1,21 @@
 import {
   siAnthropic,
   siBootstrap,
+  siChartdotjs,
   siDocker,
+  siDrizzle,
   siExpo,
   siExpress,
   siFastapi,
   siGit,
   siGithubactions,
+  siGoogle,
   siJavascript,
+  siJsonwebtokens,
   siLangchain,
   siLaravel,
   siMongodb,
+  siMongoose,
   siMysql,
   siNextdotjs,
   siNodedotjs,
@@ -20,12 +25,18 @@ import {
   siReact,
   siRedux,
   siRender,
+  siResend,
+  siSanity,
   siSentry,
   siSpringboot,
+  siSqlite,
   siSupabase,
   siTailwindcss,
+  siThreedotjs,
   siTypescript,
   siVercel,
+  siVite,
+  siWhatsapp,
 } from "simple-icons";
 import type { IconName } from "@/data/portfolio";
 import { Icon } from "./Icons";
@@ -59,12 +70,30 @@ const brandMarks: Record<string, { path: string; hex: string }> = {
   Sentry: siSentry,
   LangChain: siLangchain,
   Anthropic: siAnthropic,
+  SQLite: siSqlite,
+  Drizzle: siDrizzle,
+  Sanity: siSanity,
+  Resend: siResend,
+  "Chart.js": siChartdotjs,
+  "Three.js": siThreedotjs,
+  Vite: siVite,
+  Mongoose: siMongoose,
+  JWT: siJsonwebtokens,
+  "Google OAuth": siGoogle,
+  "OR-Tools": siGoogle,
+  "Redux Toolkit": siRedux,
+  "MongoDB Atlas Vector Search": siMongodb,
+  WhatsApp: siWhatsapp,
 };
 
 /** Official artwork for brands the icon set does not carry. */
 const brandFiles: Record<string, string> = {
   AWS: "/img/brands/aws.svg",
   OpenAI: "/img/brands/openai.svg",
+  "AWS SDK v3": "/img/brands/aws.svg",
+  "Amazon EC2": "/img/brands/aws.svg",
+  CloudWatch: "/img/brands/aws.svg",
+  "monday.com": "/img/brands/monday.svg",
 };
 
 /** Concepts, not companies: there is no logo to use, so these get a drawn icon. */
@@ -75,9 +104,12 @@ const conceptIcons: Record<string, IconName> = {
   "Vector search": "box",
   "AI Agents": "bot",
   "Agentic workflows": "workflow",
+  Optima: "calendar",
 };
 
-function ChipIcon({ label }: { label: string }) {
+const hasIcon = (label: string) => Boolean(brandMarks[label] || brandFiles[label] || conceptIcons[label]);
+
+export function BrandIcon({ label }: { label: string }) {
   const mark = brandMarks[label];
   if (mark) {
     return (
@@ -95,7 +127,7 @@ function ChipIcon({ label }: { label: string }) {
 export function Chip({ label }: { label: string }) {
   return (
     <li className="chip">
-      <ChipIcon label={label} />
+      <BrandIcon label={label} />
       {label}
     </li>
   );
@@ -104,8 +136,10 @@ export function Chip({ label }: { label: string }) {
 /** Extra chips sit in a native <details>, so "+ more" works without JavaScript
  *  and stays keyboard accessible. */
 export function ChipList({ items, visible = items.length }: { items: string[]; visible?: number }) {
-  const shown = items.slice(0, visible);
-  const extra = items.slice(visible);
+  // A chip without a real logo reads as filler, so those stay out of the list.
+  const known = items.filter(hasIcon);
+  const shown = known.slice(0, visible);
+  const extra = known.slice(visible);
 
   return (
     <div className="chips">

@@ -9,7 +9,7 @@ const logo = read("components/Logo.tsx");
 const intro = read("components/Intro.tsx");
 const hero = read("components/Hero.tsx");
 const stage = read("components/HeroStage.tsx");
-const work = read("components/Work.tsx");
+const work = read("components/WorkShowcase.tsx");
 
 // Brand
 assert.match(logo, /viewBox="0 0 696 527"/, "Logo must render the traced AI monogram");
