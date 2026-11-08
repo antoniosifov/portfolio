@@ -312,12 +312,7 @@ export function WorkShowcase({ chips, tools }: { chips: Record<string, ReactNode
                 <p className="mini-desc">{project.description}</p>
                 {project.status ? <p className="mini-status">{project.status}</p> : null}
                 {project.image ? (
-                  <div className="mini-laptop" aria-hidden="true">
-                    <div className="mini-screen">
-                      <img src={project.image} alt="" width="640" height="400" loading="lazy" decoding="async" />
-                    </div>
-                    <span className="mini-base" />
-                  </div>
+                  <img className="mini-render" src={project.image} alt="" width="760" height="460" loading="lazy" decoding="async" />
                 ) : null}
                 {tools[project.title]}
                 {project.href ? (

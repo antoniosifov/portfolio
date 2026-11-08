@@ -309,7 +309,7 @@ export const compactProjects: {
     icon: "layers",
     description: "Commercial real-estate marketing platform.",
     categories: ["web"],
-    image: "/img/projects/seacret/laptop.webp",
+    image: "/img/projects/seacret/card.webp",
     href: "https://www.seacret-residence.com/",
   },
   {
@@ -318,7 +318,7 @@ export const compactProjects: {
     icon: "home",
     description: "Student housing platform (Patras, Greece).",
     categories: ["web"],
-    image: "/img/projects/campus42/laptop.webp",
+    image: "/img/projects/campus42/card.webp",
     href: "https://campus42.gr/en",
   },
   {
@@ -327,7 +327,7 @@ export const compactProjects: {
     icon: "box",
     description: "Employees, shifts and AI-assisted weekly scheduling.",
     categories: ["web", "ai"],
-    image: "/img/projects/factory/employees.webp",
+    image: "/img/projects/factory/card.webp",
     href: "https://factory-management-system-eight.vercel.app/",
   },
   {
