@@ -2,7 +2,6 @@ import { About } from "@/components/About";
 import { Contact } from "@/components/Contact";
 import { Education } from "@/components/Education";
 import { Experience } from "@/components/Experience";
-import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { Intro } from "@/components/Intro";
@@ -40,7 +39,6 @@ export default function Home() {
           <Contact />
         </Reveal>
       </main>
-      <Footer />
     </>
   );
 }

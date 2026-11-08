@@ -1595,6 +1595,10 @@ a.work-list-row:hover {
   transform: rotate(-150deg);
 }
 
+.contact-section {
+  padding-bottom: 72px;
+}
+
 /* ── Contact banner ────────────────────────────────────────────────────── */
 
 .contact-banner {
@@ -1828,44 +1832,6 @@ a.work-list-row:hover {
   font-weight: 700;
   letter-spacing: -0.02em;
   word-break: break-word;
-}
-
-/* ── Footer ────────────────────────────────────────────────────────────── */
-
-.site-footer {
-  margin-top: 72px;
-  padding: 26px 0 34px;
-  border-top: 1px solid var(--line);
-  color: var(--muted);
-  font-size: 13.5px;
-}
-
-.footer-inner {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.footer-brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--ink);
-}
-
-.footer-mark {
-  width: 22px;
-  height: 17px;
-}
-
-.site-footer a {
-  color: var(--ink-2);
-}
-
-.site-footer a:hover {
-  color: var(--ink);
 }
 
 /* ── Reveal on scroll ──────────────────────────────────────────────────── */
@@ -2123,8 +2089,8 @@ a.work-list-row:hover {
     grid-column: 2 / -1;
   }
 
-  .site-footer {
-    margin-top: 56px;
+  .contact-section {
+    padding-bottom: 56px;
   }
 }
 
