@@ -48,6 +48,9 @@ for (const name of ["ink", "ink-2", "muted", "olive-700", "bronze"]) {
 }
 assert.ok(contrast("#ffffff", token("olive")) >= 4.5, "White text must reach 4.5:1 on the primary button");
 
+// Content must be readable before and without hydration
+assert.doesNotMatch(css, /\.reveal \{[^}]*opacity: 0/, "Reveal must not hide content by default");
+
 // Motion safety
 assert.match(css, /prefers-reduced-motion: reduce\)[\s\S]*\.curtain \{\s*display: none;/, "Reduced motion must skip the curtain");
 

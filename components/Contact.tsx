@@ -20,9 +20,14 @@ export function Contact() {
               I’m open to full-stack, React/Next.js, Node.js and product-focused engineering roles. Happy to send my CV
               or walk you through any project.
             </p>
-            <a className="btn btn-light btn-sm" href="/Anton_Iosifov_CV.pdf" target="_blank" rel="noreferrer">
-              Download CV <Icon name="arrow-right" size={16} />
-            </a>
+            <div className="contact-banner-actions">
+              <a className="btn btn-light btn-sm" href="mailto:iosifov.a.14@gmail.com">
+                Email me <Icon name="arrow-right" size={16} />
+              </a>
+              <a className="btn btn-on-dark btn-sm" href="/Anton_Iosifov_CV.pdf" target="_blank" rel="noreferrer">
+                Download CV
+              </a>
+            </div>
           </div>
         </div>
 

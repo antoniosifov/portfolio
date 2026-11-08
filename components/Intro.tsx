@@ -15,7 +15,7 @@ export function Intro() {
       setGone(true);
       return;
     }
-    const timer = window.setTimeout(() => setGone(true), 3200);
+    const timer = window.setTimeout(() => setGone(true), 2400);
     return () => window.clearTimeout(timer);
   }, []);
 

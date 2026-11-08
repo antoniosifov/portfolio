@@ -141,7 +141,7 @@ ol {
   background: var(--night);
   color: #fff;
   pointer-events: none;
-  animation: curtain-up 0.75s cubic-bezier(0.83, 0, 0.17, 1) 1.35s both;
+  animation: curtain-up 0.6s cubic-bezier(0.83, 0, 0.17, 1) 0.9s both;
 }
 
 .curtain-logo {
@@ -153,21 +153,21 @@ ol {
 .curtain-mark {
   width: 66px;
   height: 50px;
-  animation: mark-in 0.9s var(--ease-out) 0.1s both;
+  animation: mark-in 0.7s var(--ease-out) 0.05s both;
 }
 
 .curtain-divider {
   width: 1px;
   height: 34px;
   background: rgba(255, 255, 255, 0.35);
-  animation: fade-in 0.5s ease 0.5s both;
+  animation: fade-in 0.4s ease 0.3s both;
 }
 
 .curtain-name {
   font-size: 24px;
   font-weight: 600;
   letter-spacing: -0.01em;
-  animation: name-in 0.7s var(--ease-out) 0.55s both;
+  animation: name-in 0.5s var(--ease-out) 0.3s both;
 }
 
 @keyframes curtain-up {
@@ -304,7 +304,7 @@ ol {
   gap: 12px;
   margin-bottom: 18px;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -456,7 +456,7 @@ h2 {
 
 .hero-copy > * {
   animation: rise 0.8s var(--ease-out) both;
-  animation-delay: calc(1.2s + var(--i, 0) * 90ms);
+  animation-delay: calc(0.85s + var(--i, 0) * 80ms);
 }
 
 @keyframes rise {
@@ -512,7 +512,7 @@ h2 {
   padding-right: 18px;
   border-right: 1px solid var(--line-strong);
   color: var(--olive);
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1.25;
 }
 
@@ -630,8 +630,8 @@ h2 {
   background: radial-gradient(closest-side, rgba(96, 70, 38, 0.3), rgba(96, 70, 38, 0));
   filter: blur(6px);
   animation:
-    fade-in 1.2s ease 1.5s both,
-    shadow-breathe 11s ease-in-out 2.7s infinite;
+    fade-in 1.2s ease 1.05s both,
+    shadow-breathe 11s ease-in-out 2.25s infinite;
 }
 
 @keyframes shadow-breathe {
@@ -644,7 +644,7 @@ h2 {
 .el {
   position: absolute;
   translate: calc(var(--mx) * var(--d, 1) * 1cqw) calc(var(--my) * var(--d, 1) * 1cqw);
-  animation: var(--enter) 1.25s var(--ease-out) var(--delay, 1.5s) both;
+  animation: var(--enter) 1.25s var(--ease-out) var(--delay, 1.05s) both;
 }
 
 .el-float {
@@ -663,7 +663,7 @@ h2 {
 .el-stone {
   --d: 0.3;
   --enter: enter-rise;
-  --delay: 1.45s;
+  --delay: 1s;
   --path: path-stone;
   --t: 11s;
   z-index: 1;
@@ -675,7 +675,7 @@ h2 {
 .el-ribbon {
   --d: 0.55;
   --enter: enter-unfurl;
-  --delay: 1.6s;
+  --delay: 1.15s;
   --path: path-ribbon;
   --t: 15s;
   z-index: 2;
@@ -687,7 +687,7 @@ h2 {
 .el-laptop {
   --d: 0.95;
   --enter: enter-laptop;
-  --delay: 1.75s;
+  --delay: 1.3s;
   --path: path-laptop;
   --t: 8.6s;
   z-index: 3;
@@ -699,7 +699,7 @@ h2 {
 .el-phone {
   --d: 1.7;
   --enter: enter-phone;
-  --delay: 1.95s;
+  --delay: 1.5s;
   --path: path-phone;
   --t: 6.7s;
   --offset: -2.1s;
@@ -712,7 +712,7 @@ h2 {
 .el-chip-code {
   --d: 2.3;
   --enter: enter-pop;
-  --delay: 2.2s;
+  --delay: 1.75s;
   --path: path-code;
   --t: 7.3s;
   --offset: -1.2s;
@@ -725,7 +725,7 @@ h2 {
 .el-chip-cloud {
   --d: 2;
   --enter: enter-pop;
-  --delay: 2.34s;
+  --delay: 1.89s;
   --path: path-cloud;
   --t: 9.1s;
   --offset: -4.4s;
@@ -738,7 +738,7 @@ h2 {
 .el-chip-spark {
   --d: 2.6;
   --enter: enter-pop;
-  --delay: 2.48s;
+  --delay: 2.03s;
   --path: path-spark;
   --t: 5.9s;
   --offset: -3s;
@@ -751,7 +751,7 @@ h2 {
 .el-leaf {
   --d: 1.25;
   --enter: enter-leaf;
-  --delay: 2.3s;
+  --delay: 1.85s;
   --path: path-leaf;
   --t: 6.3s;
   z-index: 6;
@@ -784,7 +784,7 @@ h2 {
   width: 26%;
   background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 252, 240, 0.85), rgba(255, 255, 255, 0));
   transform: translate3d(-120%, 0, 0) skewX(-22deg);
-  animation: ribbon-glint 9s cubic-bezier(0.45, 0, 0.3, 1) 3.4s infinite;
+  animation: ribbon-glint 9s cubic-bezier(0.45, 0, 0.3, 1) 3s infinite;
 }
 
 @keyframes ribbon-glint {
@@ -1005,7 +1005,7 @@ h2 {
 
 .stats span {
   color: var(--ink-2);
-  font-size: 12.5px;
+  font-size: 13px;
 }
 
 /* ── Work ──────────────────────────────────────────────────────────────── */
@@ -1114,7 +1114,7 @@ h2 {
 
 .slide-meta {
   color: var(--muted);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.08em;
   line-height: 1.5;
@@ -1157,7 +1157,7 @@ h2 {
   border-radius: 999px;
   background: #fff;
   color: var(--ink-2);
-  font-size: 11.5px;
+  font-size: 12.5px;
   font-weight: 600;
 }
 
@@ -1197,7 +1197,7 @@ h2 {
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   gap: 24px;
   color: var(--ink-2);
-  font-size: 13.5px;
+  font-size: 14.5px;
   line-height: 1.55;
 }
 
@@ -1416,10 +1416,10 @@ h2 {
 
 .work-list-row {
   display: grid;
-  grid-template-columns: 56px 1fr auto 18px;
-  gap: 16px;
-  align-items: center;
-  padding: 14px 4px;
+  grid-template-columns: 56px minmax(0, 0.75fr) minmax(0, 1.25fr) 18px;
+  gap: 18px;
+  align-items: start;
+  padding: 16px 4px;
   border-bottom: 1px solid var(--line);
   color: var(--ink);
   font-size: 14px;
@@ -1435,13 +1435,25 @@ a.work-list-row:hover {
   font-size: 12px;
 }
 
+.work-list-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
 .work-list-title {
   font-weight: 600;
 }
 
 .work-list-type {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.work-list-desc {
   color: var(--ink-2);
-  font-size: 12.5px;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 /* ── Skills ────────────────────────────────────────────────────────────── */
@@ -1488,7 +1500,7 @@ a.work-list-row:hover {
   border-radius: 11px;
   background: #fff;
   color: var(--ink);
-  font-size: 12.5px;
+  font-size: 13px;
   font-weight: 600;
   white-space: nowrap;
   box-shadow: 0 6px 14px -10px rgba(45, 50, 40, 0.35);
@@ -1558,7 +1570,7 @@ a.work-list-row:hover {
 
 .about-facts dt {
   color: var(--muted);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -1567,7 +1579,7 @@ a.work-list-row:hover {
 .about-facts dd {
   margin: 3px 0 0;
   color: var(--ink);
-  font-size: 13.5px;
+  font-size: 14.5px;
   font-weight: 600;
 }
 
@@ -1618,6 +1630,22 @@ a.work-list-row:hover {
   line-height: 1.6;
 }
 
+.contact-banner-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.btn-on-dark {
+  border-color: rgba(255, 255, 255, 0.55);
+  color: #fff;
+}
+
+.btn-on-dark:hover {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+}
+
 .btn-light {
   background: #fff;
   color: var(--ink);
@@ -1666,7 +1694,7 @@ a.work-list-row:hover {
 .timeline-period {
   padding-top: 4px;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -1682,13 +1710,13 @@ a.work-list-row:hover {
 .timeline-meta {
   margin-top: 6px;
   color: var(--ink-2);
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .timeline-summary {
   margin-bottom: 12px;
   color: var(--ink);
-  font-size: 14.5px;
+  font-size: 15.5px;
   line-height: 1.55;
 }
 
@@ -1696,7 +1724,7 @@ a.work-list-row:hover {
   display: grid;
   gap: 8px;
   color: var(--ink-2);
-  font-size: 13.5px;
+  font-size: 14.5px;
   line-height: 1.5;
 }
 
@@ -1737,7 +1765,7 @@ a.work-list-row:hover {
 .education p {
   margin-top: 6px;
   color: var(--ink-2);
-  font-size: 13px;
+  font-size: 14.5px;
   line-height: 1.5;
 }
 
@@ -1789,7 +1817,7 @@ a.work-list-row:hover {
 
 .contact-label {
   color: var(--muted);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -1809,7 +1837,7 @@ a.work-list-row:hover {
   padding: 26px 0 34px;
   border-top: 1px solid var(--line);
   color: var(--muted);
-  font-size: 12.5px;
+  font-size: 13.5px;
 }
 
 .footer-inner {
@@ -1843,14 +1871,13 @@ a.work-list-row:hover {
 /* ── Reveal on scroll ──────────────────────────────────────────────────── */
 
 .reveal {
-  opacity: 0;
-  transform: translateY(22px);
   transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
 }
 
-.reveal.is-visible {
-  opacity: 1;
-  transform: none;
+.reveal.is-hidden {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: none;
 }
 
 /* ── Not found ─────────────────────────────────────────────────────────── */
@@ -2003,6 +2030,16 @@ a.work-list-row:hover {
     display: none;
   }
 
+  .hero .eyebrow {
+    gap: 8px;
+    letter-spacing: 0.12em;
+    white-space: nowrap;
+  }
+
+  .hero .eyebrow::before {
+    width: 16px;
+  }
+
   .hero-actions .btn {
     flex: 1 1 auto;
   }
@@ -2073,11 +2110,17 @@ a.work-list-row:hover {
   }
 
   .work-list-row {
-    grid-template-columns: 48px 1fr 18px;
+    grid-template-columns: 48px minmax(0, 1fr) 18px;
+    gap: 6px 12px;
   }
 
-  .work-list-type {
-    display: none;
+  .work-list-row svg {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .work-list-desc {
+    grid-column: 2 / -1;
   }
 
   .site-footer {
@@ -2113,7 +2156,8 @@ a.work-list-row:hover {
     display: none;
   }
 
-  .reveal {
+  .reveal,
+  .reveal.is-hidden {
     opacity: 1;
     transform: none;
     transition: none;

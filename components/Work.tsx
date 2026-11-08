@@ -114,6 +114,31 @@ function Slide({ project, active, index }: { project: Project; active: boolean; 
   );
 }
 
+type MoreProject = { year: string; title: string; type: string; description: string; href?: string };
+
+function MoreRow({ project }: { project: MoreProject }) {
+  const content = (
+    <>
+      <span className="work-list-year">{project.year}</span>
+      <span className="work-list-main">
+        <span className="work-list-title">{project.title}</span>
+        <span className="work-list-type">{project.type}</span>
+      </span>
+      <span className="work-list-desc">{project.description}</span>
+    </>
+  );
+
+  // Confidential work has nothing public to link to.
+  if (!project.href) return <div className="work-list-row">{content}</div>;
+
+  return (
+    <a className="work-list-row" href={project.href} target="_blank" rel="noreferrer">
+      {content}
+      <Icon name="arrow-up-right" size={16} />
+    </a>
+  );
+}
+
 export function Work() {
   const trackRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
@@ -128,7 +153,8 @@ export function Work() {
         year: project.year,
         title: project.shortTitle,
         type: project.type,
-        href: project.live ?? project.github ?? "#contact",
+        description: project.description,
+        href: project.live ?? project.github,
       })),
     ...additionalProjects,
   ];
@@ -202,20 +228,7 @@ export function Work() {
           <ul className="work-list">
             {listed.map((project) => (
               <li key={project.title}>
-                {project.href ? (
-                  <a className="work-list-row" href={project.href} target="_blank" rel="noreferrer">
-                    <span className="work-list-year">{project.year}</span>
-                    <span className="work-list-title">{project.title}</span>
-                    <span className="work-list-type">{project.type}</span>
-                    <Icon name="arrow-up-right" size={16} />
-                  </a>
-                ) : (
-                  <div className="work-list-row">
-                    <span className="work-list-year">{project.year}</span>
-                    <span className="work-list-title">{project.title}</span>
-                    <span className="work-list-type">{project.type}</span>
-                  </div>
-                )}
+                <MoreRow project={project} />
               </li>
             ))}
           </ul>
