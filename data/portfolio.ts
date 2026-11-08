@@ -459,6 +459,21 @@ export const education: {
   },
 ];
 
+export const certificates = [
+  {
+    title: "B.Sc. Computer Science",
+    meta: "HIT · 2025",
+    src: "/img/certificates/hit-bsc.webp",
+    alt: "Bachelor of Science in Computer Science degree certificate from Holon Institute of Technology, with the ID number concealed",
+  },
+  {
+    title: "Full Stack Development",
+    meta: "Training Labs · 2026",
+    src: "/img/certificates/full-stack-250h.webp",
+    alt: "Certificate of Achievement for the 250-hour Full Stack Development program at Yaniv Arad Training Labs",
+  },
+];
+
 export const contactLinks = [
   { label: "Email", value: "iosifov.a.14@gmail.com", href: "mailto:iosifov.a.14@gmail.com" },
   { label: "LinkedIn", value: "in/anton-iosifov", href: "https://www.linkedin.com/in/anton-iosifov/" },

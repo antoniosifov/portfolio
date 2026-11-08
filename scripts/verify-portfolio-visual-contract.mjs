@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 
 const read = (path) => readFileSync(new URL(`../${path}`, import.meta.url), "utf8");
 
@@ -53,6 +53,10 @@ assert.doesNotMatch(css, /\.reveal \{[^}]*opacity: 0/, "Reveal must not hide con
 
 assert.doesNotMatch(css, /background-clip: text/, "Headings use solid colour, not gradient text");
 assert.match(read("components/Hero.tsx"), /<MotionToggle \/>/, "Endless motion needs a visible pause control");
+
+// Privacy: originals with personal data must never be published
+const published = readdirSync(new URL("../public/", import.meta.url), { recursive: true }).map(String);
+assert.ok(!published.some((file) => file.toLowerCase().endsWith(".pdf")), "PDF originals must not be published");
 
 // Motion safety
 assert.match(css, /prefers-reduced-motion: reduce\)[\s\S]*\.curtain \{\s*display: none;/, "Reduced motion must skip the curtain");

@@ -1,4 +1,4 @@
-import { education } from "@/data/portfolio";
+import { certificates, education } from "@/data/portfolio";
 import { ChipList } from "./Brand";
 import { Icon } from "./Icons";
 import { SectionIntro } from "./SectionIntro";
@@ -50,6 +50,26 @@ export function Education() {
             </li>
           ))}
         </ul>
+
+        <div className="certs">
+          <h3>Certificates &amp; achievements</h3>
+          <p>Issued by Holon Institute of Technology and Yaniv Arad Training Labs.</p>
+          <ul>
+            {certificates.map((item) => (
+              <li key={item.src}>
+                <a className="cert-frame" href={item.src} target="_blank" rel="noreferrer">
+                  <span className="cert-paper">
+                    <img src={item.src} alt={item.alt} width="1100" height="1536" loading="lazy" decoding="async" />
+                  </span>
+                  <span className="cert-caption">
+                    <strong>{item.title}</strong>
+                    <span>{item.meta}</span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </section>
   );
