@@ -485,7 +485,7 @@ h2 {
 
 .hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: clamp(24px, 4vw, 56px);
   align-items: center;
 }
@@ -512,12 +512,11 @@ h2 {
 }
 
 .hero h1 {
-  max-width: 580px;
-  font-size: clamp(38px, 4.4vw, 62px);
+  max-width: 620px;
+  font-size: clamp(38px, 3.9vw, 56px);
   font-weight: 700;
-  line-height: 1.04;
+  line-height: 1.06;
   letter-spacing: -0.035em;
-  text-wrap: balance;
 }
 
 .h1-soft {
