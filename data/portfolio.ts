@@ -41,6 +41,18 @@ export type IconName =
   | "menu"
   | "pause"
   | "play"
+  | "check"
+  | "circle-check"
+  | "calendar"
+  | "map-pin"
+  | "external-link"
+  | "database"
+  | "graduation-cap"
+  | "award"
+  | "braces"
+  | "bot"
+  | "box"
+  | "workflow"
   | "close";
 
 export const capabilities: { icon: IconName; label: string; detail: string }[] = [
@@ -58,22 +70,30 @@ export const stats: { icon: IconName; value: string; label: string }[] = [
 ];
 
 
-export const stackGroups = [
+export const stackGroups: { label: string; icon: IconName; description: string; items: string[] }[] = [
   {
     label: "Frontend",
+    icon: "code",
+    description: "Building responsive, modern and scalable user interfaces.",
     items: ["TypeScript", "React", "Next.js", "React Native", "Expo", "Redux", "Tailwind CSS"],
   },
   {
     label: "Backend & data",
-    items: ["Node.js", "Express", "FastAPI", "Laravel", "Spring Boot", "REST APIs", "PostgreSQL", "Supabase", "MongoDB", "MySQL"],
+    icon: "database",
+    description: "Building reliable APIs, integrations, and data-driven systems.",
+    items: ["Node.js", "Express", "FastAPI", "Laravel", "Spring Boot", "REST APIs", "PostgreSQL", "MongoDB", "MySQL", "Supabase"],
   },
   {
     label: "Cloud & delivery",
+    icon: "cloud",
+    description: "Deploying, scaling, and maintaining production-ready apps.",
     items: ["AWS", "Docker", "GitHub Actions", "Vercel", "Render", "Sentry", "Automated testing"],
   },
   {
     label: "Applied AI",
-    items: ["OpenAI API", "AI agents", "RAG", "LangChain", "Vector search", "Agentic workflows"],
+    icon: "sparkles",
+    description: "Integrating AI capabilities to automate, analyze, and enhance products.",
+    items: ["OpenAI", "Anthropic", "LangChain", "RAG", "Vector search", "AI Agents", "Agentic workflows"],
   },
 ];
 
@@ -304,10 +324,23 @@ export const additionalProjects: { year: string; title: string; type: string; de
   },
 ];
 
-export const experience = [
+export const experience: {
+  period: string;
+  role: string;
+  company: string;
+  meta: string;
+  summary: string;
+  bullets: string[];
+  stack: string[];
+  current?: boolean;
+  logo?: string;
+  href?: string;
+}[] = [
   {
     period: "Feb 2026 — Present",
     role: "Full-Stack Software Engineer",
+    current: true,
+    stack: ["Node.js", "React", "TypeScript", "Python", "Next.js", "React Native", "Supabase", "PostgreSQL", "OpenAI"],
     company: "Freelance · Self-employed",
     meta: "Israel · Remote",
     summary:
@@ -322,7 +355,10 @@ export const experience = [
   },
   {
     period: "Dec 2024 — May 2025",
-    role: "Full Stack Engineer",
+    role: "Full-Stack Engineer",
+    logo: "/img/brands/platforma365.webp",
+    href: "https://platforma365.com",
+    stack: ["PHP", "Laravel", "MySQL", "JavaScript", "Bootstrap", "Git"],
     company: "Platforma365 · Full-time",
     meta: "Israel · Remote",
     summary:
@@ -337,19 +373,31 @@ export const experience = [
   },
 ];
 
-export const education = [
+export const education: {
+  period: string;
+  title: string;
+  institution: string;
+  detail: string;
+  logo?: string;
+  grade?: string;
+  degree?: string;
+  stack?: string[];
+}[] = [
   {
     period: "Oct 2021 — Nov 2024",
-    title: "Bachelor of Science, Computer Science",
-    institution: "Holon Institute of Technology",
-    detail:
-      "Grade: 90. Relevant areas of study included algorithms and data structures, object-oriented programming, databases, software engineering, and web development.",
+    title: "B.Sc. in Computer Science",
+    institution: "Holon Institute of Technology (HIT)",
+    logo: "/img/brands/hit.svg",
+    grade: "90",
+    degree: "B.Sc.",
+    detail: "Relevant areas of study included algorithms and data structures, object-oriented programming, databases, software engineering, and web development.",
   },
   {
-    period: "Issued Feb 2026",
+    period: "Professional development · Feb 2026",
     title: "Full Stack Development (250 Hours)",
     institution: "Yaniv Arad - Tech Training Labs",
-    detail: "Covered React, TypeScript, Node.js, REST APIs, databases, testing, Docker, and AI integration.",
+    stack: ["React", "TypeScript", "Node.js", "Docker"],
+    detail: "A 250-hour program covering REST APIs, databases, testing, and AI integration.",
   },
 ];
 
