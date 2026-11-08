@@ -54,6 +54,12 @@ assert.doesNotMatch(css, /\.reveal \{[^}]*opacity: 0/, "Reveal must not hide con
 assert.doesNotMatch(css, /background-clip: text/, "Headings use solid colour, not gradient text");
 assert.match(read("components/Hero.tsx"), /<MotionToggle \/>/, "Endless motion needs a visible pause control");
 
+// Each project appears in one place only
+const data = read("data/portfolio.ts");
+const compactTitles = [...data.slice(data.indexOf("export const compactProjects"), data.indexOf("export const additionalProjects")).matchAll(/title: "([^"]+)"/g)].map((match) => match[1]);
+const showcased = [...data.matchAll(/shortTitle: "([^"]+)",[\s\S]*?(?=index: "|export const)/g)].filter((match) => /cover: "/.test(match[0])).map((match) => match[1]);
+for (const title of compactTitles) assert.ok(!showcased.includes(title), `${title} must not repeat in the carousel and the cards`);
+
 // Privacy: originals with personal data must never be published
 const published = readdirSync(new URL("../public/", import.meta.url), { recursive: true }).map(String);
 assert.ok(!published.some((file) => file.toLowerCase().endsWith(".pdf")), "PDF originals must not be published");

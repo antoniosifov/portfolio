@@ -186,7 +186,7 @@ export function WorkShowcase({ chips, tools }: { chips: Record<string, ReactNode
   const compact = compactProjects.filter((project) => matches(project.categories));
   const listed = [
     ...projects
-      .filter((project) => !project.cover && matches(project.categories))
+      .filter((project) => !project.cover && matches(project.categories) && !compactProjects.some((card) => card.title === project.shortTitle))
       .map((project) => ({
         year: project.year,
         title: project.shortTitle,
