@@ -32,8 +32,8 @@ export function AboutRow() {
           <div className="about-body">
             <p className="eyebrow">About me</p>
             <p>{aboutSummary}</p>
-            <a className="btn btn-outline btn-sm" href="#experience">
-              Learn more <Icon name="arrow-right" size={16} />
+            <a className="btn btn-outline btn-sm" href="/Anton_Iosifov_CV.pdf" target="_blank" rel="noreferrer">
+              Download CV <Icon name="arrow-right" size={16} />
             </a>
           </div>
           <OliveBranch className="leaf leaf-about" />
@@ -60,8 +60,8 @@ export function AboutRow() {
           <Landscape className="cta-landscape" />
           <OliveBranch className="leaf leaf-cta" />
           <h2>
-            Let’s build <br />
-            something together.
+            Hiring an engineer? <br />
+            Let’s talk.
           </h2>
           <span className="cta-arrow" aria-hidden="true">
             <Icon name="arrow-right" size={20} />

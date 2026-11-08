@@ -43,7 +43,7 @@ export function Header() {
         <div className="header-side">
           <a className="availability" href="#contact">
             <span className="availability-dot" aria-hidden="true" />
-            Available for projects
+            Open to work
           </a>
           <button
             type="button"

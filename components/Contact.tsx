@@ -9,13 +9,13 @@ export function Contact() {
           <div>
             <p className="eyebrow">Contact</p>
             <h2 id="contact-title">
-              Have a product to build <br />
-              <em className="h2-accent">or a team to join?</em>
+              Looking for an engineer <br />
+              <em className="h2-accent">to join your team?</em>
             </h2>
           </div>
           <p className="contact-intro">
-            I’m open to full-stack, React/Next.js, Node.js and product-focused engineering opportunities, as well as
-            selected client projects.
+            I’m open to full-stack, React/Next.js, Node.js and product-focused engineering roles. Happy to send my CV or
+            walk you through any project.
           </p>
         </div>
         <ul className="contact-links">

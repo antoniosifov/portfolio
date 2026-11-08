@@ -24,13 +24,13 @@ export default function Home() {
           <Work />
         </Reveal>
         <Reveal>
+          <Experience />
+        </Reveal>
+        <Reveal>
           <Process />
         </Reveal>
         <Reveal>
           <AboutRow />
-        </Reveal>
-        <Reveal>
-          <Experience />
         </Reveal>
         <Reveal>
           <Contact />

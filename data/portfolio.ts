@@ -15,14 +15,15 @@ export type Project = {
   cover?: string;
   coverAlt?: string;
   gallery?: { src: string; alt: string }[];
+  devices?: { desktop: string; mobile?: string };
   accent: "coral" | "lime" | "blue" | "violet" | "amber" | "mint" | "rose";
 };
 
 export const navigation = [
   { label: "Work", href: "#work" },
-  { label: "About", href: "#about" },
-  { label: "Process", href: "#process" },
+  { label: "Experience", href: "#experience" },
   { label: "Skills", href: "#skills" },
+  { label: "About", href: "#about" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -51,16 +52,16 @@ export const capabilities: { icon: IconName; label: string; detail: string }[] =
 
 export const stats: { icon: IconName; value: string; label: string }[] = [
   { icon: "layers", value: "10+", label: "Products & projects shipped" },
-  { icon: "users", value: "4", label: "Client platforms in production" },
+  { icon: "users", value: "4", label: "Commercial platforms in production" },
   { icon: "globe", value: "3", label: "Languages · EN / HE / RU" },
   { icon: "star", value: "Grade 90", label: "B.Sc. Computer Science (HIT)" },
 ];
 
 export const processSteps: { icon: IconName; title: string; text: string }[] = [
-  { icon: "search", title: "Discover", text: "Understand the problem and the real need" },
-  { icon: "pen", title: "Design", text: "Plan the solution, architecture and UX" },
-  { icon: "code", title: "Build", text: "Develop, test and iterate" },
-  { icon: "rocket", title: "Launch", text: "Deploy, monitor and keep improving" },
+  { icon: "search", title: "Discover", text: "Clarify the problem with product and users" },
+  { icon: "pen", title: "Design", text: "Model the data, APIs and UX before the code" },
+  { icon: "code", title: "Build", text: "Typed, tested and reviewed in small steps" },
+  { icon: "rocket", title: "Launch", text: "CI/CD, monitoring and iteration in production" },
 ];
 
 export const aboutSummary =
@@ -140,7 +141,8 @@ export const projects: Project[] = [
     ],
     live: "https://www.seacret-residence.com/",
     cover: "/img/projects/seacret/og-hero.webp",
-    coverAlt: "Aerial view of Sea’cret Residences on the Greek coast",
+    coverAlt: "Sea’cret Residences website on a laptop",
+    devices: { desktop: "/img/projects/seacret/laptop.webp", mobile: "/img/projects/seacret/phone.webp" },
     gallery: [
       { src: "/img/projects/seacret/seacret1.webp", alt: "Sea’cret Residences landing page" },
       { src: "/img/projects/seacret/seacret2.webp", alt: "Sea’cret Residences property discovery" },
@@ -168,8 +170,31 @@ export const projects: Project[] = [
     ],
     live: "https://campus42.gr/en",
     cover: "/img/projects/campus42/cover.webp",
-    coverAlt: "Campus42 student housing website in Patras, Greece",
+    coverAlt: "Campus42 student housing website on a laptop",
+    devices: { desktop: "/img/projects/campus42/laptop.webp", mobile: "/img/projects/campus42/phone.webp" },
     accent: "violet",
+  },
+  {
+    index: "07",
+    title: "ICU Shift Scheduling",
+    shortTitle: "ICU Shift Scheduling",
+    year: "2026",
+    type: "Internal product",
+    status: "In use at a public hospital",
+    description:
+      "A week of intensive-care shifts built from the nurses' own constraints, with a solver doing the arithmetic the head nurse used to do by hand.",
+    statement: "Two days of deciphering handwriting, gone.",
+    presentation: "web",
+    stack: ["React", "Python", "OR-Tools", "PostgreSQL", "Supabase", "GitHub Actions"],
+    highlights: [
+      "Full weekly cycle for an intensive-care unit: constraint collection, generation, manual review and publishing.",
+      "Reproducible OR-Tools solver with pinned versions, so the same input always produces the same roster.",
+      "PostgreSQL row-level access isolation, automated schema and end-to-end checks, and a phone view for nurses. Shown with a fictional staff list.",
+    ],
+    cover: "/img/projects/icu/laptop.webp",
+    coverAlt: "Weekly shift roster for an intensive care unit on a laptop",
+    devices: { desktop: "/img/projects/icu/laptop.webp", mobile: "/img/projects/icu/phone.webp" },
+    accent: "mint",
   },
   {
     index: "04",
