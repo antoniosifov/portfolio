@@ -68,7 +68,7 @@ export const capabilities: { icon: IconName; label: string; detail: string }[] =
 
 export const stats: { icon: IconName; value: string; label: string }[] = [
   { icon: "layers", value: "10+", label: "Products & projects shipped" },
-  { icon: "users", value: "4", label: "Commercial platforms in production" },
+  { icon: "users", value: "3", label: "Commercial platforms in production" },
   { icon: "globe", value: "3", label: "Languages · EN / HE / RU" },
   { icon: "star", value: "Grade 90", label: "B.Sc. Computer Science (HIT)" },
 ];
@@ -311,15 +311,6 @@ export const compactProjects: {
     categories: ["web", "ai"],
     image: "/img/projects/rag/card.webp",
     href: "https://rag-chat-frontend-sigma.vercel.app/",
-  },
-  {
-    title: "UK Bright Future",
-    kind: "Web platform",
-    icon: "globe",
-    description: "Production website for a UK education and consulting client.",
-    categories: ["web"],
-    image: "/img/projects/uk/card.webp",
-    href: "https://ukbrightfuture.com/",
   },
   {
     title: "Factory Management",
