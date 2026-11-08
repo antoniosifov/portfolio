@@ -4,7 +4,6 @@ import type { ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
 import { additionalProjects, compactProjects, projects, type Category, type Project } from "@/data/portfolio";
 import { Icon } from "./Icons";
-import { SectionWave } from "./SectionIntro";
 
 type Filter = "all" | Category;
 
@@ -221,7 +220,6 @@ export function WorkShowcase({ chips, tools }: { chips: Record<string, ReactNode
 
   return (
     <section id="work" className="section lead-section work-section" aria-labelledby="work-title">
-      <SectionWave id="work" />
       <div className="shell">
         <div className="section-head work-head">
           <div>
