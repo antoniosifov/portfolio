@@ -7,26 +7,26 @@
 :root {
   --font-sans: var(--font-jakarta), "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 
-  --bg: #f7f1eb;
-  --bg-2: #f1e8df;
+  --bg: #f7f5f0;
+  --bg-2: #efebe3;
   --surface: rgba(255, 255, 255, 0.62);
-  --surface-strong: #fffdfa;
-  --ink: #1f1c18;
-  --ink-2: #5d574f;
-  --muted: #8d867c;
-  --line: rgba(70, 55, 35, 0.1);
-  --line-strong: rgba(70, 55, 35, 0.18);
-  --olive: #6f7a3b;
-  --olive-700: #5c662f;
-  --olive-100: #eef0e2;
-  --bronze: #a2733a;
-  --gold: #cfa872;
-  --night: #0b0d0c;
+  --surface-strong: #ffffff;
+  --ink: #20251f;
+  --ink-2: #5f6761;
+  --muted: #69716b;
+  --line: rgba(32, 37, 31, 0.1);
+  --line-strong: rgba(32, 37, 31, 0.18);
+  --olive: #586b40;
+  --olive-700: #4a5a35;
+  --olive-100: #e9ecdf;
+  --bronze: #85623a;
+  --gold: #ba9367;
+  --night: #20251f;
 
   --radius: 18px;
   --radius-lg: 22px;
-  --shadow: 0 24px 60px -30px rgba(80, 60, 30, 0.35);
-  --shadow-sm: 0 10px 28px -16px rgba(80, 60, 30, 0.3);
+  --shadow: 0 24px 60px -30px rgba(45, 50, 40, 0.35);
+  --shadow-sm: 0 10px 28px -16px rgba(45, 50, 40, 0.3);
   --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --shell: min(1240px, 100% - 48px);
@@ -49,8 +49,8 @@ body {
   min-height: 100svh;
   color: var(--ink);
   background:
-    radial-gradient(1100px 560px at 82% -8%, rgba(255, 250, 243, 0.95), rgba(255, 250, 243, 0) 70%),
-    linear-gradient(180deg, #f8f2ec 0%, #f3ebe3 55%, #f6efe8 100%);
+    linear-gradient(180deg, #f6eee6 0, #f7f5f0 1100px),
+    #f7f5f0;
   font-family: var(--font-sans);
   font-size: 15px;
   line-height: 1.5;
@@ -244,7 +244,7 @@ ol {
 
 .site-header.is-scrolled,
 .site-header.is-open {
-  background: rgba(247, 241, 235, 0.98);
+  background: rgba(247, 245, 240, 0.98);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   box-shadow: 0 1px 0 var(--line);
@@ -328,7 +328,7 @@ h2 {
 .h2-accent {
   font-style: italic;
   font-weight: 700;
-  background: linear-gradient(92deg, #8f6230 0%, #c79a60 55%, #a7773f 100%);
+  background: linear-gradient(92deg, #7a5730 0%, #9c7443 55%, #8f6a3e 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -408,7 +408,7 @@ h2 {
 .btn-primary {
   background: var(--olive);
   color: #fff;
-  box-shadow: 0 14px 28px -14px rgba(111, 122, 59, 0.7);
+  box-shadow: 0 14px 28px -14px rgba(88, 107, 64, 0.7);
 }
 
 .btn-primary:hover {
@@ -422,7 +422,7 @@ h2 {
 }
 
 .btn-outline:hover {
-  border-color: rgba(70, 55, 35, 0.3);
+  border-color: rgba(32, 37, 31, 0.3);
   background: #fff;
 }
 
@@ -586,8 +586,8 @@ h2 {
   inset: -3% -2% 0;
   z-index: 0;
   background: url("/img/hero/bg.webp") center top / cover no-repeat;
-  -webkit-mask-image: linear-gradient(180deg, #000 74%, transparent);
-  mask-image: linear-gradient(180deg, #000 74%, transparent);
+  -webkit-mask-image: linear-gradient(180deg, #000 58%, transparent);
+  mask-image: linear-gradient(180deg, #000 58%, transparent);
   pointer-events: none;
   animation: bg-breathe 24s ease-in-out infinite alternate;
 }
@@ -1102,7 +1102,7 @@ h2 {
   overflow: hidden;
   background:
     radial-gradient(ellipse 58% 56% at 50% 48%, rgba(var(--pool), 0.2), rgba(var(--pool), 0.07) 60%, rgba(var(--pool), 0) 100%),
-    linear-gradient(160deg, #fbf6ef 0%, #f1e7dc 100%);
+    linear-gradient(160deg, #fbfaf6 0%, #efebe3 100%);
 }
 
 .slide-copy {
@@ -1495,10 +1495,10 @@ a.work-list-row:hover {
   margin-bottom: 8px;
   border: 1px solid var(--line);
   border-radius: 50%;
-  background: linear-gradient(160deg, #fffdfa, #f3ece3);
+  background: linear-gradient(160deg, #ffffff, #f1eee7);
   color: var(--olive-700);
   box-shadow:
-    0 12px 24px -14px rgba(80, 60, 30, 0.45),
+    0 12px 24px -14px rgba(45, 50, 40, 0.45),
     inset 0 1px 0 #fff;
 }
 
@@ -1555,7 +1555,7 @@ a.work-list-row:hover {
   font-size: 12.5px;
   font-weight: 600;
   white-space: nowrap;
-  box-shadow: 0 6px 14px -10px rgba(80, 60, 30, 0.35);
+  box-shadow: 0 6px 14px -10px rgba(45, 50, 40, 0.35);
 }
 
 .pills svg {
@@ -1657,7 +1657,7 @@ a.work-list-row:hover {
   padding: clamp(28px, 4vw, 48px);
   border-radius: var(--radius-lg);
   color: #fff;
-  background: linear-gradient(165deg, #3d4a2b 0%, #5c6a38 55%, #74803f 100%);
+  background: linear-gradient(165deg, #2f3a28 0%, #4a5a35 55%, #586b40 100%);
 }
 
 .contact-banner-copy {
@@ -1688,7 +1688,7 @@ a.work-list-row:hover {
 }
 
 .btn-light:hover {
-  background: #f6f1e8;
+  background: #f1eee7;
 }
 
 .cta-landscape {
@@ -1836,7 +1836,7 @@ a.work-list-row:hover {
 
 .contact-links a:hover {
   transform: translateY(-3px);
-  border-color: rgba(111, 122, 59, 0.4);
+  border-color: rgba(88, 107, 64, 0.4);
   box-shadow: var(--shadow-sm);
 }
 
@@ -1986,7 +1986,7 @@ a.work-list-row:hover {
     gap: 0;
     padding: 8px 24px 20px;
     border-bottom: 1px solid var(--line);
-    background: rgba(247, 241, 235, 0.97);
+    background: rgba(247, 245, 240, 0.97);
     transform: none;
   }
 

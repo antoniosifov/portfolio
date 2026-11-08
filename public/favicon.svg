@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Anton Iosifov">
-  <rect width="64" height="64" rx="14" fill="#0b0d0c"/>
+  <rect width="64" height="64" rx="14" fill="#20251f"/>
   <g transform="translate(11 16) scale(0.0603)" fill="#ffffff">
     <path d="M443 0H508Q516 0 516 8V518Q516 526 508 526H443Q435 526 435 518V116L89 517Q81 527 72 527H6C0 527 -2 521 2.3 515L435.5 4Q439 0 443 0Z"/>
     <path d="M623 0H688Q696 0 696 8V518Q696 526 688 526H623Q615 526 615 518V8Q615 0 623 0Z"/>

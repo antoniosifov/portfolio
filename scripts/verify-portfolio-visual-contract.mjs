@@ -33,6 +33,21 @@ const wording = read("components/Header.tsx") + hero + read("components/About.ts
 assert.doesNotMatch(wording, /Available for projects|client projects|build something together/, "Copy must speak to employers, not clients");
 assert.match(work, /additionalProjects/, "View all must include the additional projects list");
 
+// Palette: every text colour must stay readable on the page background
+const luminance = (hex) => {
+  const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255).map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+};
+const contrast = (a, b) => {
+  const [x, y] = [luminance(a), luminance(b)].sort((p, q) => q - p);
+  return (x + 0.05) / (y + 0.05);
+};
+const token = (name) => css.match(new RegExp(`--${name}: (#[0-9a-f]{6});`))[1];
+for (const name of ["ink", "ink-2", "muted", "olive-700", "bronze"]) {
+  assert.ok(contrast(token(name), token("bg")) >= 4.5, `--${name} must reach 4.5:1 on the page background`);
+}
+assert.ok(contrast("#ffffff", token("olive")) >= 4.5, "White text must reach 4.5:1 on the primary button");
+
 // Motion safety
 assert.match(css, /prefers-reduced-motion: reduce\)[\s\S]*\.curtain \{\s*display: none;/, "Reduced motion must skip the curtain");
 
