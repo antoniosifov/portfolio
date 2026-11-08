@@ -15,7 +15,7 @@ export function Hero() {
       <div className="shell hero-grid">
         <div className="hero-copy">
           <p className="eyebrow" style={order(0)}>
-            Full-stack software engineer · Israel
+            Full-stack software engineer
           </p>
           <h1 id="hero-title" style={order(1)}>
             Building digital products <span className="h1-soft">that</span>
