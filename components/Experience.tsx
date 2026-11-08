@@ -1,53 +1,50 @@
 import { education, experience } from "@/data/portfolio";
-import { Reveal } from "./Reveal";
-import { SectionHeading } from "./SectionHeading";
 
 export function Experience() {
   return (
-    <section id="experience" className="section section-paper experience-section">
+    <section id="experience" className="section experience-section" aria-labelledby="experience-title">
       <div className="shell">
-        <SectionHeading
-          number="02"
-          eyebrow="Experience"
-          title="Ownership from brief to production support."
-          description="Commercial freelance delivery, startup product work, and focused full-stack training built on a computer-science foundation."
-        />
+        <div className="section-head">
+          <div>
+            <p className="eyebrow">Background</p>
+            <h2 id="experience-title">Experience &amp; education</h2>
+          </div>
+          <a className="link-arrow" href="/Anton_Iosifov_CV.pdf" target="_blank" rel="noreferrer">
+            Download CV
+          </a>
+        </div>
 
-        <div className="timeline section-content">
+        <ol className="timeline">
           {experience.map((item) => (
-            <Reveal className="timeline-item" key={`${item.company}-${item.period}`}>
-              <div className="timeline-period">{item.period}</div>
-              <div className="timeline-role">
+            <li key={item.period} className="timeline-item">
+              <span className="timeline-period">{item.period}</span>
+              <div>
                 <h3>{item.role}</h3>
-                <p>{item.company}</p>
-                <span>{item.meta}</span>
+                <p className="timeline-meta">
+                  {item.company} · {item.meta}
+                </p>
               </div>
               <ul>
                 {item.bullets.map((bullet) => (
                   <li key={bullet}>{bullet}</li>
                 ))}
               </ul>
-            </Reveal>
+            </li>
           ))}
-        </div>
+        </ol>
 
-        <div className="education-block section-content">
-          <div className="education-title">
-            <h2>Education & certification</h2>
-          </div>
-          <div>
-            {education.map((item) => (
-              <Reveal className="education-item" key={item.title}>
-                <span>{item.period}</span>
-                <div>
-                  <h3>{item.title}</h3>
-                  <p>{item.institution}</p>
-                  <small>{item.detail}</small>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
+        <ul className="education">
+          {education.map((item) => (
+            <li key={item.title}>
+              <span className="timeline-period">{item.period}</span>
+              <div>
+                <h3>{item.title}</h3>
+                <p className="timeline-meta">{item.institution}</p>
+                <p>{item.detail}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

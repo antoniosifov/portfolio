@@ -1,7 +1,16 @@
 import type { Metadata, Viewport } from "next";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import Script from "next/script";
 import type { ReactNode } from "react";
 import "./globals.css";
+
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  style: ["normal", "italic"],
+  variable: "--font-jakarta",
+  display: "swap",
+});
 
 const siteUrl = "https://antoniosifov.com";
 const title = "Anton Iosifov | Full-Stack Software Engineer";
@@ -43,8 +52,8 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#0b0d0c",
-  colorScheme: "dark",
+  themeColor: "#f7f1eb",
+  colorScheme: "light",
 };
 
 const personSchema = {
@@ -59,28 +68,21 @@ const personSchema = {
     name: "Holon Institute of Technology",
   },
   knowsLanguage: ["Russian", "Hebrew", "English"],
-  sameAs: [
-    "https://www.linkedin.com/in/anton-iosifov/",
-    "https://github.com/antoniosifov",
-  ],
+  sameAs: ["https://www.linkedin.com/in/anton-iosifov/", "https://github.com/antoniosifov"],
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   const plausibleDomain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
-  const plausibleScript =
-    process.env.NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL || "https://plausible.io/js/script.js";
+  const plausibleScript = process.env.NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL || "https://plausible.io/js/script.js";
 
   return (
-    <html lang="en">
+    <html lang="en" className={jakarta.variable}>
       <body>
         <a className="skip-link" href="#main-content">
           Skip to content
         </a>
         {children}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
-        />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }} />
         {plausibleDomain ? (
           <Script defer data-domain={plausibleDomain} src={plausibleScript} strategy="afterInteractive" />
         ) : null}

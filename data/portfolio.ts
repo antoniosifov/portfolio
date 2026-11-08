@@ -19,12 +19,54 @@ export type Project = {
 };
 
 export const navigation = [
+  { label: "Work", href: "#work" },
   { label: "About", href: "#about" },
-  { label: "Experience", href: "#experience" },
-  { label: "Projects", href: "#projects" },
-  { label: "Stack", href: "#stack" },
+  { label: "Process", href: "#process" },
+  { label: "Skills", href: "#skills" },
   { label: "Contact", href: "#contact" },
 ];
+
+export type IconName =
+  | "code"
+  | "layers"
+  | "sparkles"
+  | "cloud"
+  | "users"
+  | "globe"
+  | "star"
+  | "search"
+  | "pen"
+  | "rocket"
+  | "arrow-right"
+  | "arrow-up-right"
+  | "menu"
+  | "close";
+
+export const capabilities: { icon: IconName; label: string; detail: string }[] = [
+  { icon: "code", label: "Full-Stack", detail: "Development" },
+  { icon: "layers", label: "Product", detail: "& Architecture" },
+  { icon: "sparkles", label: "AI", detail: "Integration" },
+  { icon: "cloud", label: "Deployment", detail: "& Automation" },
+];
+
+export const stats: { icon: IconName; value: string; label: string }[] = [
+  { icon: "layers", value: "10+", label: "Products & projects shipped" },
+  { icon: "users", value: "4", label: "Client platforms in production" },
+  { icon: "globe", value: "3", label: "Languages · EN / HE / RU" },
+  { icon: "star", value: "Grade 90", label: "B.Sc. Computer Science (HIT)" },
+];
+
+export const processSteps: { icon: IconName; title: string; text: string }[] = [
+  { icon: "search", title: "Discover", text: "Understand the problem and the real need" },
+  { icon: "pen", title: "Design", text: "Plan the solution, architecture and UX" },
+  { icon: "code", title: "Build", text: "Develop, test and iterate" },
+  { icon: "rocket", title: "Launch", text: "Deploy, monitor and keep improving" },
+];
+
+export const aboutSummary =
+  "Software engineer with a strong product mindset, combining development, system design and real-world delivery. I enjoy turning complex ideas into simple, reliable and meaningful products.";
+
+export const alsoWorkWith = ["AWS", "OpenAI", "FastAPI", "LangChain", "Laravel", "Expo", "Sanity", "Vercel"];
 
 export const stackGroups = [
   {

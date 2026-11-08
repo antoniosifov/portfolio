@@ -1,21 +1,33 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
-const projects = readFileSync(new URL("../components/Projects.tsx", import.meta.url), "utf8");
-const heroScene = readFileSync(new URL("../components/HeroScene.tsx", import.meta.url), "utf8");
-const portfolioData = readFileSync(new URL("../data/portfolio.ts", import.meta.url), "utf8");
+const read = (path) => readFileSync(new URL(`../${path}`, import.meta.url), "utf8");
 
-assert.match(projects, /slice\(0,\s*3\)/, "Ceru showcase must render three screenshots");
-assert.match(projects, /is-left/, "Ceru showcase must include a left phone slot");
-assert.match(projects, /is-center/, "Ceru showcase must include a center phone slot");
-assert.match(projects, /is-right/, "Ceru showcase must include a right phone slot");
-assert.match(
-  portfolioData,
-  /ceru-home\.webp[\s\S]*ceru-launch\.webp[\s\S]*ceru-analytics\.webp/,
-  "Ceru showcase must use the three production screenshots from Forma in the intended order",
-);
+const page = read("app/page.tsx");
+const css = read("app/globals.css");
+const logo = read("components/Logo.tsx");
+const intro = read("components/Intro.tsx");
+const hero = read("components/Hero.tsx");
+const stage = read("components/HeroStage.tsx");
+const work = read("components/Work.tsx");
 
-assert.match(heroScene, /hero-network/, "Hero must render the network background");
-assert.doesNotMatch(heroScene, /scene-stage1-chaos/, "Hero must not load the old photographic sequence");
+// Brand
+assert.match(logo, /viewBox="0 0 120 100"/, "Logo must render the ΛI monogram on its 120x100 grid");
+assert.match(intro, /className="curtain"/, "Intro must render the brand curtain");
+assert.match(css, /@keyframes curtain-up/, "Curtain must lift with the curtain-up animation");
+assert.match(page, /<Intro \/>/, "Home page must open with the curtain");
+
+// Hero
+assert.match(hero, /solve real problems\./, "Hero headline must keep the approved copy");
+assert.match(stage, /<Ring part="back" \/>[\s\S]*<Ring part="front" \/>/, "Hero stage must draw the ring behind and in front of the devices");
+assert.match(stage, /className="laptop"[\s\S]*className="phone"/, "Hero stage must show the laptop and the phone");
+assert.doesNotMatch(stage, /scene-stage1-chaos|hero-network/, "Old hero scenes must be gone");
+
+// Work
+assert.match(work, /projects\.slice\(0, 4\)/, "Selected work shows four featured cards");
+assert.match(work, /additionalProjects/, "View all must include the additional projects list");
+
+// Motion safety
+assert.match(css, /prefers-reduced-motion: reduce\)[\s\S]*\.curtain \{\s*display: none;/, "Reduced motion must skip the curtain");
 
 console.log("Portfolio visual contract verified.");

@@ -1,14 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Anton Iosifov">
-  <circle cx="16" cy="16" r="15" fill="#0B0D0C"/>
-  <text
-    x="16"
-    y="16"
-    text-anchor="middle"
-    dominant-baseline="central"
-    font-family="Georgia, 'Times New Roman', Times, serif"
-    font-size="12"
-    font-weight="600"
-    letter-spacing="0.02em"
-    fill="#FF5A36"
-  >AI</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Anton Iosifov">
+  <rect width="64" height="64" rx="14" fill="#0b0d0c"/>
+  <g transform="translate(10 13.7) scale(0.366)" fill="#ffffff">
+    <path d="M0 92 42 8h9L9 92Z"/>
+    <path d="M42 8h18l32 84H74Z"/>
+    <rect x="104" y="8" width="16" height="84"/>
+  </g>
 </svg>
