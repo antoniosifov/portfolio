@@ -2319,10 +2319,6 @@ body {
   padding: 132px 0;
 }
 
-.section > .shell {
-  --section-content-offset: 92px;
-}
-
 .section-heading {
   grid-template-columns: 64px minmax(0, 1fr) minmax(280px, 0.42fr);
   gap: 28px;
@@ -2499,6 +2495,8 @@ body {
 
 .project-actions a,
 .project-actions button {
+  display: inline-flex;
+  align-items: center;
   min-height: 46px;
   font-weight: 650;
   line-height: 1;
@@ -2591,6 +2589,10 @@ body {
   .stack-section .section-heading {
     grid-template-columns: 54px 1fr;
   }
+
+  .hero h1 {
+    font-size: clamp(60px, 9vw, 98px);
+  }
 }
 
 @media (max-width: 820px) {
@@ -2612,6 +2614,10 @@ body {
     padding-bottom: 78px;
   }
 
+  .hero h1 {
+    font-size: clamp(56px, 13.7vw, 92px);
+  }
+
   .hero-scene {
     top: 20%;
     right: -24%;
@@ -2622,8 +2628,24 @@ body {
     padding: 96px 0;
   }
 
+  .section-heading {
+    padding-bottom: 54px;
+  }
+
   .stack-section {
     padding-top: 96px;
+  }
+
+  .stack-group {
+    min-height: auto;
+  }
+
+  .project-card-main {
+    min-height: 0;
+  }
+
+  .project-details {
+    padding: 36px 32px;
   }
 
   .projects-carousel-controls button {
@@ -2671,10 +2693,29 @@ body {
 
   .hero h1 {
     font-size: clamp(49px, 16vw, 74px);
+    line-height: 0.9;
+  }
+
+  .section-heading,
+  .stack-section .section-heading {
+    grid-template-columns: 34px 1fr;
+    gap: 14px;
   }
 
   .section-heading h2 {
     font-size: 40px;
+  }
+
+  .about-layout {
+    padding-top: 58px;
+  }
+
+  .stack-group {
+    padding: 26px 20px;
+  }
+
+  .stack-group-head {
+    margin-bottom: 34px;
   }
 
   .projects-carousel-controls button {
