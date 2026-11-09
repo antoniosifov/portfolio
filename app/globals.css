@@ -30,7 +30,7 @@
   --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --shell: min(1240px, 100% - 48px);
-  --section-gap: 72px;
+  --section-gap: 120px;
   --hero-end: 32px;
 }
 
@@ -454,7 +454,7 @@ h2 {
   row-gap: var(--section-gap);
   min-height: 100svh;
   overflow: hidden;
-  padding: 104px 0 var(--hero-end);
+  padding: 88px 0 var(--hero-end);
 }
 
 .hero-grid {
@@ -629,7 +629,7 @@ h2 {
   z-index: 1;
   container-type: inline-size;
   /* Runs from the text column to the edge of the window, and leaves room for the stats on the first screen. */
-  width: min((100% + max(24px, (100vw - 1240px) / 2)) * 0.94, max((100svh - 303px) * 1.5625, 620px), 1050px);
+  width: min((100% + max(24px, (100vw - 1240px) / 2)) * 0.94, max((100svh - 215px - var(--section-gap)) * 1.5625, 620px), 1050px);
   aspect-ratio: 100 / 64;
 }
 
@@ -2717,7 +2717,7 @@ a.work-list-row:hover {
 
   :root {
     --shell: min(1240px, 100% - 32px);
-    --section-gap: 56px;
+    --section-gap: 80px;
   }
 
   .header-inner {
