@@ -442,16 +442,19 @@ h2 {
 
 .hero {
   position: relative;
+  display: grid;
+  align-items: center;
+  min-height: 100svh;
   overflow: hidden;
-  padding: 128px 0 40px;
+  padding: 104px 0 64px;
 }
 
 .hero-grid {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: clamp(24px, 4vw, 56px);
+  grid-template-columns: clamp(440px, 38vw, 540px) minmax(0, 1fr);
+  gap: 32px;
   align-items: center;
 }
 
@@ -617,11 +620,9 @@ h2 {
   position: relative;
   z-index: 1;
   container-type: inline-size;
-  width: 116%;
-  max-width: 760px;
+  /* Runs from the text column to the edge of the window, and never taller than the room left under the header. */
+  width: min(100% + max(24px, (100vw - 1240px) / 2), (100svh - 168px) * 1.5625, 1120px);
   aspect-ratio: 100 / 64;
-  margin-right: -8%;
-  margin-left: auto;
 }
 
 .stage[data-paused] .el-float,
@@ -974,7 +975,7 @@ h2 {
 .motion-toggle {
   position: absolute;
   right: 0;
-  bottom: -6px;
+  bottom: -44px;
   z-index: 3;
   display: grid;
   place-items: center;
@@ -2598,13 +2599,17 @@ a.work-list-row:hover {
   }
 
   .hero-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .stage {
-    width: 100%;
-    max-width: 620px;
-    margin: 12px auto 0;
+    justify-self: center;
+    width: min(100vw, 760px);
+    margin-top: 12px;
+  }
+
+  .motion-toggle {
+    bottom: -6px;
   }
 
   .leaf-left {
