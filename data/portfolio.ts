@@ -59,13 +59,6 @@ export type IconName =
   | "home"
   | "close";
 
-export const capabilities: { icon: IconName; label: string; detail: string }[] = [
-  { icon: "code", label: "Full-Stack", detail: "Development" },
-  { icon: "layers", label: "Product", detail: "& Architecture" },
-  { icon: "sparkles", label: "AI", detail: "Integration" },
-  { icon: "cloud", label: "Deployment", detail: "& Automation" },
-];
-
 export const stats: { icon: IconName; value: string; label: string }[] = [
   { icon: "layers", value: "10+", label: "Products & projects shipped" },
   { icon: "users", value: "3", label: "Commercial platforms in production" },

@@ -41,6 +41,9 @@ export function Header() {
         </nav>
 
         <div className="header-side">
+          <a className="btn btn-primary btn-sm" href="mailto:iosifov.a.14@gmail.com">
+            Email me
+          </a>
           <button
             type="button"
             className="menu-button"

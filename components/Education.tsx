@@ -9,7 +9,6 @@ export function Education() {
       <div className="shell intro-shell">
         <SectionIntro
           id="education"
-          eyebrow="Education"
           title="Education"
           description="My academic foundation in computer science and continuous professional growth."
         />

@@ -1,6 +1,5 @@
 import { stackGroups } from "@/data/portfolio";
 import { ChipList } from "./Brand";
-import { Icon } from "./Icons";
 import { SectionIntro } from "./SectionIntro";
 
 export function Skills() {
@@ -9,7 +8,6 @@ export function Skills() {
       <div className="shell intro-shell">
         <SectionIntro
           id="skills"
-          eyebrow="Tech stack"
           title="Skills"
           description="Technologies, frameworks, and tools I use to design, develop, and ship real products."
         />
@@ -19,9 +17,6 @@ export function Skills() {
           {stackGroups.map((group) => (
             <article key={group.label} className="card soft-card skill-group">
               <header>
-                <span className="logo-tile">
-                  <Icon name={group.icon} size={30} />
-                </span>
                 <div>
                   <h3>{group.label}</h3>
                   <p>{group.description}</p>

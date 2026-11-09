@@ -1,5 +1,4 @@
 import { stats } from "@/data/portfolio";
-import { Icon } from "./Icons";
 
 export function Stats() {
   return (
@@ -8,11 +7,8 @@ export function Stats() {
         <ul className="stats">
           {stats.map((item) => (
             <li key={item.label}>
-              <Icon name={item.icon} size={22} />
-              <div>
-                <strong>{item.value}</strong>
-                <span>{item.label}</span>
-              </div>
+              <strong>{item.value}</strong>
+              <span>{item.label}</span>
             </li>
           ))}
         </ul>

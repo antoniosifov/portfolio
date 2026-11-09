@@ -10,7 +10,6 @@ export function Experience() {
       <div className="shell intro-shell">
         <SectionIntro
           id="experience"
-          eyebrow="Career"
           title="Experience"
           description="Turning ideas into real products, from architecture and development to deployment and production."
         />

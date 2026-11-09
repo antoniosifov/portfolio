@@ -1,5 +1,3 @@
-import { OliveBranch } from "./OliveBranch";
-
 const facts = [
   ["Education", "B.Sc. Computer Science · HIT · GPA 90"],
   ["Languages", "Russian · Hebrew · English"],
@@ -22,10 +20,9 @@ export function About() {
             decoding="async"
           />
           <div className="about-body">
-            <p className="eyebrow">About me</p>
             <h2 id="about-title">
               Thinking in systems. <br />
-              <em className="h2-accent">Building in code.</em>
+              Building in code.
             </h2>
             <p className="about-lead">
               I’m a Full-Stack Software Engineer based in Israel, building reliable, production-ready software across
@@ -45,7 +42,6 @@ export function About() {
               ))}
             </dl>
           </div>
-          <OliveBranch className="leaf leaf-about" />
         </article>
       </div>
     </section>

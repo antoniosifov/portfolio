@@ -18,8 +18,8 @@ assert.match(css, /@keyframes curtain-up/, "Curtain must lift with the curtain-u
 assert.match(page, /<Intro \/>/, "Home page must open with the curtain");
 
 // Hero
-assert.match(hero, /solve real problems\./, "Hero headline must keep the approved copy");
-for (const name of ["stone", "ribbon", "laptop", "phone", "chip-code", "chip-cloud", "chip-spark", "leaf"]) {
+assert.match(hero, /I build products that ship\./, "Hero headline must keep the approved copy");
+for (const name of ["ribbon", "laptop", "phone", "chip-code", "chip-cloud", "chip-spark"]) {
   assert.match(stage, new RegExp(`name: "${name}"`), `Hero stage must render the ${name} cut-out`);
   assert.ok(existsSync(new URL(`../public/img/hero/${name}.webp`, import.meta.url)), `${name}.webp must exist`);
   assert.match(css, new RegExp(`\\.el-${name} \\{[\\s\\S]*?--path: path-`), `${name} needs its own motion path`);
@@ -43,10 +43,10 @@ const contrast = (a, b) => {
   return (x + 0.05) / (y + 0.05);
 };
 const token = (name) => css.match(new RegExp(`--${name}: (#[0-9a-f]{6});`))[1];
-for (const name of ["ink", "ink-2", "muted", "olive-700", "bronze"]) {
+for (const name of ["ink", "ink-2", "muted"]) {
   assert.ok(contrast(token(name), token("bg")) >= 4.5, `--${name} must reach 4.5:1 on the page background`);
 }
-assert.ok(contrast("#ffffff", token("olive")) >= 4.5, "White text must reach 4.5:1 on the primary button");
+assert.ok(contrast(token("accent-ink"), token("accent")) >= 4.5, "Button text must reach 4.5:1 on the accent");
 
 // Content must be readable before and without hydration
 assert.doesNotMatch(css, /\.reveal \{[^}]*opacity: 0/, "Reveal must not hide content by default");

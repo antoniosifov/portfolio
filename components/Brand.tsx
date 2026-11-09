@@ -41,6 +41,12 @@ import {
 import type { IconName } from "@/data/portfolio";
 import { Icon } from "./Icons";
 
+/** Marks that are black or nearly so would vanish on the graphite ground. */
+const isTooDark = (hex: string) => {
+  const [r, g, b] = [0, 2, 4].map((i) => parseInt(hex.slice(i, i + 2), 16));
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b < 70;
+};
+
 const brandMarks: Record<string, { path: string; hex: string }> = {
   TypeScript: siTypescript,
   JavaScript: siJavascript,
@@ -88,11 +94,11 @@ const brandMarks: Record<string, { path: string; hex: string }> = {
 
 /** Official artwork for brands the icon set does not carry. */
 const brandFiles: Record<string, string> = {
-  AWS: "/img/brands/aws.svg",
-  OpenAI: "/img/brands/openai.svg",
-  "AWS SDK v3": "/img/brands/aws.svg",
-  "Amazon EC2": "/img/brands/aws.svg",
-  CloudWatch: "/img/brands/aws.svg",
+  AWS: "/img/brands/aws-light.svg",
+  OpenAI: "/img/brands/openai-light.svg",
+  "AWS SDK v3": "/img/brands/aws-light.svg",
+  "Amazon EC2": "/img/brands/aws-light.svg",
+  CloudWatch: "/img/brands/aws-light.svg",
   "monday.com": "/img/brands/monday.svg",
 };
 
@@ -114,7 +120,7 @@ export function BrandIcon({ label }: { label: string }) {
   if (mark) {
     return (
       <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
-        <path d={mark.path} fill={`#${mark.hex}`} />
+        <path d={mark.path} fill={isTooDark(mark.hex) ? "currentColor" : `#${mark.hex}`} />
       </svg>
     );
   }

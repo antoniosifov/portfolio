@@ -88,7 +88,6 @@ function Slide({
     >
       <div className="slide-main">
         <div className="slide-media">
-          <img className="slide-stone" src="/img/hero/stone.webp" alt="" width="944" height="159" loading="lazy" decoding="async" />
           <Devices project={project} eager={eager} />
         </div>
 
@@ -224,10 +223,7 @@ export function WorkShowcase({
       <div className="shell">
         <div className="section-head work-head">
           <div>
-            <p className="eyebrow">Featured projects</p>
-            <h2 id="work-title">
-              Selected <em className="h2-accent">Work</em>
-            </h2>
+            <h2 id="work-title">Selected work</h2>
           </div>
           <div className="work-filters" role="group" aria-label="Filter projects">
             {filters.map((item) => (
@@ -298,9 +294,6 @@ export function WorkShowcase({
             {compact.map((project) => (
               <li key={project.title} className="card soft-card mini-card">
                 <p className="mini-kind">
-                  <span>
-                    <Icon name={project.icon} size={15} />
-                  </span>
                   {project.kind}
                 </p>
                 <h3>
@@ -330,7 +323,7 @@ export function WorkShowcase({
 
         {listed.length ? (
           <div className="more-work">
-            <p className="eyebrow">More projects</p>
+            <h3>More projects</h3>
             <ul className="work-list">
               {listed.map((project) => (
                 <li key={project.title}>

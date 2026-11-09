@@ -1,17 +1,12 @@
 import { contactLinks } from "@/data/portfolio";
 import { Icon } from "./Icons";
-import { Landscape } from "./Landscape";
-import { OliveBranch } from "./OliveBranch";
 
 export function Contact() {
   return (
     <section id="contact" className="section contact-section" aria-labelledby="contact-title">
       <div className="shell">
         <div className="contact-banner">
-          <Landscape className="cta-landscape" />
-          <OliveBranch className="leaf leaf-cta" />
           <div className="contact-banner-copy">
-            <p className="eyebrow">Contact</p>
             <h2 id="contact-title">
               Looking for an engineer <br />
               to join your team?

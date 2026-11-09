@@ -1,14 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Geist } from "next/font/google";
 import Script from "next/script";
 import type { ReactNode } from "react";
 import "./globals.css";
 
-const jakarta = Plus_Jakarta_Sans({
+const geist = Geist({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  style: ["normal", "italic"],
-  variable: "--font-jakarta",
+  weight: ["400", "500", "600"],
+  variable: "--font-geist",
   display: "swap",
 });
 
@@ -52,8 +51,8 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#f7f5f0",
-  colorScheme: "light",
+  themeColor: "#0c0d0f",
+  colorScheme: "dark",
 };
 
 const personSchema = {
@@ -76,7 +75,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
   const plausibleScript = process.env.NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL || "https://plausible.io/js/script.js";
 
   return (
-    <html lang="en" className={jakarta.variable}>
+    <html lang="en" className={geist.variable}>
       <body>
         <a className="skip-link" href="#main-content">
           Skip to content

@@ -5,14 +5,12 @@ import { useEffect, useRef } from "react";
 /** Paint order is back to front. Width and height are the intrinsic pixels of
  *  each cut-out, so the browser reserves the right box before the file lands. */
 const elements = [
-  { name: "stone", width: 944, height: 159 },
   { name: "ribbon", width: 1396, height: 717 },
   { name: "laptop", width: 868, height: 518 },
   { name: "phone", width: 267, height: 467 },
   { name: "chip-code", width: 265, height: 215 },
   { name: "chip-cloud", width: 237, height: 206 },
   { name: "chip-spark", width: 230, height: 185 },
-  { name: "leaf", width: 552, height: 244 },
 ] as const;
 
 /** Every element floats on its own CSS path; this only adds the pointer depth
@@ -63,7 +61,6 @@ export function HeroStage() {
 
   return (
     <div ref={ref} className="stage" aria-hidden="true">
-      <div className="stage-shadow" />
       {elements.map((element) => (
         <div key={element.name} className={`el el-${element.name}`}>
           <div className="el-float">
