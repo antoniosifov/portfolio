@@ -7,7 +7,6 @@ import { Hero } from "@/components/Hero";
 import { Intro } from "@/components/Intro";
 import { Reveal } from "@/components/Reveal";
 import { Skills } from "@/components/Skills";
-import { Stats } from "@/components/Stats";
 import { Work } from "@/components/Work";
 
 export default function Home() {
@@ -17,9 +16,6 @@ export default function Home() {
       <Header />
       <main id="main-content">
         <Hero />
-        <Reveal>
-          <Stats />
-        </Reveal>
         <Reveal>
           <Work />
         </Reveal>

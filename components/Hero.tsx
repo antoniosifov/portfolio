@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import { capabilities } from "@/data/portfolio";
 import { HeroStage } from "./HeroStage";
 import { Icon } from "./Icons";
+import { Stats } from "./Stats";
 
 const order = (index: number) => ({ "--i": index }) as CSSProperties;
 
@@ -47,6 +48,8 @@ export function Hero() {
 
         <HeroStage />
       </div>
+
+      <Stats />
     </section>
   );
 }
