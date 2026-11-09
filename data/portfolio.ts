@@ -70,7 +70,7 @@ export const stats: { icon: IconName; value: string; label: string }[] = [
   { icon: "layers", value: "10+", label: "Products & projects shipped" },
   { icon: "users", value: "3", label: "Commercial platforms in production" },
   { icon: "globe", value: "3", label: "Languages · EN / HE / RU" },
-  { icon: "star", value: "Grade 90", label: "B.Sc. Computer Science (HIT)" },
+  { icon: "star", value: "GPA 90", label: "B.Sc. Computer Science (HIT)" },
 ];
 
 

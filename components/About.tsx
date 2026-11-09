@@ -1,7 +1,7 @@
 import { OliveBranch } from "./OliveBranch";
 
 const facts = [
-  ["Education", "B.Sc. Computer Science · HIT · Grade 90"],
+  ["Education", "B.Sc. Computer Science · HIT · GPA 90"],
   ["Languages", "Russian · Hebrew · English"],
   ["Work modes", "On-site · Hybrid · Remote"],
   ["Location", "Rishon LeZion · Israel"],

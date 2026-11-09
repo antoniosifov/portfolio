@@ -34,7 +34,7 @@ export function Education() {
                   <ul className="edu-badges">
                     <li className="is-grade">
                       <Icon name="graduation-cap" size={20} />
-                      Grade: <strong>{item.grade}</strong>
+                      GPA <strong>{item.grade}</strong>
                     </li>
                     <li>
                       <Icon name="award" size={20} />
