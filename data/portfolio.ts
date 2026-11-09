@@ -423,6 +423,7 @@ export const education: {
   grade?: string;
   degree?: string;
   stack?: string[];
+  certificate: { label: string; meta: string; src: string; alt: string; width: number; height: number };
 }[] = [
   {
     period: "Oct 2021 — Nov 2024",
@@ -432,6 +433,14 @@ export const education: {
     grade: "90",
     degree: "B.Sc.",
     detail: "Relevant areas of study included algorithms and data structures, object-oriented programming, databases, software engineering, and web development.",
+    certificate: {
+      label: "Degree certificate",
+      meta: "Holon Institute of Technology · 2025",
+      src: "/img/certificates/hit-bsc.webp",
+      alt: "Bachelor of Science in Computer Science degree certificate from Holon Institute of Technology, with the ID number concealed",
+      width: 1100,
+      height: 1536,
+    },
   },
   {
     period: "Professional development · Feb 2026",
@@ -439,21 +448,14 @@ export const education: {
     institution: "Yaniv Arad - Tech Training Labs",
     stack: ["React", "TypeScript", "Node.js", "Docker"],
     detail: "A 250-hour program covering REST APIs, databases, testing, and AI integration.",
-  },
-];
-
-export const certificates = [
-  {
-    title: "B.Sc. Computer Science",
-    meta: "HIT · 2025",
-    src: "/img/certificates/hit-bsc.webp",
-    alt: "Bachelor of Science in Computer Science degree certificate from Holon Institute of Technology, with the ID number concealed",
-  },
-  {
-    title: "Full Stack Development",
-    meta: "Training Labs · 2026",
-    src: "/img/certificates/full-stack-250h.webp",
-    alt: "Certificate of Achievement for the 250-hour Full Stack Development program at Yaniv Arad Training Labs",
+    certificate: {
+      label: "Certificate of achievement",
+      meta: "Yaniv Arad Training Labs · 2026",
+      src: "/img/certificates/full-stack-250h.webp",
+      alt: "Certificate of Achievement for the 250-hour Full Stack Development program at Yaniv Arad Training Labs",
+      width: 1100,
+      height: 1419,
+    },
   },
 ];
 
