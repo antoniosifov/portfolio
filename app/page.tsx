@@ -1,4 +1,5 @@
 import { About } from "@/components/About";
+import { CircuitField } from "@/components/CircuitField";
 import { Contact } from "@/components/Contact";
 import { Education } from "@/components/Education";
 import { Experience } from "@/components/Experience";
@@ -13,6 +14,7 @@ export default function Home() {
   return (
     <>
       <Intro />
+      <CircuitField />
       <Header />
       <main id="main-content">
         <Hero />

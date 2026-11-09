@@ -125,6 +125,34 @@ ol {
   transform: translateY(0);
 }
 
+/* The circuit behind the whole page. It sits under the content and never takes
+   a click, so the page works the same with or without it. */
+.circuit-field {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* A soft light that follows the pointer across a card. */
+.card::before,
+.contact-links a::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(320px circle at var(--x, 50%) var(--y, 50%), rgba(215, 255, 95, 0.1), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.25s;
+  pointer-events: none;
+}
+
+.card:hover::before,
+.contact-links a:hover::before {
+  opacity: 1;
+}
+
 .shell {
   width: var(--shell);
   margin-inline: auto;
@@ -513,71 +541,11 @@ h2 {
 }
 
 .stage[data-paused] .el-float,
-.stage[data-paused] .trace-pulse,
 .stage[data-paused] .ribbon-sheen::before {
   animation-play-state: paused;
 }
 
 
-
-/* Circuit traces running out from behind the laptop. The drawing is anchored to
-   the stage, so it stays aligned with the devices and clear of the text. */
-.stage-traces {
-  position: absolute;
-  top: -15.625%;
-  left: -12%;
-  z-index: 0;
-  width: 124%;
-  max-width: none;
-  height: 131.25%;
-  overflow: visible;
-  animation: fade-in 1.2s ease 1.05s both;
-}
-
-.stage-traces path,
-.stage-traces circle {
-  vector-effect: non-scaling-stroke;
-}
-
-.trace {
-  fill: none;
-  stroke: #d8b083;
-  stroke-width: 1.25;
-  opacity: 0.42;
-}
-
-.trace-pad {
-  fill: #d8b083;
-  opacity: 0.6;
-}
-
-.trace.is-lit {
-  stroke: var(--accent);
-  opacity: 0.55;
-}
-
-.trace-pad.is-lit {
-  fill: var(--accent);
-  opacity: 0.85;
-}
-
-.trace-pulse {
-  fill: none;
-  stroke: var(--accent);
-  stroke-width: 2.5;
-  stroke-linecap: round;
-  stroke-dasharray: 0.07 1;
-  animation: trace-run var(--t, 6s) linear var(--offset, 0s) infinite;
-}
-
-@keyframes trace-run {
-  from {
-    stroke-dashoffset: 0.07;
-  }
-  to {
-    stroke-dashoffset: -1;
-  }
-}
 
 .el {
   position: absolute;
@@ -2109,6 +2077,8 @@ a.work-list-row:hover {
   grid-template-rows: auto auto;
   align-items: center;
   gap: 4px 12px;
+  position: relative;
+  overflow: hidden;
   padding: 22px 24px;
   background: var(--surface);
   color: var(--ink);
@@ -2261,10 +2231,6 @@ a.work-list-row:hover {
 
   .hero-grid {
     grid-template-columns: minmax(0, 1fr);
-  }
-
-  .stage-traces {
-    display: none;
   }
 
   .hero::before {
@@ -2462,7 +2428,6 @@ a.work-list-row:hover {
   }
 
   .hero-copy > *,
-  .stage-traces,
   .el,
   .el-float {
     animation: none;
@@ -2483,10 +2448,6 @@ a.work-list-row:hover {
   .slide.is-active .dv-laptop,
   .slide.is-active .dv-phone {
     animation: none;
-  }
-
-  .trace-pulse {
-    display: none;
   }
 
   .btn,
