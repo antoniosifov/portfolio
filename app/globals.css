@@ -621,7 +621,7 @@ h2 {
   z-index: 1;
   container-type: inline-size;
   /* Runs from the text column to the edge of the window, and never taller than the room left under the header. */
-  width: min(100% + max(24px, (100vw - 1240px) / 2), (100svh - 168px) * 1.5625, 1120px);
+  width: min((100% + max(24px, (100vw - 1240px) / 2)) * 0.94, (100svh - 168px) * 1.47, 1050px);
   aspect-ratio: 100 / 64;
 }
 
@@ -970,38 +970,6 @@ h2 {
   72% {
     transform: rotate(0.4deg);
   }
-}
-
-.motion-toggle {
-  position: absolute;
-  right: 0;
-  bottom: -44px;
-  z-index: 3;
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  padding: 0;
-  border: 1px solid var(--line-strong);
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.72);
-  color: var(--ink);
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.motion-toggle:hover {
-  background: #fff;
-}
-
-[data-motion-paused] .hero-bg,
-[data-motion-paused] .hero .leaf,
-[data-motion-paused] .el-float,
-[data-motion-paused] .stage-shadow,
-[data-motion-paused] .ribbon-sheen::before,
-[data-motion-paused] .slide.is-active .dv-laptop,
-[data-motion-paused] .slide.is-active .dv-phone {
-  animation-play-state: paused;
 }
 
 /* ── Stats ─────────────────────────────────────────────────────────────── */
@@ -2604,12 +2572,8 @@ a.work-list-row:hover {
 
   .stage {
     justify-self: center;
-    width: min(100vw, 760px);
+    width: min(94vw, 715px);
     margin-top: 12px;
-  }
-
-  .motion-toggle {
-    bottom: -6px;
   }
 
   .leaf-left {
@@ -2873,10 +2837,6 @@ a.work-list-row:hover {
   }
 
   .ribbon-sheen,
-  .motion-toggle {
-    display: none;
-  }
-
   .reveal,
   .reveal.is-hidden {
     opacity: 1;

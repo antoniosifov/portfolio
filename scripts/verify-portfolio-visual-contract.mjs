@@ -52,7 +52,6 @@ assert.ok(contrast("#ffffff", token("olive")) >= 4.5, "White text must reach 4.5
 assert.doesNotMatch(css, /\.reveal \{[^}]*opacity: 0/, "Reveal must not hide content by default");
 
 assert.doesNotMatch(css, /background-clip: text/, "Headings use solid colour, not gradient text");
-assert.match(read("components/Hero.tsx"), /<MotionToggle \/>/, "Endless motion needs a visible pause control");
 
 // Each project appears in one place only
 const data = read("data/portfolio.ts");

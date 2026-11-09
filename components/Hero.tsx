@@ -2,7 +2,6 @@ import type { CSSProperties } from "react";
 import { capabilities } from "@/data/portfolio";
 import { HeroStage } from "./HeroStage";
 import { Icon } from "./Icons";
-import { MotionToggle } from "./MotionToggle";
 
 const order = (index: number) => ({ "--i": index }) as CSSProperties;
 
@@ -47,7 +46,6 @@ export function Hero() {
         </div>
 
         <HeroStage />
-        <MotionToggle />
       </div>
     </section>
   );
