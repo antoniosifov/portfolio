@@ -164,3 +164,20 @@ export function ChipList({ items, visible = items.length }: { items: string[]; v
     </div>
   );
 }
+
+/** The compact form of a stack: logos only, named for assistive tech and on hover. */
+export function StackIcons({ items, limit = 6 }: { items: string[]; limit?: number }) {
+  return (
+    <ul className="stack-icons" aria-label="Main technologies">
+      {items
+        .filter(hasIcon)
+        .slice(0, limit)
+        .map((item) => (
+          <li key={item} title={item}>
+            <BrandIcon label={item} />
+            <span className="sr-only">{item}</span>
+          </li>
+        ))}
+    </ul>
+  );
+}

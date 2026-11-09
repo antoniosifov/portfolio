@@ -1,11 +1,12 @@
 import { compactProjects, projects } from "@/data/portfolio";
-import { BrandIcon, ChipList } from "./Brand";
+import { BrandIcon, ChipList, StackIcons } from "./Brand";
 import { WorkShowcase } from "./WorkShowcase";
 
 /** Logos are rendered here, on the server, so the icon data never reaches the
  *  browser bundle of the interactive carousel. */
 export function Work() {
-  const chips = Object.fromEntries(projects.map((project) => [project.index, <ChipList key={project.index} items={project.stack} visible={8} />]));
+  const chips = Object.fromEntries(projects.map((project) => [project.index, <ChipList key={project.index} items={project.stack} />]));
+  const icons = Object.fromEntries(projects.map((project) => [project.index, <StackIcons key={project.index} items={project.stack} />]));
   const tools = Object.fromEntries(
     compactProjects
       .filter((project) => project.tools)
@@ -22,5 +23,5 @@ export function Work() {
       ]),
   );
 
-  return <WorkShowcase chips={chips} tools={tools} />;
+  return <WorkShowcase chips={chips} icons={icons} tools={tools} />;
 }

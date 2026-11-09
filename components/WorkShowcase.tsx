@@ -67,19 +67,21 @@ function Slide({
   eager,
   ready,
   chips,
+  icons,
 }: {
   project: Project;
   active: boolean;
   eager: boolean;
   ready: boolean;
   chips: ReactNode;
+  icons: ReactNode;
 }) {
   const [open, setOpen] = useState(false);
   const detailsId = `work-details-${project.index}`;
 
   return (
     <article
-      className={`card soft-card slide accent-${project.accent} ${active ? "is-active" : ""}`.trim()}
+      className={`slide ${active ? "is-active" : ""}`.trim()}
       aria-roledescription="slide"
       aria-label={project.shortTitle}
       inert={ready && !active}
@@ -91,23 +93,13 @@ function Slide({
         </div>
 
         <div className="slide-copy">
-          <p className="slide-meta">
-            {project.index === "01" ? (
-              <span className="slide-badge">
-                <Icon name="sparkles" size={14} />
-                Featured
-              </span>
-            ) : null}
-            <span>{project.type}</span>
-          </p>
-          <h3>{project.title}</h3>
-          <p className="slide-desc">{project.description}</p>
-          <p className="slide-statement">{project.statement}</p>
-          {chips}
           <p className="slide-status">
             <span aria-hidden="true" />
             {project.status}
           </p>
+          <h3>{project.title.split(" — ")[0]}</h3>
+          <p className="slide-desc">{project.description}</p>
+          {icons}
           <div className="slide-actions">
             {project.live ? (
               <a className="btn btn-primary" href={project.live} target="_blank" rel="noreferrer">
@@ -135,11 +127,12 @@ function Slide({
       </div>
 
       <div id={detailsId} className="slide-details" hidden={!open}>
-        <ul>
+        <ul className="slide-highlights">
           {project.highlights.map((item) => (
             <li key={item}>{item}</li>
           ))}
         </ul>
+        {chips}
       </div>
     </article>
   );
@@ -170,7 +163,15 @@ function MoreRow({ project }: { project: MoreProject }) {
   );
 }
 
-export function WorkShowcase({ chips, tools }: { chips: Record<string, ReactNode>; tools: Record<string, ReactNode> }) {
+export function WorkShowcase({
+  chips,
+  icons,
+  tools,
+}: {
+  chips: Record<string, ReactNode>;
+  icons: Record<string, ReactNode>;
+  tools: Record<string, ReactNode>;
+}) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [filter, setFilter] = useState<Filter>("all");
   const [active, setActive] = useState(0);
@@ -240,20 +241,6 @@ export function WorkShowcase({ chips, tools }: { chips: Record<string, ReactNode
         {showcase.length ? (
           <>
             <div className="slides-wrap">
-              <div className="work-controls">
-                <button type="button" aria-label="Previous project" disabled={active === 0} onClick={() => goTo(active - 1)}>
-                  <Icon name="arrow-right" size={18} style={{ transform: "scaleX(-1)" }} />
-                </button>
-                <button
-                  type="button"
-                  aria-label="Next project"
-                  disabled={active === showcase.length - 1}
-                  onClick={() => goTo(active + 1)}
-                >
-                  <Icon name="arrow-right" size={18} />
-                </button>
-              </div>
-
               <div
                 ref={trackRef}
                 className="slides"
@@ -270,22 +257,38 @@ export function WorkShowcase({ chips, tools }: { chips: Record<string, ReactNode
                     eager={project.index === "01"}
                     ready={ready}
                     chips={chips[project.index]}
+                    icons={icons[project.index]}
                   />
                 ))}
               </div>
             </div>
 
-            <div className="work-dots">
-              {showcase.map((project, index) => (
+            <div className="work-nav">
+              <div className="work-dots">
+                {showcase.map((project, index) => (
+                  <button
+                    key={project.index}
+                    type="button"
+                    className={index === active ? "is-active" : undefined}
+                    aria-label={`Show ${project.shortTitle}`}
+                    aria-current={index === active ? "true" : undefined}
+                    onClick={() => goTo(index)}
+                  />
+                ))}
+              </div>
+              <div className="work-controls">
+                <button type="button" aria-label="Previous project" disabled={active === 0} onClick={() => goTo(active - 1)}>
+                  <Icon name="arrow-right" size={18} style={{ transform: "scaleX(-1)" }} />
+                </button>
                 <button
-                  key={project.index}
                   type="button"
-                  className={index === active ? "is-active" : undefined}
-                  aria-label={`Show ${project.shortTitle}`}
-                  aria-current={index === active ? "true" : undefined}
-                  onClick={() => goTo(index)}
-                />
-              ))}
+                  aria-label="Next project"
+                  disabled={active === showcase.length - 1}
+                  onClick={() => goTo(active + 1)}
+                >
+                  <Icon name="arrow-right" size={18} />
+                </button>
+              </div>
             </div>
           </>
         ) : null}
