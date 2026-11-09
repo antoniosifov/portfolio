@@ -3,7 +3,8 @@
 import { useEffect, useRef } from "react";
 
 type Point = [number, number];
-type Trace = { points: Point[]; lengths: number[]; total: number };
+/** A `late` trace stays hidden on the first screen and fades in with the scroll. */
+type Trace = { points: Point[]; lengths: number[]; total: number; late?: boolean };
 type Pulse = { trace: Trace; distance: number };
 
 const CELL = 40;
@@ -105,6 +106,8 @@ export function CircuitField() {
     let traces: Trace[] = [];
     let lines = new Path2D();
     let pads = new Path2D();
+    let lateLines = new Path2D();
+    let latePads = new Path2D();
     let pulses: Pulse[] = [];
     let frame = 0;
     let last = 0;
@@ -116,19 +119,33 @@ export function CircuitField() {
       pulses = [];
       lines = new Path2D();
       pads = new Path2D();
-      traces.forEach(({ points }) => {
-        points.forEach(([x, y], index) => (index ? lines.lineTo(x, y) : lines.moveTo(x, y)));
+      lateLines = new Path2D();
+      latePads = new Path2D();
+      const screen = window.innerHeight;
+      traces.forEach((trace, order) => {
+        const { points } = trace;
+        // The first screen keeps a few traces beside the devices, clear of the menu, the text and the stats.
+        const onFirstScreen = points.some(([, y]) => y < screen);
+        const nearContent = points.some(([x, y]) => x < width * 0.46 || y < screen * 0.12 || y > screen * 0.82);
+        trace.late = onFirstScreen && (order % 3 !== 0 || nearContent);
+
+        const path = trace.late ? lateLines : lines;
+        const dots = trace.late ? latePads : pads;
+        points.forEach(([x, y], index) => (index ? path.lineTo(x, y) : path.moveTo(x, y)));
         [points[0], points[points.length - 1]].forEach(([x, y]) => {
-          pads.moveTo(x + 3, y);
-          pads.arc(x, y, 3, 0, Math.PI * 2);
+          dots.moveTo(x + 3, y);
+          dots.arc(x, y, 3, 0, Math.PI * 2);
         });
       });
     };
 
+    /** 0 on the first screen, 1 once the visitor has scrolled away from it. */
+    const lateAmount = () => (calm ? 0 : Math.min(1, Math.max(0, (window.scrollY - height * 0.15) / (height * 0.55))));
+
     const scrollOffset = () => Math.min(window.scrollY * PARALLAX, MAX_OFFSET);
 
     const visibleTraces = (offset: number) =>
-      traces.filter(({ points }) => points.some(([, y]) => y > offset - 40 && y < offset + height + 40));
+      traces.filter(({ points, late }) => (!late || lateAmount() > 0.5) && points.some(([, y]) => y > offset - 40 && y < offset + height + 40));
 
     const paint = (delta: number) => {
       const offset = calm ? 0 : scrollOffset();
@@ -141,6 +158,14 @@ export function CircuitField() {
       context.stroke(lines);
       context.fill(pads);
 
+      const late = lateAmount();
+      if (late > 0.01) {
+        context.globalAlpha = late;
+        context.stroke(lateLines);
+        context.fill(latePads);
+        context.globalAlpha = 1;
+      }
+
       if (pointer.glow > 0.01) {
         const y = pointer.y + offset;
         const light = context.createRadialGradient(pointer.x, y, 0, pointer.x, y, GLOW_RADIUS);
@@ -151,6 +176,9 @@ export function CircuitField() {
         context.lineWidth = 1.4;
         context.stroke(lines);
         context.fill(pads);
+        // The pointer also reveals the traces still hidden on the first screen.
+        context.stroke(lateLines);
+        context.fill(latePads);
       }
 
       context.strokeStyle = "#d7ff5f";
