@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type CSSProperties } from "react";
 
 /** Paint order is back to front. Width and height are the intrinsic pixels of
  *  each cut-out, so the browser reserves the right box before the file lands. */
@@ -12,6 +12,18 @@ const elements = [
   { name: "chip-cloud", width: 237, height: 206 },
   { name: "chip-spark", width: 230, height: 185 },
 ] as const;
+
+/** Circuit traces in stage units (1000 wide). Each one starts hidden behind the
+ *  laptop and ends in a pad; `pulse` sends a light along it. */
+const traces: { d: string; end: [number, number]; lit?: boolean; pulse?: [number, number] }[] = [
+  { d: "M560 120V40L600 0H760L800-40H980", end: [980, -40] },
+  { d: "M700 210H860L900 170H1000", end: [1000, 170], lit: true, pulse: [7, -1] },
+  { d: "M640 380V470L680 510H860L900 550H1000", end: [1000, 550], lit: true, pulse: [8.5, -4] },
+  { d: "M480 400V540L520 580H770L810 620V690", end: [810, 690] },
+  { d: "M760 400H930L970 440V640", end: [970, 640] },
+  { d: "M480 140V60L440 20H220L180-20", end: [180, -20], lit: true, pulse: [9.5, -6.5] },
+  { d: "M380 400V590L340 630H70", end: [70, 630] },
+];
 
 /** Every element floats on its own CSS path; this only adds the pointer depth
  *  on top and stops all of it while the hero is off screen. */
@@ -61,6 +73,22 @@ export function HeroStage() {
 
   return (
     <div ref={ref} className="stage" aria-hidden="true">
+      <svg className="stage-traces" viewBox="-120 -100 1240 840">
+        {traces.map((trace) => (
+          <g key={trace.d}>
+            <path className={trace.lit ? "trace is-lit" : "trace"} d={trace.d} />
+            <circle className={trace.lit ? "trace-pad is-lit" : "trace-pad"} cx={trace.end[0]} cy={trace.end[1]} r="4" />
+            {trace.pulse ? (
+              <path
+                className="trace-pulse"
+                d={trace.d}
+                pathLength={1}
+                style={{ "--t": `${trace.pulse[0]}s`, "--offset": `${trace.pulse[1]}s` } as CSSProperties}
+              />
+            ) : null}
+          </g>
+        ))}
+      </svg>
       {elements.map((element) => (
         <div key={element.name} className={`el el-${element.name}`}>
           <div className="el-float">

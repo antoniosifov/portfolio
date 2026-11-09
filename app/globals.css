@@ -1,18 +1,18 @@
 /* ─────────────────────────────────────────────────────────────────────────────
    Anton Iosifov — portfolio
-   Graphite system: near-black ground, one lime accent, square corners. Surfaces
+   Steel system: slate ground with a dot grid, one lime accent, square corners. Surfaces
    are separated by a step in tone rather than by lines or shadows.
    ───────────────────────────────────────────────────────────────────────── */
 
 :root {
   --font-sans: var(--font-geist), "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 
-  --bg: #0c0d0f;
-  --surface: #15171a;
-  --surface-2: #212429;
+  --bg: #262a31;
+  --surface: #2f343d;
+  --surface-2: #3b414c;
   --ink: #f2f1ec;
-  --ink-2: #c9cac6;
-  --muted: #a4a6a3;
+  --ink-2: #d2d3cf;
+  --muted: #b4b6b3;
   --line: rgba(255, 255, 255, 0.1);
   --line-strong: rgba(255, 255, 255, 0.2);
   --accent: #d7ff5f;
@@ -45,7 +45,7 @@ body {
   margin: 0;
   min-height: 100svh;
   color: var(--ink);
-  background: var(--bg);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.09) 1px, transparent 1.4px) 0 0 / 26px 26px, var(--bg);
   font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.5;
@@ -418,6 +418,15 @@ h2 {
   padding: 88px 0 var(--hero-end);
 }
 
+/* Warm light behind the devices, picking up the gold of the ribbon. */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(52% 62% at 72% 40%, rgba(226, 178, 116, 0.3), transparent 72%);
+  pointer-events: none;
+}
+
 .hero-grid {
   position: relative;
   z-index: 1;
@@ -504,11 +513,71 @@ h2 {
 }
 
 .stage[data-paused] .el-float,
+.stage[data-paused] .trace-pulse,
 .stage[data-paused] .ribbon-sheen::before {
   animation-play-state: paused;
 }
 
 
+
+/* Circuit traces running out from behind the laptop. The drawing is anchored to
+   the stage, so it stays aligned with the devices and clear of the text. */
+.stage-traces {
+  position: absolute;
+  top: -15.625%;
+  left: -12%;
+  z-index: 0;
+  width: 124%;
+  max-width: none;
+  height: 131.25%;
+  overflow: visible;
+  animation: fade-in 1.2s ease 1.05s both;
+}
+
+.stage-traces path,
+.stage-traces circle {
+  vector-effect: non-scaling-stroke;
+}
+
+.trace {
+  fill: none;
+  stroke: #d8b083;
+  stroke-width: 1.25;
+  opacity: 0.42;
+}
+
+.trace-pad {
+  fill: #d8b083;
+  opacity: 0.6;
+}
+
+.trace.is-lit {
+  stroke: var(--accent);
+  opacity: 0.55;
+}
+
+.trace-pad.is-lit {
+  fill: var(--accent);
+  opacity: 0.85;
+}
+
+.trace-pulse {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-dasharray: 0.07 1;
+  animation: trace-run var(--t, 6s) linear var(--offset, 0s) infinite;
+}
+
+@keyframes trace-run {
+  from {
+    stroke-dashoffset: 0.07;
+  }
+  to {
+    stroke-dashoffset: -1;
+  }
+}
 
 .el {
   position: absolute;
@@ -2194,6 +2263,14 @@ a.work-list-row:hover {
     grid-template-columns: minmax(0, 1fr);
   }
 
+  .stage-traces {
+    display: none;
+  }
+
+  .hero::before {
+    background: radial-gradient(90% 26% at 50% 57%, rgba(226, 178, 116, 0.3), transparent 72%);
+  }
+
   .stage {
     justify-self: center;
     width: min(94vw, 715px);
@@ -2385,6 +2462,7 @@ a.work-list-row:hover {
   }
 
   .hero-copy > *,
+  .stage-traces,
   .el,
   .el-float {
     animation: none;
@@ -2405,6 +2483,10 @@ a.work-list-row:hover {
   .slide.is-active .dv-laptop,
   .slide.is-active .dv-phone {
     animation: none;
+  }
+
+  .trace-pulse {
+    display: none;
   }
 
   .btn,
