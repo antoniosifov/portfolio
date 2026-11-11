@@ -249,6 +249,25 @@
   outline-offset: 6px;
 }
 
+/* A slide's devices never reach into the slide beside it. A laptop's base overhangs its screen by 6% on each side, so
+   with Campus42 in view the next slide's base (EC2's laptop starts at its media's left edge) showed as a grey tab right
+   of View details, and on one column both neighbours' bases showed at the track's edges. Each slide's media is cut at
+   its slide's edge: beside the copy at its left edge only (the base's right end still reaches into the gap), on one
+   column at both. The slide in view loses nothing, the track already cuts it there. The cut moves with the media, so
+   the held laptop's counter-move and wipe between like slides are untouched. Screen only: print lays the slides out
+   one under another. */
+@media screen {
+  .slide-media {
+    clip-path: inset(-50% -50% -50% 0);
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .slide-media {
+    clip-path: inset(-50% 0);
+  }
+}
+
 /* Every slide's row is as tall as the tallest copy (measured into --copy-h), so the device sits at the same
    height on every slide and a held laptop never jumps. */
 @media (min-width: 901px) {
@@ -345,12 +364,33 @@ html.is-armed .work-section:not([data-landed]) .dv-phones .dv-phone {
   container-type: inline-size;
 }
 
-/* Scene B's laptop is the scene: on a large window it fills its column (662 px at 1440 and 1920) instead of
+/* Scene B's laptop is the scene: on a large window it fills its column (662 px at 1440, wider past it, below) instead of
    stopping at 620. The height term still governs short windows, so 1366x657 and 1067x677 do not change, and on one
    column (900 px and below) it keeps the slides' 620. */
 @media (min-width: 901px) {
   .icu .dv-set {
     max-width: min(760px, max(300px, calc((100svh - 280px) * 1.45)));
+  }
+}
+
+/* Past 1440 px the shell stops at 1240 and only the margins grow, so at 1920 the laptop kept its 603 px beside a
+   76 px statement in a frame a third wider. There scene B grows by 29% of the window's width past 1440 (1379 px at
+   1920, 1480 at most) and all of it goes to the device: the laptop grows to about 730 px at 1920 while the statement
+   keeps the 490 px column it has at 1440, so it breaks into the same four lines and the pair stays centred as before.
+   The facts under the scene take the same width, so the scene keeps one left edge. The height term still governs a
+   short wide window. 1440 and narrower do not change. */
+@media screen and (min-width: 1441px) {
+  .icu-grid,
+  .icu-highlights {
+    width: min(100% - var(--gutter) * 2, 1240px + (100% - 1440px) * 0.29, 1480px);
+  }
+
+  .icu .icu-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 490px);
+  }
+
+  .icu .dv-set {
+    max-width: min(900px, max(300px, calc((100svh - 280px) * 1.45)));
   }
 }
 

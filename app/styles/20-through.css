@@ -285,11 +285,41 @@ html.no-curtain .stage-hero .el-chip-spark {
 
 @media screen and (prefers-reduced-motion: no-preference) and (min-width: 901px) and (min-height: 600px) and (min-aspect-ratio: 5/4) {
   /* Work lands as the whole screen here too (the end of scene A, 'View my work' and the Work link), so its heading
-     needs room under the fixed header: at 88 px, 'Selected work' sat 12 px under the header's rule. Capped by the
-     window's height, so the landing frame still holds the Ceru phones and its button on short windows. Keyed on the
-     runway like the phone rule above, so the height exists before first paint. */
+     needs room under the fixed header. It lands where every other section's heading lands from its link (the scroll
+     padding plus the section gap, 212 px) as far as the landing frame allows: the Ceru phones and the slide's button
+     stay whole, about 20 px clear of the window's foot. With the devices at their 620 px cap the frame needs up to
+     615 px from the padding's edge to the phones' foot, so a window under 846 px tall gives up what it lacks, and the
+     padding never drops below the earlier clamp(88px, 16svh, 136px). Keyed on the runway like the phone rule above,
+     so the height exists before first paint. */
   html.js:not(.calm) :where(.through:has(> .scene-rail:not(.is-rest))) > .through-work > .work-section {
-    padding-top: clamp(88px, 16svh, 136px);
+    padding-top: max(clamp(88px, 16svh, 136px), min(var(--scroll-pad) + var(--section-gap), 100svh - 634px));
+  }
+}
+
+/* 720 px tall and under, the slide row starts at its top and the devices shrink with the window (30-work.css), so the
+   frame's content grows with the window too. From the padding's edge to the phones' foot: the heading (--type-h2,
+   line height 1), 42 px to the row (110 px where the filters stack under the heading, 1100 px wide and under), and
+   the centre phone, 0.713 x the phones' width tall. That width is the min() of their own max-width and the slide's
+   media column (100% is the window's width here, as in any padding). The padding takes what is left over a 20 px
+   margin, between the earlier 16svh and the 212 px of the other sections. Measured from 1067x677 to 1366x720; a
+   narrow window this short whose filters stack (1100x620) cannot hold the phones under the heading at all, and keeps
+   the earlier padding. */
+@media screen and (prefers-reduced-motion: no-preference) and (min-width: 901px) and (min-height: 600px) and (min-aspect-ratio: 5/4) and (max-height: 720px) {
+  html.js:not(.calm) :where(.through:has(> .scene-rail:not(.is-rest))) > .through-work > .work-section {
+    --land-column: calc((min(1240px, 100% - var(--gutter) * 2) - clamp(40px, 6vw, 88px)) * 0.575);
+    --land-head: 62px;
+    padding-top: clamp(
+      16svh,
+      100svh - var(--land-head) - var(--type-h2) - 0.713 * min(620px, (100svh - 280px) * 1.45, var(--land-column)),
+      var(--scroll-pad) + var(--section-gap)
+    );
+  }
+
+  @media (max-width: 1100px) {
+    html.js:not(.calm) :where(.through:has(> .scene-rail:not(.is-rest))) > .through-work > .work-section {
+      --land-column: calc((min(1240px, 100% - var(--gutter) * 2) - 36px) / 2);
+      --land-head: 130px;
+    }
   }
 }
 
