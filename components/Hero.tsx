@@ -7,7 +7,7 @@ const order = (index: number) => ({ "--i": index }) as CSSProperties;
 
 export function Hero() {
   return (
-    <section id="top" className="hero" aria-labelledby="hero-title">
+    <section id="top" className="hero" aria-labelledby="hero-title" data-circuit data-chapter-mark="top">
       <div className="shell hero-grid">
         <div className="hero-copy">
           <h1 id="hero-title" style={order(0)}>
@@ -30,6 +30,14 @@ export function Hero() {
       </div>
 
       <Stats />
+
+      <p className="through-line" aria-hidden="true">
+        Recently shipped
+        <br />
+        Ceru to the
+        <br />
+        App Store
+      </p>
     </section>
   );
 }

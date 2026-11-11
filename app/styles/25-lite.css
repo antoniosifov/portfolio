@@ -1,0 +1,260 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   WP6: the lite scene, for windows that match neither DESK nor PHONE (601 to 900 px
+   wide, portrait tablets, short or squarish windows, phones held sideways). The page
+   stays in flow and CSS scroll timelines move what is already there:
+     the copy and the stats lift away, a little faster than the page;
+     the laptop and the phone part to the sides as the ribbon, the chips and the key light fade;
+     the phone's screen turns to Ceru Home (WP2's rest screen, on this plan's clock);
+     Work comes up like a screen, from slightly inset with rounded top corners to full width.
+   Transform, opacity and clip-path only, and no script runs per frame. Every range starts at
+   the top of the page or later, so the first screen is the finished composition; Work has
+   settled before its heading is read; text only lifts and never fades, so none can rest half
+   faded. boot.ts sets html.is-lite while no plan matches, motion is allowed and the page is not
+   calm. Without it, without scroll timelines, under reduced motion and on paper nothing here
+   applies and the finished composition stays as it is.
+   ───────────────────────────────────────────────────────────────────────── */
+
+@supports (animation-timeline: view()) {
+  @media screen and (prefers-reduced-motion: no-preference) {
+    html.is-lite:not(.calm) {
+      /* Work's opening stays inside the shell's gutter, so no word is ever cut by it. */
+      --lite-side: clamp(10px, 2.4vw, 20px);
+      --lite-round: 22px;
+      --lite-rise: clamp(40px, 9svh, 96px);
+      /* The hero's clock, from the top of the page to the moment its pieces have gone. */
+      --lite-stage-range: contain 0% exit 40%;
+      --lite-ease: cubic-bezier(0.37, 0, 0.63, 1);
+      --lite-settle: cubic-bezier(0.33, 1, 0.68, 1);
+      /* Beside the copy column the phone parts down and only a little to the left, so it never nears the words. */
+      --lite-phone-x: -7cqw;
+      --lite-phone-y: 3cqw;
+    }
+
+    /* The hero's timeline (WP2's --through-hero) without the default inset: that one takes the page's
+       92 px scroll-padding, and every range would start 92 px before the top of the page. */
+    html.is-lite:not(.calm) .hero {
+      view-timeline-inset: 0px;
+    }
+
+    /* ── The copy and the stats lift away ─────────────────────────────────── */
+
+    html.is-lite:not(.calm) .hero .hero-copy {
+      animation: lite-lift var(--lite-ease) both;
+      animation-timeline: --through-hero;
+      animation-range: contain 0% exit 30%;
+    }
+
+    html.is-lite:not(.calm) .hero .stats-section {
+      animation: lite-lift-far var(--lite-ease) both;
+      animation-timeline: --through-hero;
+      animation-range: contain 0% exit 60%;
+    }
+
+    /* ── The devices part, the ribbon, the chips and the light fade ───────── */
+
+    html.is-lite:not(.calm) .stage-hero .el-fly {
+      transform-origin: 50% 50%;
+      animation-duration: auto;
+      animation-timing-function: var(--lite-ease);
+      animation-fill-mode: both;
+      animation-timeline: --through-hero;
+      animation-range: var(--lite-stage-range);
+    }
+
+    html.is-lite:not(.calm) .stage-hero .el-laptop .el-fly {
+      animation-name: lite-part-laptop;
+    }
+
+    html.is-lite:not(.calm) .stage-hero .el-phone .el-fly {
+      animation-name: lite-part-phone;
+    }
+
+    html.is-lite:not(.calm) .stage-hero .el-ribbon .el-fly {
+      animation-name: lite-recede;
+    }
+
+    html.is-lite:not(.calm) .stage-hero .el-chip-code .el-fly {
+      animation-name: lite-chip-code;
+    }
+
+    html.is-lite:not(.calm) .stage-hero .el-chip-cloud .el-fly {
+      animation-name: lite-chip-cloud;
+    }
+
+    html.is-lite:not(.calm) .stage-hero .el-chip-spark .el-fly {
+      animation-name: lite-chip-spark;
+    }
+
+    html.is-lite:not(.calm) .hero::before,
+    html.is-lite:not(.calm) .hero .circuit {
+      animation: lite-fade var(--lite-ease) both;
+      animation-timeline: --through-hero;
+      animation-range: var(--lite-stage-range);
+    }
+
+    /* Ceru Home lights in the middle of the parting, while the phone is in full view. Same element as WP2's
+       rest light (rest() in lib/scenes/through.ts), on the parting's clock. */
+    html.is-lite:not(.calm) .stage-hero .el-screen[data-rest] {
+      animation-name: lite-screen-on;
+      animation-timing-function: linear;
+      animation-timeline: --through-hero;
+      animation-range: var(--lite-stage-range);
+    }
+
+    /* ── Work comes up like a screen ──────────────────────────────────────── */
+
+    /* Its own clock: entry 0% is the moment its top edge enters at the bottom of the window. */
+    html.is-lite:not(.calm) .through-work > .work-section {
+      view-timeline: --lite-work block;
+      view-timeline-inset: 0px;
+      animation:
+        lite-rise var(--lite-settle) backwards,
+        lite-open var(--lite-settle) backwards;
+      animation-timeline: --lite-work;
+      animation-range: entry 0% entry 45%;
+    }
+
+    /* The light catches the screen's top edge while it rises, and goes as the screen becomes the ground. */
+    html.is-lite:not(.calm) .through-work > .work-section::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 1px;
+      background: linear-gradient(90deg, rgb(255 255 255 / 0), rgb(255 255 255 / 0.13) 24%, rgb(255 255 255 / 0.13) 76%, rgb(255 255 255 / 0));
+      pointer-events: none;
+      animation: lite-fade var(--lite-settle) both;
+      animation-timeline: --lite-work;
+      animation-range: entry 0% entry 45%;
+    }
+  }
+
+  /* The stacked hero (900 px and under): the copy on top, the stage under it, the stats under that.
+     The stage is lower on the first screen, so its pieces go sooner on the hero's clock. */
+  @media screen and (prefers-reduced-motion: no-preference) and (max-width: 900px) {
+    html.is-lite:not(.calm) {
+      --lite-stage-range: contain 0% exit 20%;
+      --lite-phone-x: -12cqw;
+      --lite-phone-y: 1cqw;
+    }
+
+    html.is-lite:not(.calm) .hero .hero-copy {
+      animation-range: contain 0% exit 25%;
+    }
+  }
+
+  /* A phone held sideways keeps the two-column title slide (20-through.css): the stage sits beside the copy again,
+     so it keeps the side-by-side clock. Same bounds as that rule, 560 px wide and up. */
+  @media screen and (prefers-reduced-motion: no-preference) and (min-width: 560px) and (max-width: 900px) and (orientation: landscape) and (max-height: 500px) {
+    html.is-lite:not(.calm) {
+      --lite-stage-range: contain 0% exit 40%;
+      --lite-phone-x: -7cqw;
+      --lite-phone-y: 3cqw;
+    }
+
+    html.is-lite:not(.calm) .hero .hero-copy {
+      animation-range: contain 0% exit 30%;
+    }
+  }
+
+  @media screen and (prefers-reduced-motion: no-preference) and (max-width: 640px) {
+    html.is-lite:not(.calm) {
+      --lite-side: clamp(8px, 2.4vw, 14px);
+      --lite-round: 18px;
+    }
+  }
+}
+
+@keyframes lite-lift {
+  to {
+    transform: translateY(-30%);
+  }
+}
+
+@keyframes lite-lift-far {
+  to {
+    transform: translateY(-40%);
+  }
+}
+
+@keyframes lite-part-laptop {
+  to {
+    transform: translate(16cqw, -1cqw) scale(0.94);
+  }
+}
+
+@keyframes lite-part-phone {
+  to {
+    transform: translate(var(--lite-phone-x), var(--lite-phone-y)) rotate(-3deg) scale(0.96);
+  }
+}
+
+/* The ribbon and the chips are gone before the devices have finished parting, so a stop half way shows them
+   leaving, never a ghost of them hanging in the frame for long. The ribbon goes first, by a quarter of the
+   parting: the laptop moving aside uncovers the band's cut ends, and they must not hang beside the phone (at 35%
+   an end still showed at half strength one stop in, at 768x677). */
+@keyframes lite-recede {
+  25%,
+  to {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+}
+
+@keyframes lite-chip-code {
+  60%,
+  to {
+    opacity: 0;
+    transform: translate(2cqw, -8cqw) scale(0.72);
+  }
+}
+
+@keyframes lite-chip-cloud {
+  60%,
+  to {
+    opacity: 0;
+    transform: translate(9cqw, -2cqw) scale(0.72);
+  }
+}
+
+@keyframes lite-chip-spark {
+  60%,
+  to {
+    opacity: 0;
+    transform: translate(-9cqw, 3cqw) scale(0.72);
+  }
+}
+
+@keyframes lite-fade {
+  to {
+    opacity: 0;
+  }
+}
+
+/* A short ramp in the middle of the parting, so a stop almost never rests on two screens blended. */
+@keyframes lite-screen-on {
+  0%,
+  50% {
+    opacity: 0;
+  }
+  55%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes lite-rise {
+  from {
+    transform: translateY(var(--lite-rise));
+  }
+}
+
+@keyframes lite-open {
+  from {
+    clip-path: inset(0 var(--lite-side) 0 var(--lite-side) round var(--lite-round) var(--lite-round) 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0 round 0 0 0 0);
+  }
+}

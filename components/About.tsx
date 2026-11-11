@@ -1,18 +1,25 @@
-const facts = [
-  ["Education", "B.Sc. Computer Science · HIT · GPA 90"],
-  ["Languages", "Russian · Hebrew · English"],
-  ["Work modes", "On-site · Hybrid · Remote"],
-  ["Location", "Rishon LeZion · Israel"],
+import { Fragment } from "react";
+
+/** Each fact is a short list. 40-finale.css wraps a list only before a separator (the <wbr>) and clips the dot that
+ *  would then start a line, so no line starts or ends on "·"; the text reads the same as one string. */
+const facts: [string, string[]][] = [
+  ["Education", ["B.Sc. Computer Science", "HIT", "GPA 90"]],
+  ["Languages", ["Russian", "Hebrew", "English"]],
+  ["Work modes", ["On-site", "Hybrid", "Remote"]],
+  ["Location", ["Rishon LeZion", "Israel"]],
 ];
 
+/** The card the last scene pulls back from. Its link target is the finale's marker (`#about`), so the section
+ *  carries no id. `.about-photo` (shutter), `.about-lead` (plain text, filled word by word) and the facts are the
+ *  quiet layer's hooks; the scene reads the photo's column to open the same picture onto the screen. */
 export function About() {
   return (
-    <section id="about" className="section about-section" aria-labelledby="about-title">
+    <section className="section about-section" aria-labelledby="about-title" data-circuit>
       <div className="shell">
         <article className="card about-layout">
           <img
             className="about-photo"
-            src="/img/anton-iosifov.webp"
+            src="/img/anton-iosifov-graphite.webp"
             alt="Portrait of Anton Iosifov"
             width="900"
             height="1200"
@@ -34,10 +41,26 @@ export function About() {
               expense-sharing mobile app.
             </p>
             <dl className="about-facts">
-              {facts.map(([label, value]) => (
+              {facts.map(([label, items]) => (
                 <div key={label}>
                   <dt>{label}</dt>
-                  <dd>{value}</dd>
+                  <dd>
+                    {items.map((item, i) =>
+                      i === 0 ? (
+                        <span key={item} className="about-fact">
+                          {item}
+                        </span>
+                      ) : (
+                        <Fragment key={item}>
+                          <wbr />
+                          <span className="about-fact">
+                            <span className="about-fact-sep">{" · "}</span>
+                            {item}
+                          </span>
+                        </Fragment>
+                      ),
+                    )}
+                  </dd>
                 </div>
               ))}
             </dl>

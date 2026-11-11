@@ -1,0 +1,278 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   The graphite look: surfaces, the one light, the lime rule, logos at rest.
+   Graphite has no colour, it only reflects. Only real product screens, lime current
+   and a face carry colour. Loaded right after globals.css and overriding it by order.
+   ───────────────────────────────────────────────────────────────────────── */
+
+:root {
+  --raised-hover: linear-gradient(180deg, #4a4c51, #424449);
+  /* A company logo at rest, and the lift it returns to when lit. The same three functions in
+     both, because a filter only animates between matching lists; otherwise it flips halfway. */
+  --logo-rest: grayscale(1) brightness(1.75) contrast(0.9);
+  --logo-lit: grayscale(0) brightness(1.35) contrast(1);
+}
+
+/* The hero's ground stays --bg. Inside the laptop it is one small step down, cut hard at the edge. */
+.work-section {
+  background: var(--bg-device);
+}
+
+/* Until the circuit is rebuilt as inline traces, the gold canvas and its lime pulses stay off. */
+.circuit-field {
+  display: none;
+}
+
+/* The glint on the ribbon is light, so it carries no warmth either. */
+.ribbon-sheen::before {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0));
+}
+
+/* ── Surfaces ──────────────────────────────────────────────────────────────
+   Cards are lit plates with a machined top edge; controls sit one step proud of them. */
+
+.card {
+  background: var(--plate), var(--surface);
+  box-shadow: var(--edge);
+}
+
+.chip,
+.chips-more summary,
+.edu-badges li,
+.work-filters button,
+.work-controls button,
+.btn-outline,
+.btn-quiet,
+.site-header .btn-primary,
+.menu-button,
+.mini-arrow,
+.mini-tools li,
+.xp-current {
+  background: var(--raised);
+  box-shadow: var(--raised-edge);
+}
+
+.chips-more summary:hover,
+.btn-outline:hover,
+.menu-button:hover,
+.work-filters button:hover:not([aria-pressed="true"]),
+.work-controls button:hover:not(:disabled) {
+  background: var(--raised-hover);
+}
+
+.work-filters button[aria-pressed="true"] {
+  background: var(--well);
+  color: var(--ink);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.55), inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.work-controls button:hover:not(:disabled) {
+  color: var(--ink);
+}
+
+.work-controls button:disabled {
+  background: transparent;
+  box-shadow: none;
+}
+
+/* ── The quiet button ──────────────────────────────────────────────────────
+   Lime on hover and focus only: the fill rises through the shadow, because a gradient
+   cannot interpolate to a solid colour. */
+
+.btn-quiet,
+.site-header .btn-primary {
+  color: var(--ink);
+  box-shadow: var(--raised-edge), inset 0 0 0 40px rgba(215, 255, 95, 0);
+  transition: transform 0.2s var(--ease-out), box-shadow var(--t-hover) ease, color var(--t-hover) ease;
+}
+
+.btn-quiet:hover,
+.btn-quiet:focus-visible,
+.site-header .btn-primary:hover,
+.site-header .btn-primary:focus-visible {
+  background: var(--raised);
+  color: var(--accent-ink);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0), 0 1px 2px rgba(0, 0, 0, 0.25), inset 0 0 0 40px var(--accent);
+}
+
+/* ── The lime rule ─────────────────────────────────────────────────────────
+   Lime means live current: one fill per screen, the primary action. These go to ink. */
+
+.work-dots button.is-active::before {
+  background: var(--ink);
+}
+
+a.work-list-row:hover {
+  color: var(--ink);
+}
+
+a.work-list-row .work-list-desc,
+a.work-list-row .work-list-year,
+a.work-list-row .work-list-type {
+  transition: color var(--t-hover) ease;
+}
+
+a.work-list-row:hover .work-list-desc {
+  color: var(--ink);
+}
+
+a.work-list-row:hover .work-list-year,
+a.work-list-row:hover .work-list-type {
+  color: var(--ink-2);
+}
+
+.xp-company a:hover {
+  color: var(--ink);
+}
+
+.xp-current {
+  color: var(--ink);
+}
+
+.edu-badges .is-grade {
+  background: var(--raised);
+}
+
+.edu-badges strong {
+  color: var(--ink);
+}
+
+/* ── Logo tiles ────────────────────────────────────────────────────────────
+   Silver at rest, the real colour when the card is under the hand. */
+
+.logo-tile {
+  box-shadow: var(--raised-edge);
+}
+
+.logo-tile img,
+.xp-card .chip svg,
+.xp-card .chip-file,
+.edu-card .chip svg,
+.edu-card .chip-file,
+.slide .chip svg,
+.slide .chip-file,
+.stack-icons svg,
+.stack-icons .chip-file,
+.mini-tools svg,
+.mini-tools img {
+  filter: var(--logo-rest);
+  transition: filter 320ms ease;
+}
+
+/* HIT's teal is the darkest mark on a tile: one more stop, so it reads at the same weight as its neighbours. */
+.logo-tile img[src$="hit.svg"] {
+  --logo-rest: grayscale(1) brightness(2.15) contrast(0.9);
+}
+
+.card:hover .logo-tile img,
+.card:focus-within .logo-tile img,
+.xp-card:hover .chip svg,
+.xp-card:focus-within .chip svg,
+.xp-card:hover .chip-file,
+.xp-card:focus-within .chip-file,
+.edu-card:hover .chip svg,
+.edu-card:focus-within .chip svg,
+.edu-card:hover .chip-file,
+.edu-card:focus-within .chip-file,
+.mini-card:hover .mini-tools svg,
+.mini-card:focus-within .mini-tools svg,
+.mini-card:hover .mini-tools img,
+.mini-card:focus-within .mini-tools img,
+.slide .chip:hover svg,
+.slide .chip:hover .chip-file,
+.stack-icons li:hover svg,
+.stack-icons li:hover .chip-file {
+  filter: var(--logo-lit);
+}
+
+/* Phones have no hover, so the tile takes its real colour as its card comes into view: at half the card, or
+   320 px in on a card too tall to ever be half on screen. Where scroll timelines are missing it is simply lit.
+   A script can add .is-logo-lit to the card to hold the colour when the page scrolls back. */
+@media (hover: none) {
+  .logo-tile img {
+    filter: var(--logo-lit);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (hover: none) and (prefers-reduced-motion: no-preference) {
+    .xp-card,
+    .edu-card {
+      view-timeline: --logo-tile block;
+    }
+
+    .logo-tile img {
+      animation: logo-lights linear both;
+      animation-timeline: --logo-tile;
+      animation-range: entry calc(min(50%, 320px) - 48px) entry min(50%, 320px);
+    }
+
+    .card.is-logo-lit .logo-tile img {
+      animation: none;
+    }
+  }
+}
+
+@keyframes logo-lights {
+  from {
+    filter: var(--logo-rest);
+  }
+  to {
+    filter: var(--logo-lit);
+  }
+}
+
+/* ── Product screens and paper ─────────────────────────────────────────────
+   White pages and diplomas would be the brightest things on the steel, so they sit one step back. */
+
+.mini-render,
+.dv-phone img,
+.icu-app {
+  filter: brightness(0.92);
+}
+
+.edu-cert-paper img {
+  filter: brightness(0.88);
+  transition: filter 320ms ease;
+}
+
+.edu-cert:hover .edu-cert-paper img,
+.edu-cert:focus-visible .edu-cert-paper img {
+  filter: none;
+}
+
+/* ── Rim light ─────────────────────────────────────────────────────────────
+   The pointer's light stays on the card's 1 px edge, off the surface people read.
+   --x and --y are written by the pointer code. */
+
+.card::before {
+  padding: 1px;
+  border-radius: inherit;
+  background: radial-gradient(320px circle at var(--x, 50%) var(--y, 50%), rgba(255, 255, 255, 0.35), transparent 70%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+
+/* The contact tiles were the spotlight's other half; the last frame has no tiles and no tint. */
+.contact-links a::before {
+  content: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-tile img,
+  .xp-card .chip svg,
+  .xp-card .chip-file,
+  .edu-card .chip svg,
+  .edu-card .chip-file,
+  .slide .chip svg,
+  .slide .chip-file,
+  .stack-icons svg,
+  .stack-icons .chip-file,
+  .mini-tools svg,
+  .mini-tools img,
+  .edu-cert-paper img,
+  .btn-quiet,
+  .site-header .btn-primary {
+    transition: none;
+  }
+}

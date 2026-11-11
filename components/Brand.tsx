@@ -38,6 +38,7 @@ import {
   siVite,
   siWhatsapp,
 } from "simple-icons";
+import type { CSSProperties } from "react";
 import type { IconName } from "@/data/portfolio";
 import { Icon } from "./Icons";
 
@@ -113,28 +114,33 @@ const conceptIcons: Record<string, IconName> = {
   Optima: "calendar",
 };
 
-const hasIcon = (label: string) => Boolean(brandMarks[label] || brandFiles[label] || conceptIcons[label]);
+export const hasIcon = (label: string) => Boolean(brandMarks[label] || brandFiles[label] || conceptIcons[label]);
 
+/** Every mark carries `chip-logo`, so the silver rest and the lit state can address logos of any kind, and
+ *  `data-logo`, so a mark that silver would dim can be given its own stop. */
 export function BrandIcon({ label }: { label: string }) {
   const mark = brandMarks[label];
   if (mark) {
     return (
-      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+      <svg className="chip-logo" data-logo={label} viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
         <path d={mark.path} fill={isTooDark(mark.hex) ? "currentColor" : `#${mark.hex}`} />
       </svg>
     );
   }
   if (brandFiles[label]) {
-    return <img className="chip-file" src={brandFiles[label]} alt="" width="26" height="18" loading="lazy" decoding="async" />;
+    return <img className="chip-file chip-logo" data-logo={label} src={brandFiles[label]} alt="" width="26" height="18" loading="lazy" decoding="async" />;
   }
-  return <Icon name={conceptIcons[label]} size={18} />;
+  return <Icon className="chip-logo" data-logo={label} name={conceptIcons[label]} size={18} />;
 }
 
-export function Chip({ label }: { label: string }) {
+/** A skill with its real logo. `uses` names where it was used: shown under the Skills board on hover and
+ *  read after the label by screen readers ("React Native: Ceru"). `ceru` marks a chip of Ceru's stack. */
+export function Chip({ label, uses, ceru = false, style }: { label: string; uses?: string; ceru?: boolean; style?: CSSProperties }) {
   return (
-    <li className="chip">
+    <li className="chip" data-ceru={ceru ? "" : undefined} data-caption={uses ? `${label}: ${uses}` : undefined} style={style}>
       <BrandIcon label={label} />
       {label}
+      {uses ? <span className="sr-only">: {uses}</span> : null}
     </li>
   );
 }
@@ -171,19 +177,24 @@ export function ChipList({ items, visible = items.length }: { items: string[]; v
   );
 }
 
-/** The compact form of a stack: logos only, named for assistive tech and on hover. */
+/** The compact form of a stack: logos only, named for assistive tech and on hover. Names that share one mark
+ *  share its place (AWS SDK v3, Amazon EC2 and CloudWatch are one AWS logo, not three in a row). */
 export function StackIcons({ items, limit = 6 }: { items: string[]; limit?: number }) {
+  const marks = new Map<string, string[]>();
+  for (const item of items.filter(hasIcon)) {
+    const key = brandMarks[item]?.path ?? brandFiles[item] ?? conceptIcons[item];
+    const names = marks.get(key);
+    if (names) names.push(item);
+    else marks.set(key, [item]);
+  }
   return (
     <ul className="stack-icons" aria-label="Main technologies">
-      {items
-        .filter(hasIcon)
-        .slice(0, limit)
-        .map((item) => (
-          <li key={item} title={item}>
-            <BrandIcon label={item} />
-            <span className="sr-only">{item}</span>
-          </li>
-        ))}
+      {[...marks.values()].slice(0, limit).map((names) => (
+        <li key={names[0]} title={names.join(", ")}>
+          <BrandIcon label={names[0]} />
+          <span className="sr-only">{names.join(", ")}</span>
+        </li>
+      ))}
     </ul>
   );
 }

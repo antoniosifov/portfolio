@@ -66,4 +66,20 @@ assert.ok(!published.some((file) => file.toLowerCase().endsWith(".pdf")), "PDF o
 // Motion safety
 assert.match(css, /prefers-reduced-motion: reduce\)[\s\S]*\.curtain \{\s*display: none;/, "Reduced motion must skip the curtain");
 
+// Motion foundation
+const conditions = read("lib/motion/conditions.ts");
+const plans = {
+  DESK: "screen and (prefers-reduced-motion: no-preference) and (min-width: 901px) and (min-height: 600px) and (min-aspect-ratio: 5/4)",
+  PHONE: "screen and (prefers-reduced-motion: no-preference) and (max-width: 600px) and (min-height: 560px) and (orientation: portrait)",
+};
+for (const [name, query] of Object.entries(plans)) {
+  assert.ok(css.includes(`@media ${query}`), `globals.css must carry the ${name} plan query`);
+  assert.ok(conditions.includes(`"${query}"`), `conditions.ts must carry the ${name} plan query`);
+}
+assert.doesNotMatch(page, /components\/Reveal/, "A sticky child inside Reveal cannot stick, so the page must not use it");
+assert.equal(JSON.parse(read("package.json")).dependencies.gsap, "3.15.0", "gsap must stay pinned to exactly 3.15.0");
+const icu = data.slice(data.indexOf('title: "ICU Shift Scheduling"'), data.indexOf('title: "AWS EC2 Observability Dashboard"'));
+assert.match(icu, /scene: true/, "ICU must be marked as a scene so it stays out of the carousel");
+assert.doesNotMatch(css, /--paper/, "The light paper ground must be gone");
+
 console.log("Portfolio visual contract verified.");

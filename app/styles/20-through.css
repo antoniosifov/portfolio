@@ -1,0 +1,503 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   WP2: the curtain I, and scene A, Through the screen.
+   The runway block is the spec's, verbatim, with the DESK and PHONE strings of
+   lib/motion/conditions.ts written out. The rest is what the scene needs from CSS:
+   its own pictures, the held line, and the states lib/scenes/through.ts toggles.
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* ── The curtain I ─────────────────────────────────────────────────────────
+   The monogram ends in a capital I and the headline starts with one. The mark draws in
+   stroke order, the curtain lifts at 560 ms, and a copy of the I that lives outside the
+   curtain flies to the headline's I (Intro.tsx). Reduced motion has no curtain at all. */
+
+.curtain {
+  color: var(--ink);
+  animation: curtain-up 0.52s cubic-bezier(0.83, 0, 0.17, 1) 0.56s both;
+}
+
+.curtain-mark {
+  overflow: visible;
+  animation: none;
+}
+
+/* Each stroke is a mask: a wide line along the letter's centre, drawn by its dash. */
+.curtain-stroke {
+  fill: none;
+  stroke: #fff;
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+}
+
+.curtain-stroke-a {
+  stroke-width: 110;
+  stroke-linejoin: round;
+  animation: curtain-draw 0.29s cubic-bezier(0.65, 0, 0.35, 1) 0.04s forwards;
+}
+
+.curtain-stroke-i {
+  stroke-width: 100;
+  animation: curtain-draw 0.19s cubic-bezier(0.65, 0, 0.35, 1) 0.33s forwards;
+}
+
+@keyframes curtain-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Once per tab, and never on a link straight into the page. */
+html.no-curtain .curtain {
+  display: none;
+}
+
+.curtain-i {
+  display: none;
+  position: fixed;
+  z-index: 1001;
+  left: 0;
+  top: 0;
+  border-radius: 1px;
+  background: var(--ink);
+  transform-origin: 0 0;
+  pointer-events: none;
+}
+
+html.i-flying .curtain-i {
+  display: block;
+}
+
+html.i-flying .hero h1::first-letter {
+  color: transparent;
+}
+
+/* The title slide arrives as the curtain lifts: the copy from 620 ms, each cut-out .35 s
+   sooner than before. Without a curtain nothing waits for one. */
+.hero .hero-copy > * {
+  animation-delay: calc(0.62s + var(--i, 0) * 80ms);
+}
+
+.stage-hero .el-ribbon {
+  --delay: 0.8s;
+}
+
+.stage-hero .el-laptop {
+  --delay: 0.95s;
+}
+
+.stage-hero .el-phone {
+  --delay: 1.15s;
+}
+
+.stage-hero .el-chip-code {
+  --delay: 1.4s;
+}
+
+.stage-hero .el-chip-cloud {
+  --delay: 1.54s;
+}
+
+.stage-hero .el-chip-spark {
+  --delay: 1.68s;
+}
+
+html.no-curtain .hero .hero-copy > * {
+  animation-delay: calc(0.08s + var(--i, 0) * 80ms);
+}
+
+html.no-curtain .stage-hero .el-ribbon {
+  --delay: 0.25s;
+}
+
+html.no-curtain .stage-hero .el-laptop {
+  --delay: 0.4s;
+}
+
+html.no-curtain .stage-hero .el-phone {
+  --delay: 0.6s;
+}
+
+html.no-curtain .stage-hero .el-chip-code {
+  --delay: 0.85s;
+}
+
+html.no-curtain .stage-hero .el-chip-cloud {
+  --delay: 0.99s;
+}
+
+html.no-curtain .stage-hero .el-chip-spark {
+  --delay: 1.13s;
+}
+
+/* ── The title slide's actions and a phone held sideways ───────────────── */
+
+/* The second action is a text link: a 44 px tall target, so a finger finds it as easily as the button beside it
+   (the button is taller already, so the row keeps its height). */
+.hero-actions .link-arrow {
+  min-height: 44px;
+}
+
+/* The hero stacks into one column at 900 px and under (globals.css). On a phone held sideways that left the right
+   half of the first screen empty, the button cut by the bottom edge and the devices a scroll away, in a hero three
+   screens tall. There the title slide keeps its two columns, a size smaller, with the stats in one row. Scoped to
+   .hero: Contact's last frame reuses .hero-grid. From 560 px wide only: narrower and short (a desktop window at 400%
+   zoom, 320x256) the copy column was 125 px with the stats running into each other, so it keeps the stacked hero. */
+@media (min-width: 560px) and (max-width: 900px) and (orientation: landscape) and (max-height: 500px) {
+  .hero {
+    padding-top: 84px;
+  }
+
+  .hero::before {
+    background: radial-gradient(44% 56% at 72% 42%, rgba(255, 255, 255, 0.07), transparent 72%);
+  }
+
+  .hero .hero-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 46vw);
+    gap: 16px;
+  }
+
+  .hero h1 {
+    font-size: clamp(34px, 5.4vw, 48px);
+  }
+
+  .hero .hero-lede {
+    margin-top: 14px;
+    font-size: 15px;
+  }
+
+  .hero .hero-actions {
+    margin-top: 16px;
+  }
+
+  .hero .stage {
+    justify-self: end;
+    width: 46vw;
+    margin-top: 0;
+  }
+
+  .hero .stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .hero .stats strong {
+    font-size: 30px;
+  }
+
+  .hero .stats span {
+    font-size: 14px;
+  }
+}
+
+/* ── Scene A: the runway (spec, verbatim) ──────────────────────────────── */
+
+/* Laid out only while scene A can run (addendum 10): before the runtime marks the rail, and while it is live.
+   A rail marked .is-rest on a matching window leaves the hero and Work in flow, like the rest composition.
+   The key sits in :where(), so every selector keeps the specificity of the spec's block. */
+@media screen and (prefers-reduced-motion: no-preference) and (min-width: 901px) and (min-height: 600px) and (min-aspect-ratio: 5/4), screen and (prefers-reduced-motion: no-preference) and (max-width: 600px) and (min-height: 560px) and (orientation: portrait) {
+  html.js:not(.calm) .through:where(:has(> .scene-rail:not(.is-rest))) { display: grid; grid-template-columns: minmax(0, 1fr); }
+  html.js:not(.calm) .through:where(:has(> .scene-rail:not(.is-rest))) > * { grid-area: 1 / 1; }
+  html.js:not(.calm) .through:where(:has(> .scene-rail:not(.is-rest))) > .hero { position: sticky; top: calc(100svh - max(100svh, var(--hero-h))); align-self: start; z-index: 2; }
+  html.js:not(.calm) :where(.through:has(> .scene-rail:not(.is-rest))) > .through-work { position: relative; z-index: 1; }
+  html.js:not(.calm) :where(.through:has(> .scene-rail:not(.is-rest))) > .through-work > .work-section { position: sticky; top: 0; }
+  html.js:not(.calm):not(.is-armed) :where(.through:has(> .scene-rail:not(.is-rest))) > .through-work { visibility: hidden; }
+  html.js:not(.calm) :where(.through:has(> .scene-rail:not(.is-rest))) .through-tail { display: block; height: calc(var(--hold-through) * 100lvh + var(--hero-over)); }
+  html.js:not(.calm) .through > .scene-rail:where(:not(.is-rest)) { position: absolute; left: 0; top: var(--hero-over); width: 1px; height: calc((var(--hold-through) + 1) * 100lvh); }
+  html.js:not(.calm) .through:where(:has(> .scene-rail:not(.is-rest))) > #work.run-mark { position: absolute; top: calc(var(--hold-through) * 100lvh + var(--hero-over) + var(--scroll-pad)); }
+
+  /* Work's layer spans the hero (on a phone it lies above it): only Work itself takes the pointer, so the hero's
+     buttons stay tappable under the empty rest of the layer. Before, on a phone, its box took every tap on the
+     hero while the scene was live. Work is shielded until it lands (data-shield, below). */
+  html.js:not(.calm) :where(.through:has(> .scene-rail:not(.is-rest))) > .through-work { pointer-events: none; }
+  html.js:not(.calm) :where(.through:has(> .scene-rail:not(.is-rest))) > .through-work > .work-section { pointer-events: auto; }
+
+  /* Mid-dive, Work's projected box (and the shell's, and a peeling chip's) overhangs the window's sides. The runway
+     clips them sideways, so the page never gains a sideways scroll a finger could pan (33-80 px on phones before).
+     clip, not hidden: no scroll container, so the sticky hero and the sticky Work keep sticking. */
+  html.js:not(.calm) .through:where(:has(> .scene-rail:not(.is-rest))) { overflow-x: clip; }
+}
+
+/* ── Scene A: what the camera needs ────────────────────────────────────── */
+
+@media screen and (prefers-reduced-motion: no-preference) and (min-width: 901px) and (min-height: 600px) and (min-aspect-ratio: 5/4), screen and (prefers-reduced-motion: no-preference) and (max-width: 600px) and (min-height: 560px) and (orientation: portrait) {
+  /* The camera maps Work from its top left corner. */
+  html.js:not(.calm) .through-work > .work-section {
+    transform-origin: 0 0;
+  }
+
+  /* The lede's first clause, held on the stage while the camera moves in. Copy column,
+     vertically centred in the screen; the scene writes its opacity and its rise. */
+  html.js:not(.calm) .scene-rail.is-live ~ .hero .through-line {
+    display: block;
+    position: absolute;
+    z-index: 3;
+    left: calc((100% - var(--shell)) / 2);
+    top: calc(var(--hero-over) + 50svh);
+    translate: 0 -50%;
+    color: var(--ink);
+    font-size: var(--type-scene);
+    font-weight: 600;
+    line-height: 1.02;
+    letter-spacing: -0.045em;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+@media screen and (prefers-reduced-motion: no-preference) and (max-width: 600px) and (min-height: 560px) and (orientation: portrait) {
+  /* Portrait into portrait: Work grows out of the phone's own screen, so it sits above the hero. */
+  html.js:not(.calm) .through-work {
+    z-index: 3;
+  }
+
+  html.js:not(.calm) .scene-rail.is-live ~ .hero .through-line {
+    top: calc(96px + var(--hero-over));
+    translate: none;
+    font-size: 34px;
+  }
+
+  /* Phones under 780 px tall (375x667, 414x736) hold the stage higher, and the flying phone ran through the
+     line's last words. There the line sits at the foot of the screen (the held hero ends at the screen's
+     bottom), clear of the phone's whole path while the line is shown (measured from 360x640 to 390x760). */
+  @media (max-height: 779px) {
+    html.js:not(.calm) .scene-rail.is-live ~ .hero .through-line {
+      top: auto;
+      bottom: 40px;
+    }
+  }
+
+  /* On a phone's dense screen a layer keeps its text's antialiasing, so the title slide's words and the stats are
+     their own layers for as long as the scene is live, not from the first frame of the flight, the dive's slowest
+     frame, which then has two layers fewer to create and paint. */
+  @media (min-resolution: 2dppx) {
+    html.js:not(.calm) .scene-rail.is-live ~ .hero :is(.hero-copy, .stats-section) {
+      will-change: transform, opacity;
+    }
+  }
+
+  /* Work lands as the whole screen, so its heading must clear the fixed header. Keyed on the runway, not on
+     .is-live, so the height exists before first paint and a reload part way down lands where it was. */
+  html.js:not(.calm) :where(.through:has(> .scene-rail:not(.is-rest))) > .through-work > .work-section {
+    padding-top: 104px;
+  }
+}
+
+@media screen and (prefers-reduced-motion: no-preference) and (min-width: 901px) and (min-height: 600px) and (min-aspect-ratio: 5/4) {
+  /* Work lands as the whole screen here too (the end of scene A, 'View my work' and the Work link), so its heading
+     needs room under the fixed header: at 88 px, 'Selected work' sat 12 px under the header's rule. Capped by the
+     window's height, so the landing frame still holds the Ceru phones and its button on short windows. Keyed on the
+     runway like the phone rule above, so the height exists before first paint. */
+  html.js:not(.calm) :where(.through:has(> .scene-rail:not(.is-rest))) > .through-work > .work-section {
+    padding-top: clamp(88px, 16svh, 136px);
+  }
+}
+
+/* Only the scene shows the line. */
+.through-line {
+  display: none;
+}
+
+/* The punched laptop sits under the art, in the same box; the art fades to open the screen. */
+.stage-hero .el-shell {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+
+.stage-hero .el-laptop .el-art {
+  position: relative;
+}
+
+/* Ceru's own screens, placed on the phone's screen by a homography from 430x932. */
+.stage-hero .el-screen {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 430px;
+  height: 932px;
+  max-width: none;
+  border-radius: 32px;
+  object-fit: cover;
+  object-position: center top;
+  transform-origin: 0 0;
+  opacity: 0;
+  filter: brightness(0.92);
+  pointer-events: none;
+}
+
+/* States the scene sets. */
+.ribbon-sheen[data-paused]::before {
+  animation-play-state: paused;
+}
+
+/* What the scene keeps from the pointer while it runs (Work until it lands, the title slide's words as they leave)
+   carries data-shield: a transparent cover over the element's own content, which moves and clips with it, so it
+   never covers anything else. Not pointer-events: that is inherited, so switching it restyles the whole subtree,
+   all of Work at the landing (about 270 elements, 31-69 ms at 4-6x CPU throttle). The covers exist for as long as
+   the scene is live and only their visibility switches, so a switch never touches layout. */
+.scene-rail.is-live ~ .hero :is(.hero-copy, .stats-section)::after,
+.scene-rail.is-live ~ .through-work > .work-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 100;
+  visibility: hidden;
+}
+
+.scene-rail.is-live ~ .hero :is(.hero-copy, .stats-section)[data-shield]::after,
+.scene-rail.is-live ~ .through-work > .work-section[data-shield]::after {
+  visibility: inherit;
+}
+
+/* Pointer depth goes to zero under the camera: HeroStage zeroes --mx and --my in one write and this eases the
+   pieces there. 0 0 rather than none, so a depth that is already zero starts no transition at all. */
+.stage-hero[data-flying] .el {
+  translate: 0 0;
+  transition: translate 0.3s var(--ease-out);
+}
+
+/* What the camera moves or fades is its own layer for as long as the scene is live, from before the first scroll:
+   a frame recomposites instead of repainting, and the first frame of the flight creates, paints and rasters next
+   to nothing (measured: the first scroll cost 80-200 ms). The pieces, the key light, the traces and the held line
+   move; the laptop's art and the phone's screens only fade. The title slide's words and the stats only become
+   layers once the flight starts: a layer would draw their text without subpixel antialiasing at rest on a 1x
+   screen, and they are cheap to raster. The shell's opacity changes once, so it stays in its float's layer. */
+.scene-rail.is-live ~ .hero :is(.el-fly, .circuit, .through-line),
+.scene-rail.is-live ~ .hero::before,
+.hero[data-flight] :is(.hero-copy, .stats-section) {
+  will-change: transform, opacity;
+}
+
+.scene-rail.is-live ~ .hero :is(.el-laptop .el-art, .el-screen) {
+  will-change: opacity;
+}
+
+/* The unfurl's last frame keeps a clip around the ribbon; a ribbon that follows the camera outgrows it. */
+.hero[data-flight] .el-ribbon {
+  clip-path: none !important;
+}
+
+/* Landed: the hero's art is hidden and the hero lets the pointer through to Work. Its words stay, at opacity 0, so the
+   page keeps its h1 for a screen reader and Shift+Tab from Work still reaches the hero's links (the focus guard in
+   lib/motion/anchors.ts then takes the page back to the top, where they show). */
+.hero[data-held] {
+  pointer-events: none;
+}
+
+.hero[data-held] :is(.stage, .through-line, .circuit) {
+  visibility: hidden;
+}
+
+.hero[data-held] .el-float,
+.hero[data-held] .ribbon-sheen::before {
+  animation-play-state: paused;
+}
+
+/* The key light and the hero's traces go out together, through --key on the hero. Registered and not inherited,
+   so a write restyles the hero and the two that read it instead of every element in the hero (measured: 67
+   elements, 11-15 ms a frame at 4x CPU throttle, for as long as it moved). Anything else that reads --key from an
+   ancestor has to inherit it explicitly, as these two do. */
+@property --key {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1;
+}
+
+.hero::before,
+.hero > .circuit {
+  --key: inherit;
+}
+
+.hero .circuit {
+  opacity: var(--key, 1);
+}
+
+/* ── Scene A at rest ───────────────────────────────────────────────────────
+   Reduced motion, no script, tablets and calm get the hero, then Work in flow. With script,
+   rest() puts Ceru's home screen on the phone, and it lights as Work arrives under the hero. */
+
+.stage-hero .el-screen[data-rest] {
+  opacity: 0;
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hero {
+      view-timeline: --through-hero block;
+    }
+
+    .stage-hero .el-screen[data-rest] {
+      animation: through-screen-on linear both;
+      animation-timeline: --through-hero;
+      animation-range: exit 0% exit 40%;
+    }
+  }
+}
+
+@keyframes through-screen-on {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Words never rest half faded: the scene puts the title slide's words and the held line in or out, and they ease
+   there. The copy and the held line share a column, so each comes in 160 ms after the other has started to go
+   (the copy on the way back, the line on the way in): they never cross-fade over each other. A jump (a link, a
+   reload, a fling) lands at once (data-instant). */
+.scene-rail.is-live ~ .hero :is(.hero-copy, .stats-section) {
+  transition: opacity 360ms var(--ease-out) 160ms, transform 520ms var(--ease-out) 160ms;
+}
+
+/* Out: at once, then clipped to nothing once the fade is over (a delayed step), so nothing invisible lies over Work for
+   a pointer or a hit test. Clipped, not hidden: the words stay in the accessibility tree and the tab order. Back, the
+   clip goes at once (the base rule has no clip-path transition). */
+.scene-rail.is-live ~ .hero :is(.hero-copy, .stats-section)[data-gone] {
+  clip-path: inset(50%);
+  transition: opacity 300ms var(--ease-out), transform 520ms var(--ease-out), clip-path 0s linear 300ms;
+  transition-behavior: allow-discrete;
+}
+
+/* The held line is hidden at rest by the runway block; shown, it comes after the copy's head start and leaves at
+   once, hidden after its fade. */
+html.js:not(.calm) .scene-rail.is-live ~ .hero .through-line {
+  transition: opacity 300ms var(--ease-out), transform 520ms var(--ease-out), visibility 0s linear 300ms;
+}
+
+html.js:not(.calm) .scene-rail.is-live ~ .hero .through-line[data-shown] {
+  visibility: visible;
+  transition: opacity 360ms var(--ease-out) 160ms, transform 520ms var(--ease-out) 160ms;
+}
+
+/* Ceru's screens on the hero phone switch at a threshold and ease there, like the words, so a stop never shows two
+   screens blended. */
+.scene-rail.is-live ~ .hero .stage-hero .el-screen:not([data-rest]) {
+  transition: opacity 300ms var(--ease-out);
+}
+
+.scene-rail.is-live ~ .hero[data-instant] :is(.hero-copy, .stats-section, .through-line, .el-screen),
+html.js:not(.calm) .scene-rail.is-live ~ .hero[data-instant] .through-line,
+.scene-rail.is-live ~ .hero[data-instant] .stage-hero .el-screen:not([data-rest]) {
+  transition: none;
+}
+
+/* The portal's screen turns on in one ease: the laptop's picture goes and Work comes up behind the bezel. */
+.scene-rail.is-live ~ .through-work > .work-section,
+.scene-rail.is-live ~ .hero .el-laptop .el-art {
+  transition: opacity 360ms var(--ease-out);
+}
+
+.scene-rail.is-live ~ .hero .el-laptop .el-art[data-gone] {
+  visibility: hidden;
+  transition: opacity 360ms var(--ease-out), visibility 0s linear 360ms;
+}
+
+.scene-rail.is-live ~ .through-work > .work-section[data-instant],
+.scene-rail.is-live ~ .hero[data-instant] .el-laptop .el-art,
+.scene-rail.is-live ~ .hero[data-instant] .el-laptop .el-art[data-gone] {
+  transition: none;
+}

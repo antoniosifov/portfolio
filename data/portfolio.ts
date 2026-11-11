@@ -20,6 +20,13 @@ export type Project = {
   gallery?: { src: string; alt: string }[];
   devices?: { desktop: string; mobile?: string };
   accent: "coral" | "lime" | "blue" | "violet" | "amber" | "mint" | "rose";
+  /** Told as a scroll scene of its own, so it stays out of the carousel. */
+  scene?: boolean;
+  /** One short caveat shown with the project. */
+  note?: string;
+  /** The page colour of a laptop capture wider than the screen, for the band it leaves under it (30-work.css).
+   *  Unset keeps the dark default, which suits captures that are already dark. */
+  screenBg?: string;
 };
 
 export const navigation = [
@@ -78,7 +85,7 @@ export const stackGroups: { label: string; icon: IconName; description: string; 
     label: "Backend & data",
     icon: "database",
     description: "Building reliable APIs, integrations, and data-driven systems.",
-    items: ["Node.js", "Express", "FastAPI", "Laravel", "Spring Boot", "REST APIs", "PostgreSQL", "MongoDB", "MySQL", "Supabase"],
+    items: ["Node.js", "Python", "Express", "FastAPI", "Laravel", "Spring Boot", "REST APIs", "PostgreSQL", "MongoDB", "MySQL", "Supabase"],
   },
   {
     label: "Cloud & delivery",
@@ -118,11 +125,11 @@ export const projects: Project[] = [
     cover: "/img/projects/ceru/cover.webp",
     coverAlt: "Ceru expense-sharing app with voice expense input on an iPhone",
     gallery: [
+      { src: "/img/projects/ceru/ceru-launch.webp", alt: "Ceru launch screen" },
       {
         src: "/img/projects/ceru/ceru-home.webp",
         alt: "Ceru home screen with total balance, groups, and recent expenses",
       },
-      { src: "/img/projects/ceru/ceru-launch.webp", alt: "Ceru launch screen" },
       {
         src: "/img/projects/ceru/ceru-analytics.webp",
         alt: "Ceru group analytics with spending by category",
@@ -194,15 +201,17 @@ export const projects: Project[] = [
     type: "Internal product",
     status: "In use at a public hospital",
     description:
-      "A week of intensive-care shifts built from the nurses' own constraints, with a solver doing the arithmetic the head nurse used to do by hand.",
+      "A week of intensive-care shifts built from the nurses’ own constraints, with a solver doing the arithmetic the head nurse used to do by hand.",
     statement: "Two days of deciphering handwriting, gone.",
     presentation: "web",
     stack: ["React", "Python", "OR-Tools", "PostgreSQL", "Supabase", "GitHub Actions"],
     highlights: [
       "Full weekly cycle for an intensive-care unit: constraint collection, generation, manual review and publishing.",
       "Reproducible OR-Tools solver with pinned versions, so the same input always produces the same roster.",
-      "PostgreSQL row-level access isolation, automated schema and end-to-end checks, and a phone view for nurses. Shown with a fictional staff list.",
+      "PostgreSQL row-level access isolation, automated schema and end-to-end checks, and a phone view for nurses.",
     ],
+    scene: true,
+    note: "Shown with a fictional staff list.",
     cover: "/img/projects/icu/laptop.webp",
     coverAlt: "Weekly shift roster for an intensive care unit on a laptop",
     devices: { desktop: "/img/projects/icu/laptop.webp", mobile: "/img/projects/icu/phone.webp" },
@@ -276,6 +285,8 @@ export const projects: Project[] = [
     github: "https://github.com/antoniosifov/e-commerce-ski",
     cover: "/img/projects/ecommerce/home.webp",
     coverAlt: "Ski Shop e-commerce home page",
+    // The home page ends on white; a dark band under it read as a screen still loading.
+    screenBg: "#fff",
     gallery: [
       { src: "/img/projects/ecommerce/catalog.webp", alt: "Ski Shop product catalog and filters" },
       { src: "/img/projects/ecommerce/cart&recommendations.webp", alt: "Ski Shop cart and AI recommendations" },
@@ -338,7 +349,7 @@ export const additionalProjects: { year: string; title: string; type: string; de
     title: "Real Estate CRM & Document Management",
     categories: ["web", "automation"],
     type: "CRM and document-management platform",
-    description: "Developing a CRM and document-management platform to consolidate a real-estate developer's Excel-based operations.",
+    description: "Developing a CRM and document-management platform to consolidate a real-estate developer’s Excel-based operations.",
   },
   {
     year: "2026",
@@ -428,7 +439,7 @@ export const education: {
     detail: "Relevant areas of study included algorithms and data structures, object-oriented programming, databases, software engineering, and web development.",
     certificate: {
       label: "Degree certificate",
-      meta: "Holon Institute of Technology · 2025",
+      meta: "Holon Institute of Technology · 2025",
       src: "/img/certificates/hit-bsc.webp",
       alt: "Bachelor of Science in Computer Science degree certificate from Holon Institute of Technology, with the ID number concealed",
       width: 1100,
@@ -443,7 +454,7 @@ export const education: {
     detail: "A 250-hour program covering REST APIs, databases, testing, and AI integration.",
     certificate: {
       label: "Certificate of achievement",
-      meta: "Yaniv Arad Training Labs · 2026",
+      meta: "Yaniv Arad Training Labs · 2026",
       src: "/img/certificates/full-stack-250h.webp",
       alt: "Certificate of Achievement for the 250-hour Full Stack Development program at Yaniv Arad Training Labs",
       width: 1100,

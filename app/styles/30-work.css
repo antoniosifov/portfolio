@@ -1,0 +1,1117 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Selected work: filters, the carousel, cards and list, scene B and the chin.
+   Work is the inside of the laptop, so it ends on the laptop's edge.
+   The two long media queries are the DESK and PHONE strings of lib/motion/conditions.ts.
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* ── Runway (spec section 4, verbatim) ─────────────────────────────────── */
+
+/* Held only while scene B can run (addendum 10): its rail is .icu-rail, beside .work-section. A resting rail
+   leaves the scene in flow. :where() keeps the spec's specificity. */
+@media screen and (prefers-reduced-motion: no-preference) and (min-width: 901px) and (min-height: 600px) and (min-aspect-ratio: 5/4), screen and (prefers-reduced-motion: no-preference) and (max-width: 600px) and (min-height: 560px) and (orientation: portrait) {
+  html.js:not(.calm) :where(.through-work:has(> .icu-rail:not(.is-rest))) .scene-tall { height: calc((var(--hold) + 1) * 100lvh); }
+  html.js:not(.calm) :where(.through-work:has(> .icu-rail:not(.is-rest))) .scene-tall > .scene-stage { position: sticky; top: 0; height: 100lvh; overflow: clip; }
+}
+
+/* Phone: the held stage is only as tall as its content, and the hold is a spacer under it, so the phone and the
+   description follow the laptop directly when the hold ends instead of after the free half of a full-screen stage.
+   The page is exactly as tall before and after script (reloads land where they were). Scene B centres the pinned
+   stage under the header by its sticky top (--icu-h is the stage's height; a sticky offset never moves layout) and
+   starts its rail that much earlier. */
+@media screen and (prefers-reduced-motion: no-preference) and (max-width: 600px) and (min-height: 560px) and (orientation: portrait) {
+  /* The stage no longer brings a screen of air with it, so the scene keeps the page's own gap from the list. */
+  html.js:not(.calm) :where(.through-work:has(> .icu-rail:not(.is-rest))) .scene-tall.icu {
+    height: auto;
+    margin-top: var(--section-gap);
+  }
+
+  html.js:not(.calm) :where(.through-work:has(> .icu-rail:not(.is-rest))) .scene-tall::after {
+    content: "";
+    display: block;
+    height: calc(var(--hold) * 100lvh);
+  }
+
+  html.js:not(.calm) :where(.through-work:has(> .icu-rail:not(.is-rest))) .scene-tall > .scene-stage {
+    top: max(68px, calc((100svh + 56px - var(--icu-h, 480px)) / 2));
+    height: auto;
+    padding: 0 0 28px;
+  }
+}
+
+/* Desk, the same way. A full-screen stage centred its content, so on a tall window the list ran into the scene
+   across 200-300 px of nothing (304 at 1920x1080). Now the run-in is a fixed 160 px at every size and the stage pins
+   centred under the header as before (same frame at 1440x900, 1366x657, 1067x677); on a tall window its sticky top
+   is capped at 232 px, so the list has always slipped under the header when the scene starts. --icu-pad holds the
+   room for the details the copy reserves only by half (its negative margin, below) plus 24 px for the phone's rise:
+   the stage clips. The facts follow 120 px under the copy's last line. */
+@media screen and (prefers-reduced-motion: no-preference) and (min-width: 901px) and (min-height: 600px) and (min-aspect-ratio: 5/4) {
+  html.js:not(.calm) :where(.through-work:has(> .icu-rail:not(.is-rest))) .scene-tall.icu {
+    height: auto;
+    margin-top: 160px;
+  }
+
+  html.js:not(.calm) :where(.through-work:has(> .icu-rail:not(.is-rest))) .scene-tall.icu::after {
+    content: "";
+    display: block;
+    height: calc(var(--hold) * 100lvh);
+  }
+
+  html.js:not(.calm) :where(.through-work:has(> .icu-rail:not(.is-rest))) .scene-tall.icu > .scene-stage {
+    --icu-pad: calc(24px + clamp(0px, (100svh - 600px) * 0.4, 44px));
+    top: clamp(76px, calc((100svh + 60px + var(--icu-pad) - var(--icu-h, 600px)) / 2), 232px);
+    height: auto;
+    padding: 0 0 var(--icu-pad);
+  }
+
+  html.js:not(.calm) :where(.through-work:has(> .icu-rail:not(.is-rest))) .icu-highlights {
+    margin-top: 96px;
+  }
+}
+
+.icu {
+  --hold: var(--hold-icu);
+}
+
+/* Scene B runs on a rail beside Work, not inside it: Work is sticky through scene A, so anything inside it is
+   measured a whole run too high. The scene writes --icu-at, where .icu stands once Work has landed. */
+@media screen and (prefers-reduced-motion: no-preference) and (min-width: 901px) and (min-height: 600px) and (min-aspect-ratio: 5/4), screen and (prefers-reduced-motion: no-preference) and (max-width: 600px) and (min-height: 560px) and (orientation: portrait) {
+  html.js:not(.calm) .icu-rail:where(:not(.is-rest)) {
+    position: absolute;
+    left: 0;
+    top: var(--icu-at, 0px);
+    width: 1px;
+    height: calc((var(--hold-icu) + 1) * 100lvh);
+  }
+}
+
+/* ── Heading and filters ───────────────────────────────────────────────── */
+
+/* The heading and the five filters share a row only where both fit on it; narrower, the filters go under the
+   heading instead of wrapping into two rows beside it. */
+@media (max-width: 1100px) {
+  .work-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* One graphite well sits under the pressed filter and slides to the next one. Each key draws its raised face
+   on ::before, so the face can fade off as the well arrives instead of covering it. Without script the pressed
+   key keeps its own well (10-look.css). */
+.work-filters {
+  position: relative;
+}
+
+.filter-well {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  width: 0;
+  height: 0;
+  border-radius: var(--radius-sm);
+  background: var(--well);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.55), inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform var(--t-ui) var(--ease-out), width var(--t-ui) var(--ease-out), height var(--t-ui) var(--ease-out);
+}
+
+.work-filters[data-well] .filter-well {
+  opacity: 1;
+}
+
+.work-filters[data-well] button,
+.work-filters[data-well] button:hover:not([aria-pressed="true"]),
+.work-filters[data-well] button[aria-pressed="true"] {
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+  background: transparent;
+  box-shadow: none;
+}
+
+.work-filters[data-well] button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--raised);
+  box-shadow: var(--raised-edge);
+  transition: opacity var(--t-ui) var(--ease-out);
+}
+
+.work-filters[data-well] button:hover:not([aria-pressed="true"])::before {
+  background: var(--raised-hover);
+}
+
+.work-filters[data-well] button[aria-pressed="true"]::before {
+  opacity: 0;
+}
+
+/* Windows contrast themes paint every background away, so the well and the raised faces vanish and the pressed
+   filter looked like the others. There each key gets a system outline and the pressed one the system highlight. */
+@media (forced-colors: active) {
+  .work-filters button {
+    border: 1px solid ButtonText;
+  }
+
+  .work-filters button[aria-pressed="true"],
+  .work-filters[data-well] button[aria-pressed="true"] {
+    forced-color-adjust: none;
+    background: Highlight;
+    color: HighlightText;
+  }
+}
+
+/* ── Slides ────────────────────────────────────────────────────────────── */
+
+/* The unused statement leads the copy, one step under the title. */
+.slide-statement {
+  margin-top: 12px;
+  color: var(--ink);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+  text-wrap: pretty;
+}
+
+.slide-statement + .slide-desc {
+  margin-top: 12px;
+}
+
+/* No paragraph ends on one short word ("v3." alone on EC2's last line). */
+.slide-copy .slide-desc {
+  text-wrap: pretty;
+}
+
+/* Source code is a button except beside a Live demo: there it steps down to a quiet link like View details, so the
+   two buttons keep one row and the two links share the next, instead of a 2x2 block of uneven buttons. */
+.source-link svg {
+  display: none;
+}
+
+@media (min-width: 901px) and (hover: hover) {
+  html.js .has-demo .source-link,
+  html.js .has-demo .source-link:hover {
+    gap: 8px;
+    height: 40px;
+    padding: 0 6px 0 0;
+    background: none;
+    box-shadow: none;
+    color: var(--ink);
+    font-size: 14px;
+    transform: none;
+  }
+
+  html.js .has-demo .source-link svg {
+    display: block;
+  }
+}
+
+/* A plain count instead of bars, set right beside the arrows so the pager reads as one control. The arrows stay,
+   phones included. */
+.work-count {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.work-nav {
+  justify-content: flex-end;
+  gap: 18px;
+}
+
+.work-nav .work-controls {
+  position: static;
+}
+
+@media (max-width: 640px) {
+  .work-nav .work-controls {
+    display: flex;
+  }
+}
+
+/* At either end an arrow is aria-disabled, not disabled, so it keeps keyboard focus; it looks and acts as before. */
+.work-controls button[aria-disabled="true"],
+.work-controls button[aria-disabled="true"]:hover {
+  background: transparent;
+  box-shadow: none;
+  color: var(--muted);
+  cursor: default;
+  transform: none;
+}
+
+.slides:focus-visible {
+  outline-offset: 6px;
+}
+
+/* Every slide's row is as tall as the tallest copy (measured into --copy-h), so the device sits at the same
+   height on every slide and a held laptop never jumps. */
+@media (min-width: 901px) {
+  .slide-main {
+    min-height: max(520px, var(--copy-h, 0px));
+  }
+}
+
+/* On a short window scene A lands on the top of the slide: device and copy start at the top of the row instead
+   of its middle, so the phones and the slide's action are on screen when the camera stops (1067x677 cut the
+   button and the phones, 1280x632 the phones). Every slide keeps the same row, so a held laptop never jumps. */
+@media (min-width: 901px) and (max-height: 720px) {
+  .slide-main {
+    align-items: start;
+  }
+
+  /* The copy's own rhythm one step tighter and the title capped by the window's height, so the tallest copy (EC2:
+     two-line title, five-line description, two rows of actions) keeps its actions above the fold of the landing
+     frame (1067x677, 1366x657). */
+  .slide-copy h3 {
+    margin-top: 12px;
+    font-size: clamp(30px, min(3vw, 5.4svh), 40px);
+  }
+
+  .slide-copy .slide-statement,
+  .slide-copy .slide-statement + .slide-desc {
+    margin-top: 10px;
+  }
+
+  .slide-copy .slide-desc {
+    line-height: 1.5;
+  }
+
+  .slide-copy > .stack-icons {
+    margin-top: 18px;
+  }
+
+  .slide-copy > .slide-actions {
+    margin-top: 22px;
+    row-gap: 4px;
+  }
+}
+
+/* Laptops hold still: the device stays where it is and its screen changes. */
+.slide.is-active .dv-laptop,
+.slide.is-active .dv-set .dv-phone {
+  animation: none;
+}
+
+/* Ceru's phones float, but only once scene A has landed on them, and from rest: --amp grows from 0 instead of
+   the float cutting in mid-swing. Before that Work is a picture in flight and the centre phone is a target. */
+.dv-phones {
+  transition: --amp 900ms var(--ease-in-out);
+}
+
+html.is-armed .work-section:not([data-landed]) .dv-phones {
+  --amp: 0;
+}
+
+/* Paused, too, so the drift costs nothing per frame during the flight; --amp still eases a paused phone home. */
+html.is-armed .work-section:not([data-landed]) .dv-phones .dv-phone {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .slide.is-active .dv-phones .dv-phone {
+    animation-name: phone-drift;
+  }
+}
+
+@keyframes phone-drift {
+  50% {
+    transform: translate3d(0, calc(-1.8cqw * var(--amp)), 0);
+  }
+}
+
+.dv-phones .is-left img {
+  filter: brightness(0.86);
+}
+
+/* A capture wider than the 16:10 screen is shown whole, from the top; the band it leaves below takes the page's own
+   colour (set per project in WorkShowcase), so a white site reads as more of its page, not as a screen still loading. */
+.dv-set:not(.has-phone) .dv-laptop-screen img {
+  background: var(--screen-bg, #05070a);
+}
+
+/* Devices fit the landing frame on short windows. The floor keeps them from shrinking to stamps on a phone
+   held sideways. Each set is its own size container, so bezels, corners and the island (cqw in globals.css) are
+   drawn from the set's width and not from the wider media cell: capped at 300 px on a phone held sideways, the
+   phones had kept a 796 px cell's corners and turned into pills. */
+.dv-phones,
+.dv-set {
+  max-width: min(620px, max(300px, calc((100svh - 280px) * 1.45)));
+  container-type: inline-size;
+}
+
+/* Scene B's laptop is the scene: on a large window it fills its column (662 px at 1440 and 1920) instead of
+   stopping at 620. The height term still governs short windows, so 1366x657 and 1067x677 do not change, and on one
+   column (900 px and below) it keeps the slides' 620. */
+@media (min-width: 901px) {
+  .icu .dv-set {
+    max-width: min(760px, max(300px, calc((100svh - 280px) * 1.45)));
+  }
+}
+
+/* ── Held laptop, wiping screen ────────────────────────────────────────────
+   Between two neighbours with the same device (Sea'cret and Campus42, EC2 and Ski Shop) the device holds still
+   while the copy slides: each one's media counter-moves by the width of its slide. The outgoing slide is on top
+   and its device wipes away from the right, so the new screen arrives from the right, the way the swipe travels.
+   The incoming device under it is the same drawing in the same place, so only the screen changes. Swipe, arrows
+   and filters are untouched: this only reads the scroll position. */
+
+@supports (animation-timeline: view()) {
+  @media screen and (prefers-reduced-motion: no-preference) and (min-width: 901px) and (min-height: 600px) and (min-aspect-ratio: 5/4) {
+    html:not(.calm) .slide {
+      position: relative;
+      z-index: calc(20 - var(--i, 0));
+      container-type: inline-size;
+      view-timeline: --slide inline;
+    }
+
+    html:not(.calm) .slide[data-prev="same"] .slide-media {
+      animation: held-in linear both;
+      animation-timeline: --slide;
+      animation-range: entry 0% entry 100%;
+    }
+
+    html:not(.calm) .slide[data-next="same"] .slide-media {
+      animation: held-out linear both;
+      animation-timeline: --slide;
+      animation-range: exit 0% exit 100%;
+    }
+
+    html:not(.calm) .slide[data-prev="same"][data-next="same"] .slide-media {
+      animation: held-in linear both, held-out linear both;
+      animation-composition: replace, add;
+      animation-timeline: --slide, --slide;
+      animation-range: entry 0% entry 100%, exit 0% exit 100%;
+    }
+
+    html:not(.calm) .slide[data-next="same"] .dv-set {
+      animation: screen-wipe linear both;
+      animation-timeline: --slide;
+      animation-range: exit 12% exit 88%;
+    }
+
+    /* The copies never overlap: the old one is gone before the new one starts. The old one also slides out under
+       a fixed edge, its column's own left edge, so no line of it ever crosses the held device. */
+    html:not(.calm) .slide[data-next="same"] .slide-copy {
+      animation: copy-out linear both, copy-edge linear both;
+      animation-timeline: --slide, --slide;
+      animation-range: exit 0% exit 45%, exit 0% exit 100%;
+    }
+
+    html:not(.calm) .slide[data-prev="same"] .slide-copy > * {
+      animation: copy-in linear both;
+      animation-timeline: --slide;
+      animation-range: entry 55% entry 100%;
+    }
+  }
+}
+
+@keyframes held-in {
+  from {
+    transform: translateX(-100cqw);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes held-out {
+  from {
+    transform: none;
+  }
+  to {
+    transform: translateX(100cqw);
+  }
+}
+
+/* The phone of a laptop set hangs below the laptop, hence the room above, below and left. */
+@keyframes screen-wipe {
+  from {
+    clip-path: inset(-20% 0% -20% -20%);
+  }
+  to {
+    clip-path: inset(-20% 100% -20% -20%);
+  }
+}
+
+@keyframes copy-out {
+  to {
+    opacity: 0;
+  }
+}
+
+/* 100cqw is the slide's width, the distance the copy travels: the clip's left edge stays put on screen. */
+@keyframes copy-edge {
+  from {
+    clip-path: inset(-24px -24px -24px -8px);
+  }
+  to {
+    clip-path: inset(-24px -24px -24px calc(100cqw - 8px));
+  }
+}
+
+@keyframes copy-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* ── Phones and tablets: one baseline for the actions ──────────────────────
+   The track is as tall as its tallest slide (EC2), so a shorter slide left a dead band between its buttons and the
+   pager. The copy sits on the slide's floor instead, right above the count, in the same place on every slide, and
+   reads as one block; the spare height goes around the devices, which are centred in what is left above it.
+   While a slide's details are open, and without script (every slide shows its details), each slide keeps its own
+   flow: the details follow the buttons and the spare height goes to the slide's foot. */
+@media screen and (max-width: 900px) {
+  .slides {
+    align-items: stretch;
+  }
+
+  .slide {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .slide-main {
+    flex: 1 0 auto;
+    grid-template-rows: minmax(0, 1fr) auto;
+  }
+
+  .slide-media {
+    align-self: center;
+  }
+
+  .slides:has(.slide-details:not([hidden])) .slide-main,
+  html:not(.js) .slide-main {
+    flex-grow: 0;
+  }
+}
+
+/* ── Cards and list ────────────────────────────────────────────────────── */
+
+/* The whole card is the link. The title must not be the stretched link's containing block (globals.css positions
+   every child of a soft card), or the link covers only the title line and the arrow and picture do nothing. */
+.mini-card h3 {
+  position: static;
+}
+
+/* The source code of a card's project, above the card's own link, opposite its kind. */
+.mini-source {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 8px;
+  border-radius: var(--radius-sm);
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 500;
+  transition: color var(--t-hover) ease;
+}
+
+.mini-source:hover,
+.mini-source:focus-visible {
+  color: var(--ink);
+}
+
+/* A finger gets 44 px: an invisible rim around the link, so a tap just outside it does not open the card's own link
+   in a new tab. Nothing moves. */
+@media (pointer: coarse) {
+  .mini-source::after {
+    content: "";
+    position: absolute;
+    inset: -4px;
+  }
+}
+
+/* Without hover, Work's logos take their colour where they are shown: the slide in view, the ICU scene, and the
+   cards once they have come in. The 320 ms filter transition makes it one light-up. */
+@media (hover: none) {
+  .slide.is-active :is(.stack-icons svg, .stack-icons .chip-file, .chip svg, .chip-file),
+  :is(.icu, .icu-more) .stack-icons :is(svg, .chip-file),
+  .mini-grid.is-in .mini-tools :is(svg, img),
+  html:not(.js) .mini-tools :is(svg, img) {
+    filter: var(--logo-lit);
+  }
+}
+
+/* The render docks from the card's edge, once, card by card. Paused rather than offset at rest, so the hover
+   transition of globals.css never sees a change of its own value. */
+@media (prefers-reduced-motion: no-preference) {
+  html.js .mini-render {
+    animation: render-dock 700ms var(--ease-expo) calc(var(--i, 0) * 90ms) backwards paused;
+  }
+
+  html.js .mini-grid.is-in .mini-render {
+    animation-play-state: running;
+  }
+}
+
+@keyframes render-dock {
+  from {
+    transform: translateX(24px);
+  }
+}
+
+/* Hairlines are drawn, not bordered, so they can draw in; the rows rise after them. */
+.work-list {
+  border-top: 0;
+}
+
+.work-list-row {
+  border-bottom: 0;
+}
+
+.work-list::before,
+.work-list > li::after {
+  content: "";
+  display: block;
+  height: 1px;
+  background: var(--line);
+  transform-origin: 0 50%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html.js .work-list::before,
+  html.js .work-list > li::after {
+    animation: hairline-draw 600ms var(--ease-expo) both paused;
+  }
+
+  html.js .work-list > li::after {
+    animation-delay: calc(60ms + var(--i, 0) * 60ms);
+  }
+
+  html.js .work-list .work-list-row {
+    animation: row-rise 700ms var(--ease-expo) calc(var(--i, 0) * 60ms) both paused;
+  }
+
+  html.js .work-list.is-in::before,
+  html.js .work-list.is-in > li::after,
+  html.js .work-list.is-in .work-list-row {
+    animation-play-state: running;
+  }
+}
+
+@keyframes hairline-draw {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes row-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+/* ── Live demo ─────────────────────────────────────────────────────────── */
+
+/* Only for a wide window and a hovering pointer, where the app has room; there the demo is the slide's one lime
+   action and the plain link steps back. Everyone else keeps the link, lime. */
+.live-demo {
+  display: none;
+}
+
+@media (min-width: 901px) and (hover: hover) {
+  html.js .live-demo {
+    display: inline-flex;
+  }
+
+  html.js .has-demo .live-link {
+    background: var(--raised);
+    box-shadow: var(--raised-edge);
+    color: var(--ink);
+  }
+
+  html.js .has-demo .live-link:hover {
+    background: var(--raised-hover);
+  }
+}
+
+.demo {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  overflow: hidden;
+}
+
+.demo[open] {
+  display: grid;
+  place-items: center;
+}
+
+.demo::backdrop {
+  background: rgba(37, 39, 43, 0.94);
+}
+
+.demo-close {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  z-index: 1;
+}
+
+/* The device takes 82% of the screen in whichever direction is tighter. */
+.demo-device {
+  width: min(82vw, calc(82svh * 1.54));
+  container-type: inline-size;
+}
+
+.demo-screen {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border-radius: 1.2cqw 1.2cqw 0 0;
+  background: linear-gradient(160deg, #33363a 0%, #15171a 55%, #24272b 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+}
+
+.demo-screen > img,
+.demo-screen > iframe {
+  position: absolute;
+  inset: 1.2cqw;
+  width: calc(100% - 2.4cqw);
+  height: calc(100% - 2.4cqw);
+  border: 0;
+  border-radius: 0.5cqw;
+  background: #05070a;
+}
+
+/* The capture holds until the app has loaded, then steps aside before the app fades in. They are drawn at
+   different scales, so a crossfade showed the screen twice for its whole length. */
+.demo-screen > img {
+  object-fit: contain;
+  transition: opacity 180ms ease;
+}
+
+.demo-screen:has(> iframe.is-loaded) > img {
+  opacity: 0;
+}
+
+.demo-screen > iframe {
+  opacity: 0;
+  transition: opacity 420ms ease;
+}
+
+.demo-screen > iframe.is-loaded {
+  opacity: 1;
+  transition-delay: 180ms;
+}
+
+.demo-base {
+  position: relative;
+  display: block;
+  width: 112%;
+  height: 2.4cqw;
+  margin-left: -6%;
+  border-radius: 0 0 14px 14px / 0 0 100% 100%;
+  background: linear-gradient(180deg, #55585e 0%, #33363a 60%, #1f2124 100%);
+}
+
+::view-transition-group(demo-device) {
+  animation-duration: 460ms;
+  animation-timing-function: var(--ease-in-out);
+}
+
+/* One picture travels, not two crossfading: the two laptops are the same drawing, so a crossfade only doubles
+   the screen while they differ in size. */
+::view-transition-old(demo-device) {
+  animation: none;
+  opacity: 0;
+}
+
+::view-transition-new(demo-device) {
+  animation: none;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 280ms;
+}
+
+/* ── Scene B: Two days of handwriting, gone ────────────────────────────────
+   At rest (reduced motion, no script, tablets, calm) this is the finished composition: the app, the phone, the
+   whole statement with a lime "gone.", the details. The scene only adds the sheet, the line and the order. */
+
+.icu {
+  position: relative;
+  margin-top: var(--section-gap);
+}
+
+.icu-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: clamp(40px, 6vw, 88px);
+  align-items: center;
+}
+
+/* A container like .slide-media, so the device is drawn in the same proportions as on the slides. */
+.icu-media {
+  position: relative;
+  display: grid;
+  place-items: center;
+  container-type: inline-size;
+  padding: 16px 0;
+}
+
+.icu-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.icu-sheet {
+  position: absolute;
+  inset: 0;
+  display: none;
+}
+
+/* The sweep: 1.5 px of lime, 10 px past the screen's top and bottom edges. Only the line itself moves (by the
+   screen's measured width), so no box of it ever lies over the statement beside the laptop. */
+.icu-line {
+  position: absolute;
+  top: -10px;
+  bottom: -10px;
+  left: -0.75px;
+  width: 1.5px;
+  display: none;
+  background: var(--accent);
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.icu.is-live .icu-sheet,
+.icu.is-live .icu-line {
+  display: block;
+}
+
+.icu-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.icu-name {
+  margin-top: 14px;
+  color: var(--ink);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.icu-statement {
+  margin-top: 16px;
+  font-size: var(--type-scene);
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+}
+
+.icu-statement em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+.icu-copy > .icu-desc {
+  max-width: 460px;
+  margin-top: 26px;
+}
+
+.icu-note {
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.icu-more {
+  display: none;
+}
+
+/* The three facts behind the scene, set as a quiet row: space separates them, not rules. Each is checked like an
+   Experience point, so they read as the project's facts rather than loose captions. */
+.icu-highlights {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px 48px;
+  margin-top: 64px;
+}
+
+.icu-highlights li {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  gap: 12px;
+  max-width: calc(38ch + 30px);
+  color: var(--ink-2);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.icu-highlights svg {
+  margin-top: 2px;
+  color: var(--muted);
+}
+
+@media (max-width: 900px) {
+  .icu-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+
+  /* On one column the statement leads, the device follows. */
+  .icu-copy {
+    order: -1;
+  }
+
+  .icu-highlights {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+    margin-top: 40px;
+  }
+
+  .icu-highlights li {
+    max-width: none;
+  }
+}
+
+/* A tablet has the width for two columns; one narrow column left the right half of the shell empty. */
+@media (min-width: 601px) and (max-width: 900px) {
+  .icu-highlights {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px 40px;
+  }
+}
+
+/* Live, desk: the grid is centred in the held stage, under the fixed header. */
+@media screen and (prefers-reduced-motion: no-preference) and (min-width: 901px) and (min-height: 600px) and (min-aspect-ratio: 5/4) {
+  html.js:not(.calm) .icu {
+    margin-top: 0;
+  }
+
+  html.js:not(.calm) .icu-stage {
+    display: grid;
+    align-items: center;
+    padding: 76px 0 16px;
+  }
+}
+
+/* The logos and the note (87 px) are held back until .80 but keep their place, so the text column never moves.
+   Counted whole in the centring, they pushed what is on screen for most of the hold 44 px above the middle; half of
+   them is counted instead, so the frame is balanced both before and after they rise. Less on short windows, where
+   the column nearly fills the stage and the finished frame would run into the window's edge (none at 600 px tall,
+   about 23 px at 657, the full 44 px from 710). Keyed on the runway, not on .is-live: the stage is as tall as its
+   content, so this sets the page's height, which must be the same before the scene is built (reloads). */
+@media screen and (prefers-reduced-motion: no-preference) and (min-width: 901px) and (min-height: 600px) and (min-aspect-ratio: 5/4) {
+  html.js:not(.calm) :where(.through-work:has(> .icu-rail:not(.is-rest))) .icu-copy {
+    margin-bottom: calc(-1 * clamp(0px, (100svh - 600px) * 0.4, 44px));
+  }
+}
+
+/* Live, phone: the statement on top and the laptop under it at full width, for the sheet and the sweep. The
+   phone, the description and the logos follow in flow after the hold (.icu-more). */
+@media screen and (prefers-reduced-motion: no-preference) and (max-width: 600px) and (min-height: 560px) and (orientation: portrait) {
+  html.js:not(.calm) .icu {
+    margin-top: 0;
+  }
+
+  html.js:not(.calm) .icu-stage {
+    display: grid;
+    align-items: center;
+    padding: 68px 0 calc(12px + 100lvh - 100svh);
+  }
+
+  html.js:not(.calm) .icu-grid {
+    gap: 24px;
+  }
+
+  html.js:not(.calm) .icu-device {
+    padding-left: 0;
+  }
+
+  html.js:not(.calm) .icu-phone,
+  html.js:not(.calm) .icu-copy > .icu-desc,
+  html.js:not(.calm) .icu-copy > .stack-icons,
+  html.js:not(.calm) .icu-copy > .icu-note {
+    display: none;
+  }
+
+  html.js:not(.calm) .icu-more {
+    display: grid;
+    grid-template-columns: minmax(0, 0.38fr) minmax(0, 0.62fr);
+    gap: 20px;
+    align-items: start;
+    container-type: inline-size;
+  }
+
+  html.js:not(.calm) .icu-highlights {
+    margin-top: 32px;
+  }
+}
+
+.icu-more-copy .slide-desc {
+  margin-top: 0;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+/* Six logos fit one row of the narrow column: the gap gives way below 460 px (.icu-more is the container), so the
+   sixth logo no longer wraps alone at 375 and 360. */
+.icu-more-copy .stack-icons {
+  gap: min(12px, 2.6cqw);
+  margin-top: 18px;
+}
+
+.icu-more-copy .icu-note {
+  text-wrap: pretty;
+}
+
+/* ── The chin ──────────────────────────────────────────────────────────────
+   Work ends on the laptop's edge: bezel with the name, lip, aluminium deck with its notch and three ports.
+   70 px, never more, no shadow. Static, so reduced motion and no script see the same. */
+
+.chin {
+  display: block;
+  margin-top: 96px;
+}
+
+.chin-bezel {
+  display: grid;
+  place-items: center;
+  height: 34px;
+  background: #08090b;
+}
+
+.chin-bezel span {
+  color: #7c8089;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.chin-lip {
+  height: 10px;
+  background: linear-gradient(180deg, #111316, #2a2d32);
+}
+
+.chin-deck {
+  position: relative;
+  height: 26px;
+  background: linear-gradient(180deg, #8c8f94, #6d7076 18%, #47494f 62%, #2c2e33);
+}
+
+.chin-notch {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 210px;
+  height: 9px;
+  margin-left: -105px;
+  border-radius: 0 0 9px 9px;
+  background: linear-gradient(180deg, #55585e, #6b6e74);
+}
+
+.chin-ports {
+  position: absolute;
+  top: 9px;
+  right: 34px;
+  display: flex;
+  gap: 9px;
+}
+
+.chin-ports b {
+  display: block;
+  width: 13px;
+  height: 7px;
+  border-radius: 1.5px;
+  background: #14161a;
+}
+
+.chin-ports b:first-child {
+  width: 26px;
+}
+
+/* A phone has no chin: the screen's corners round off and a home indicator sits above the edge. */
+@media (max-width: 640px) {
+  .work-section {
+    padding-bottom: 48px;
+    border-radius: 0 0 46px 46px;
+  }
+
+  .chin {
+    position: absolute;
+    left: 50%;
+    bottom: 18px;
+    width: 134px;
+    height: 5px;
+    margin: 0 0 0 -67px;
+    border-radius: 9px;
+    background: var(--ink);
+  }
+
+  .chin > * {
+    display: none;
+  }
+}
+
+/* ── No script ─────────────────────────────────────────────────────────────
+   Filters, arrows, the count and View details need script. Without it they are not offered: every slide shows its
+   details, and the track still scrolls sideways by touch, trackpad or the arrow keys on its own focus. */
+html:not(.js) .slide-details[hidden] {
+  display: grid;
+}
+
+html:not(.js) :is(.slide-toggle, .work-filters, .work-nav) {
+  display: none;
+}
+
+/* ── Reduced motion ────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .filter-well,
+  .work-filters[data-well] button::before,
+  .dv-phones,
+  .demo-screen > img,
+  .demo-screen > iframe {
+    transition: none;
+  }
+}
+
+/* Nothing rests half way: scene B puts the logos and the note in or out, turns "gone." lime and shows the phone in
+   one step each, and they ease there, in reading order. A jump lands at once (data-instant). */
+.icu.is-live .icu-copy > :is(.stack-icons, .icu-note) {
+  transition: opacity 360ms var(--ease-out), transform 520ms var(--ease-out);
+}
+
+.icu.is-live .icu-copy > .icu-note {
+  transition-delay: 60ms;
+}
+
+.icu.is-live .icu-statement em {
+  transition: color 400ms var(--ease-out);
+}
+
+/* Opacity only: the phone's rise stays on the scroll. */
+.icu.is-live .icu-phone {
+  transition: opacity 200ms var(--ease-out);
+}
+
+.icu.is-live[data-instant] :is(.icu-copy > .stack-icons, .icu-copy > .icu-note, .icu-statement em, .icu-phone) {
+  transition: none;
+}

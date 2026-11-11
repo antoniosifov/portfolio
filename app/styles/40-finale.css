@@ -1,0 +1,710 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   WP4: About, Contact and scene C, Pull back.
+   The last frame answers the first: the title slide's composition comes back with his
+   face on the laptop, the four ways to reach him where the stats were, and the only lime
+   is the button and its trace. The runway block is the spec's, verbatim, with the DESK
+   string of lib/motion/conditions.ts written out and keyed per addendum 10.
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* ── Scene C: the runway (spec, verbatim) ──────────────────────────────── */
+
+/* Laid out only while scene C can run (addendum 10): before the runtime marks the rail, and while it is live. A
+   rail marked .is-rest on a matching window leaves About and Contact in flow, like the rest composition. The key
+   sits in :where(), so every selector keeps the specificity of the spec's block. Static CSS, so the height exists
+   before first paint and a reload part way down lands where it was. */
+@media screen and (prefers-reduced-motion: no-preference) and (min-width: 901px) and (min-height: 600px) and (min-aspect-ratio: 5/4) {
+  html.js:not(.calm) .finale:where(:has(> .scene-rail:not(.is-rest))) { display: grid; grid-template-columns: minmax(0, 1fr); height: calc((var(--hold-pull) + 1) * 100lvh); }
+  /* The opened screen (.about-screen) is the 1.6 cover of the window, so on windows narrower than 1.6 it overhangs
+     both sides (102 px at 1024x768, 8 px at 1067x677) and the whole page could be scrolled sideways. The runway is
+     the window's width, so clipping it sideways hides nothing; clip, not hidden, so the layers still stick. */
+  html.js:not(.calm) .finale:where(:has(> .scene-rail:not(.is-rest))) { overflow-x: clip; }
+  html.js:not(.calm) .finale:where(:has(> .scene-rail:not(.is-rest))) > * { grid-area: 1 / 1; }
+  html.js:not(.calm) :where(.finale:has(> .scene-rail:not(.is-rest))) > .finale-about { position: sticky; top: 0; height: 100lvh; z-index: 1; display: grid; align-content: center; background: var(--bg); }
+  html.js:not(.calm) :where(.finale:has(> .scene-rail:not(.is-rest))) > .finale-contact { position: sticky; top: 0; height: 100lvh; z-index: 2; overflow: clip; pointer-events: none; }
+  html.js:not(.calm) .finale > .scene-rail:where(:not(.is-rest)) { position: absolute; left: 0; top: 0; width: 1px; height: 100%; }
+  html.js:not(.calm) .finale:where(:has(> .scene-rail:not(.is-rest))) > #about.run-mark { position: absolute; top: var(--scroll-pad); }
+  html.js:not(.calm) .finale:where(:has(> .scene-rail:not(.is-rest))) > #contact.run-mark { position: absolute; top: calc(var(--hold-pull) * 100lvh + var(--scroll-pad)); }
+
+  /* Until the scene has drawn its first frame the contact layer would lie over About with everything showing. */
+  html.js:not(.calm):not(.is-armed) :where(.finale:has(> .scene-rail:not(.is-rest))) > .finale-contact { visibility: hidden; }
+
+  /* The live layout, so the last frame rhymes with the first: the title slide's grid, held to one screen. */
+  html.js:not(.calm) :where(.finale:has(> .scene-rail:not(.is-rest))) > .finale-about > .about-section { padding-top: 0; }
+  /* The card keeps the page's one rhythm: it sits one section gap below the Skills note, as every section does, and
+     the layer sticks there. Centred in the screen it sat 173 px below at 1440x900 and 262 px at 1920x1080. */
+  html.js:not(.calm) :where(.finale:has(> .scene-rail:not(.is-rest))) > .finale-about { align-content: start; padding-top: var(--section-gap); }
+  /* Held there, the card ends at least 28 px above the window's edge. */
+  html.js:not(.calm) :where(.finale:has(> .scene-rail:not(.is-rest))) .about-layout { max-height: calc(100lvh - var(--section-gap) - 28px); grid-template-rows: minmax(0, 1fr); }
+  /* About's trace runs in the band above the card. Held, most of that band is under the header, so all that showed
+     was a 44 px stub hanging from the header rule onto the card (1440x900, 1067x677). The held layer is a screen
+     the camera pulls back from: it carries no trace. In flow (every other plan) the trace stays. */
+  html.js:not(.calm) :where(.finale:has(> .scene-rail:not(.is-rest))) > .finale-about .circuit { visibility: hidden; }
+  html.js:not(.calm) :where(.finale:has(> .scene-rail:not(.is-rest))) > .finale-contact > .contact-section { height: 100%; min-height: 0; padding: 88px 0 var(--hero-end); }
+}
+
+/* ── Scene C: what the camera needs ──────────────────────────────────────── */
+
+/* The camera draws the About layer from its top left corner. */
+.scene-rail.is-live ~ .finale-about {
+  transform-origin: 0 0;
+}
+
+/* The finale's pieces are the scene's from the start: no entrance of their own, and what moves or fades is its own
+   layer for as long as the scene is live, so a frame recomposites instead of repainting. */
+.scene-rail.is-live ~ .finale-contact .stage-finale .el {
+  animation: none;
+}
+
+.scene-rail.is-live ~ .finale-contact .stage-finale :is(.el-fly, .finale-glint) {
+  will-change: transform, opacity;
+}
+
+.scene-rail.is-live ~ .finale-contact .stage-finale .el-laptop .el-art {
+  will-change: opacity;
+}
+
+/* The punched laptop sits under the art, in the same box; the art (his face, baked in) fades in over it at the end. */
+.stage-finale .el-shell {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.stage-finale .el-laptop .el-art {
+  position: relative;
+}
+
+/* Pointer depth goes to zero under the camera (HeroStage zeroes --mx and --my in one write; this eases the pieces
+   there), and the white glint keeps out of the way until the last frame is still. */
+.stage-finale[data-flying] .el {
+  translate: 0 0;
+  transition: translate 0.3s var(--ease-out);
+}
+
+.stage-finale[data-flying] .ribbon-sheen::before {
+  animation-play-state: paused;
+  visibility: hidden;
+}
+
+/* The lime current that runs once along the band as the frame settles. Masked by the band like the white glint. */
+.finale-glint {
+  position: absolute;
+  top: -20%;
+  bottom: -20%;
+  left: 0;
+  width: 26%;
+  background: linear-gradient(90deg, rgba(215, 255, 95, 0), rgba(215, 255, 95, 0.8), rgba(215, 255, 95, 0));
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* His portrait on the screen the camera pulls back from. Created by the scene inside the About layer, placed on the
+   screen's rectangle; it may overhang the layer, which never clips it. Both ends of the open are computed from the
+   same 900x1200 picture, so it is one picture all the way. */
+.about-screen {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: clip;
+  visibility: hidden;
+  pointer-events: none;
+  /* It stands in for the card's photo while the card is faded out (lib/scenes/pullback.ts, SWAP). It is there at once
+     when the card starts to fade, and stays until the card has faded back in, so the photo never blinks. */
+  transition: opacity 0s linear 380ms, visibility 0s linear 380ms;
+}
+
+.about-screen[data-shown] {
+  transition: none;
+}
+
+.about-screen img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 900px;
+  height: 1200px;
+  max-width: none;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+/* ── About ─────────────────────────────────────────────────────────────── */
+
+/* The lead's ink fill (50-career.css) runs on a view() timeline. Inside the held layer Chrome stretches that range
+   over the whole hold (a sticky subject is measured over everywhere it can stick), so the fill would still be at
+   a quarter when the card arrives. Re-ranged on the live runway, it finishes as the card settles, as it does in flow. */
+@supports (animation-timeline: view()) {
+  @media screen and (prefers-reduced-motion: no-preference) and (min-width: 901px) and (min-height: 600px) and (min-aspect-ratio: 5/4) {
+    html.js:not(.calm) :where(.finale:has(> .scene-rail:not(.is-rest))) .about-lead.is-filling > span {
+      animation-range: cover 9% cover 20%;
+    }
+  }
+}
+
+/* The facts are short lists ("Russian · Hebrew · English"), and a line never starts or ends on a separator. Each item
+   after the first carries its dot and keeps it (nowrap), so a list only wraps before a dot (at the <wbr>); the value is
+   set one separator to the left of its column and its first item indented by as much, so the dot that starts a wrapped
+   line lies outside the column, where it is clipped. Balanced, so a wrapped list never leaves one item alone. The text
+   is unchanged for a screen reader or a copy. */
+.about-facts > div {
+  overflow-x: clip;
+}
+
+.about-facts dd {
+  --fact-sep: 0.7em;
+  margin-left: calc(-1 * var(--fact-sep));
+  text-wrap: balance;
+}
+
+.about-fact {
+  white-space: nowrap;
+}
+
+/* A box of its own, so a first item too long for its column wraps inside it and never under the clipped edge. */
+.about-fact:first-child {
+  display: inline-block;
+  margin-left: var(--fact-sep);
+  white-space: normal;
+}
+
+.about-fact-sep {
+  display: inline-block;
+  width: var(--fact-sep);
+  text-align: center;
+  white-space: pre;
+}
+
+/* Short windows: the card's height came from the photo's 3:4, so it is capped to the screen under the header. */
+@media (min-width: 901px) and (max-height: 759px) {
+  .about-layout {
+    max-height: calc(100svh - 124px);
+    grid-template-rows: minmax(0, 1fr);
+  }
+
+  .about-photo {
+    height: 100%;
+    min-height: 0;
+  }
+
+  .about-body {
+    padding: 24px 40px 24px 0;
+    gap: 10px;
+  }
+
+  .about-body h2 {
+    font-size: 32px;
+  }
+
+  .about-body > .about-lead {
+    font-size: 18px;
+  }
+
+  .about-body > p {
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  .about-facts {
+    gap: 10px 24px;
+    margin-top: 8px;
+  }
+}
+
+/* Tablets and phones held sideways: the card keeps its two columns, so the photo stays a column beside the words
+   instead of a portrait the width of the window (1.2 screens at 768x677, 2.2 at 844x390) with the heading below it. */
+@media screen and (min-width: 641px) and (max-width: 900px) {
+  .about-layout {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  }
+
+  .about-photo {
+    aspect-ratio: auto;
+    height: 100%;
+    min-height: 0;
+  }
+
+  .about-body {
+    padding: 28px 28px 28px 0;
+  }
+}
+
+/* ── Contact: the last frame ───────────────────────────────────────────────
+   The title slide's grid: copy beside the stage, the four ways to reach him in the
+   stats' place, at the bottom of one screen. */
+
+.contact-section {
+  position: relative;
+  display: grid;
+  align-content: end;
+  row-gap: var(--hero-gap);
+  padding-bottom: var(--hero-end);
+}
+
+@media (min-width: 901px) and (min-height: 600px) {
+  .contact-section {
+    min-height: 100svh;
+  }
+
+  /* In flow the last frame is the end of the page, so its link lands there: on the whole frame, not on the air
+     above the heading. The live runway places this marker itself (above), and `top` wins there. */
+  .finale > #contact.run-mark {
+    position: absolute;
+    bottom: calc(100svh - var(--scroll-pad));
+  }
+}
+
+/* The copy column borrows .hero-copy for its place in the grid, not the hero's load-time rise. It does not lift its
+   whole column over the stage either: the words and the button do, one by one, and the last trace stays under the
+   stage, so its jog can end tucked beneath the ribbon. */
+.contact-copy {
+  z-index: auto;
+}
+
+.contact-copy > * {
+  animation: none;
+}
+
+.contact-title,
+.contact-copy > p {
+  position: relative;
+  z-index: 2;
+}
+
+/* Set as solid as the first frame's H1 (line-height 1), so the two frames rhyme in type colour too. */
+.contact-title {
+  font-size: clamp(44px, min(4.8vw, 9.6svh), 70px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.contact-copy > p {
+  max-width: 520px;
+  margin-top: 24px;
+  color: var(--ink-2);
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+/* ── The roll: one sentence becomes the other ──────────────────────────────
+   Each line is a mask. Without script, or before a scene arms it, only the final
+   sentence is there. Armed, both sentences share each mask and the scene (or, at rest,
+   the first sight of the heading) switches between them once; never scrubbed, so it
+   cannot park on two sentences. */
+
+.contact-title .roll {
+  display: block;
+  white-space: nowrap;
+}
+
+.roll-was {
+  display: none;
+}
+
+/* Each mask is its own band and the bands only meet, never overlap, so a line rising into its mask can never be drawn
+   over the line below it. The lines are 1em apart; each band runs from 0.072em into its line to 0.072em below it, so
+   it meets the next band exactly where the next line's starts. Measured in Geist at line-height 1, the glyphs run from
+   0.116em (ascenders) to 1.027em (descenders), 0.044em inside the band either side. The band reaches 1em past the line
+   sideways: at the 70 px cap "to join your team?" is a few px wider than the 540 px column, and a sideways clip cut
+   its question mark in half (1536x730, 1920x1080). */
+.contact-title[data-roll] .roll {
+  display: grid;
+  clip-path: inset(0.072em -1em -0.072em -1em);
+}
+
+/* The words outside a mask are hidden once they are out, so nothing reads them as text lying under the next line;
+   visibility steps with the move (visible for all of it), so the roll itself is untouched. */
+.contact-title[data-roll] .roll > * {
+  grid-area: 1 / 1;
+  transition: transform 600ms var(--ease-expo), opacity 0s, visibility 600ms;
+}
+
+.contact-title[data-roll] .roll-was {
+  display: block;
+}
+
+.contact-title[data-roll="was"] .roll-was + .roll-now {
+  transform: translateY(140%);
+  visibility: hidden;
+  opacity: 0;
+}
+
+.contact-title[data-roll="now"] .roll-was {
+  transform: translateY(-140%);
+  visibility: hidden;
+  opacity: 0;
+}
+
+/* The leaving words lift and dissolve: they start slowly and are gone (opacity) within 150 ms, long before their mask
+   has cut into them, then accelerate out unseen. Sliding out at full ink, a leaving line was cut through its letters
+   by the top of its own mask for the first ~150 ms (inspect.mjs clipped-text, recheck after round 1). The arriving
+   words keep the rise. */
+.contact-title[data-roll="now"] .roll > .roll-was,
+.contact-title[data-roll="was"] .roll-was + .roll-now {
+  transition: transform 420ms var(--ease-exit), opacity 150ms linear, visibility 420ms;
+}
+
+/* The leaving words go first, line by line, 90 ms apart; the arriving ones come up only once the leaving line below
+   them is out of its band (about 195 ms in), 60 ms apart. Two bands meet edge to edge, so a line rising into the
+   bottom of its band beside a line leaving the top of the next one read as one garbled line. Either way round. */
+.contact-title[data-roll="now"] .roll:nth-child(3) .roll-was,
+.contact-title[data-roll="was"] .roll:nth-child(3) .roll-now {
+  transition-delay: 90ms;
+}
+
+.contact-title[data-roll="now"] .roll:nth-child(2) .roll-now,
+.contact-title[data-roll="was"] .roll:nth-child(2) .roll-was {
+  transition-delay: 210ms;
+}
+
+.contact-title[data-roll="now"] .roll:nth-child(3) .roll-now,
+.contact-title[data-roll="was"] .roll:nth-child(3) .roll-was {
+  transition-delay: 270ms;
+}
+
+.contact-title.is-instant[data-roll] .roll > * {
+  transition: none;
+}
+
+/* ── The button and its trace ──────────────────────────────────────────────
+   The last trace of the page runs from the ribbon to one gap short of the button: a
+   pad at its end, a jog toward the band. Pointing at the button closes the gap. */
+
+.contact-actions {
+  display: flex;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.contact-actions .btn {
+  position: relative;
+  z-index: 2;
+  flex: none;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.last-trace {
+  position: relative;
+  z-index: 0;
+  flex: 1 1 auto;
+  min-width: 40px;
+  height: 1.5px;
+  margin: 0 -60px 0 8px;
+  background: var(--accent);
+}
+
+/* The pad. */
+.last-trace::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  margin-top: -2.5px;
+  border-radius: 1px;
+  background: var(--accent);
+}
+
+/* The jog toward the ribbon. Beside the copy, lib/scenes/pullback.ts sets --jog so it ends a few px under the band
+   (or the spark chip on it), at every window size: the current leaves the ribbon instead of stopping short of it. */
+.last-trace::after {
+  content: "";
+  position: absolute;
+  left: 100%;
+  top: 0;
+  width: var(--jog, 34px);
+  height: 1.5px;
+  margin-left: -0.75px;
+  background: var(--accent);
+  transform: rotate(-45deg);
+  transform-origin: 0 50%;
+}
+
+/* The gap, closed on the hand. */
+.last-gap {
+  position: absolute;
+  right: 100%;
+  top: 0;
+  width: 8px;
+  height: 100%;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: 100% 50%;
+  transition: transform var(--t-ui) var(--ease-out);
+}
+
+.contact-actions:has(.btn:hover, .btn:focus-visible) .last-gap {
+  transform: scaleX(1);
+}
+
+/* With the current through it, a sheen crosses the button once. */
+.contact-actions .btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(105deg, rgba(255, 255, 255, 0) 35%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 65%);
+  transform: translateX(-110%);
+  pointer-events: none;
+}
+
+.contact-actions .btn:is(:hover, :focus-visible)::after {
+  transform: translateX(110%);
+  transition: transform 700ms var(--ease-out) 120ms;
+}
+
+/* ── The four ways to reach him ────────────────────────────────────────────
+   In the stats' grid and in their voice: plain text, no tiles, no rule above. */
+
+.contact-links {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.contact-links li {
+  position: relative;
+  min-width: 0;
+}
+
+/* The email's item is as wide as its address, so Copy ends where the address ends. */
+.contact-links li:has(> .copy-email) {
+  justify-self: start;
+  max-width: 100%;
+}
+
+.contact-links a {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  overflow: visible;
+  padding: 0;
+  border-radius: 4px;
+  background: none;
+  transition: none;
+}
+
+.contact-links a:hover {
+  transform: none;
+  background: none;
+}
+
+.contact-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.contact-label svg {
+  flex: none;
+  color: var(--muted);
+}
+
+.contact-value {
+  max-width: 100%;
+  color: var(--ink);
+  font-size: clamp(18px, 1.65vw, 24px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  text-decoration: underline 1px transparent;
+  text-underline-offset: 5px;
+  transition: text-decoration-color var(--t-hover) ease;
+}
+
+.contact-links a:hover .contact-value,
+.contact-links a:focus-visible .contact-value {
+  text-decoration-color: var(--line-strong);
+}
+
+/* Copy sits on the label's line, centred on it (the label's line is 22.5 px), and ends where the address ends. It lies
+   over the email link's box, so it is above it, and its hit area is 44 px tall without changing how it looks: a tap
+   just below it copies instead of opening the mail app. It needs script, so without it there is none. */
+.copy-email {
+  position: absolute;
+  z-index: 1;
+  top: -0.75px;
+  right: 0;
+  height: 24px;
+  padding: 0 9px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--raised);
+  box-shadow: var(--raised-edge);
+  color: var(--muted);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 24px;
+  cursor: pointer;
+  transition: color var(--t-hover) ease, background var(--t-hover) ease;
+}
+
+.copy-email::after {
+  content: "";
+  position: absolute;
+  inset: -12px -8px -8px;
+}
+
+.copy-email:hover,
+.copy-email[data-copied] {
+  background: var(--raised-hover);
+  color: var(--ink);
+}
+
+html:not(.js) .copy-email {
+  display: none;
+}
+
+/* Four across for as long as the longest address fits its column, so the last frame keeps to one screen on short
+   laptops; two across below that. */
+@media (max-width: 999px) {
+  .contact-links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Short laptops: a little less air in the copy column, so the frame keeps clear of the header. */
+@media (min-width: 901px) and (max-height: 700px) {
+  .contact-copy > p {
+    margin-top: 16px;
+    font-size: 17px;
+  }
+
+  .contact-actions {
+    margin-top: 22px;
+  }
+}
+
+/* One column: copy, then the devices, then the links, the way the title slide stacks. The trace is short and turns
+   down to the first device picture below it: lib/scenes/pullback.ts (rest) sets --jog so it ends a few px under it.
+   With nothing in reach, or without script, there is no jog and the trace simply ends. It is drawn once the devices
+   have arrived, so it never points at the empty stage. */
+@media (max-width: 900px) {
+  .contact-title {
+    font-size: var(--type-scene);
+  }
+
+  .last-trace {
+    flex: 0 1 72px;
+    margin-right: 0;
+  }
+
+  .last-trace::after {
+    width: var(--jog, 0px);
+    transform: rotate(45deg);
+    transition: opacity 400ms var(--ease-out) 500ms;
+  }
+
+  .contact-grid:has(.stage-finale[data-enter]:not(.is-in)) .last-trace::after {
+    opacity: 0;
+    transition: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .contact-section {
+    padding-bottom: 48px;
+  }
+
+  .contact-copy > p {
+    font-size: 17px;
+  }
+
+  .contact-links {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+}
+
+/* ── At rest: the devices arrive once, as the frame comes into view ───────
+   lib/scenes/pullback.ts (rest) marks the stage before it is seen and lets it in on
+   entry. Without that script nothing waits. */
+
+.stage-finale .el-ribbon {
+  --delay: 0.05s;
+}
+
+.stage-finale .el-laptop {
+  --delay: 0.2s;
+}
+
+.stage-finale .el-phone {
+  --delay: 0.4s;
+}
+
+.stage-finale .el-chip-code {
+  --delay: 0.62s;
+}
+
+.stage-finale .el-chip-cloud {
+  --delay: 0.74s;
+}
+
+.stage-finale .el-chip-spark {
+  --delay: 0.86s;
+}
+
+@media screen and (prefers-reduced-motion: no-preference) {
+  .stage-finale[data-enter]:not(.is-in) .el {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+/* ── Reduced motion ──────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .last-gap,
+  .copy-email,
+  .contact-value {
+    transition: none;
+  }
+
+  .contact-actions .btn::after {
+    display: none;
+  }
+}
+
+/* Words never rest half faded: scene C puts About's words, the heading, the paragraph, the button and the links in
+   or out, and they ease there; the links follow one another. Out of sight they are only transparent, never hidden, so
+   a screen reader and the Tab key still find them (focus in the contact layer takes the scene to its end). The card
+   itself fades out with the words as the screen's copy of the photo takes over. A jump lands at once (data-instant). */
+.scene-rail.is-live ~ .finale-about .about-body,
+.scene-rail.is-live ~ .finale-contact :is(.contact-title, .contact-copy > p, .contact-actions, .contact-links > li) {
+  transition: opacity 360ms var(--ease-out), transform 520ms var(--ease-out);
+}
+
+.scene-rail.is-live ~ .finale-about .about-section {
+  transition: opacity 360ms var(--ease-out);
+}
+
+/* Once the words have faded, the heading is transparent itself too (a step at the end of the fade, so nothing
+   changes on screen): it lies under the last frame's laptop as plainly not shown, and stays in the tree. */
+.scene-rail.is-live ~ .finale-about .about-body[data-gone] h2 {
+  opacity: 0;
+  transition: opacity 0s linear 360ms;
+}
+
+.scene-rail.is-live ~ .finale-contact .contact-links > li:nth-child(2) {
+  transition-delay: 60ms;
+}
+
+.scene-rail.is-live ~ .finale-contact .contact-links > li:nth-child(3) {
+  transition-delay: 120ms;
+}
+
+.scene-rail.is-live ~ .finale-contact .contact-links > li:nth-child(4) {
+  transition-delay: 180ms;
+}
+
+.scene-rail.is-live ~ .finale-about[data-instant] :is(.about-body, .about-body h2, .about-section, .about-screen),
+.scene-rail.is-live ~ .finale-contact[data-instant] :is(.contact-title, .contact-copy > p, .contact-actions, .contact-links > li) {
+  transition: none;
+}

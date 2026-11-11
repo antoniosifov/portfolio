@@ -2,7 +2,14 @@ import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import Script from "next/script";
 import type { ReactNode } from "react";
+import { PRE_PAINT } from "@/lib/motion/conditions";
 import "./globals.css";
+import "./styles/10-look.css";
+import "./styles/20-through.css";
+import "./styles/25-lite.css";
+import "./styles/30-work.css";
+import "./styles/40-finale.css";
+import "./styles/50-career.css";
 
 const geist = Geist({
   subsets: ["latin"],
@@ -51,7 +58,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#262a31",
+  themeColor: "#292b2f",
   colorScheme: "dark",
 };
 
@@ -75,7 +82,10 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
   const plausibleScript = process.env.NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL || "https://plausible.io/js/script.js";
 
   return (
-    <html lang="en" className={geist.variable}>
+    <html lang="en" className={geist.variable} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: PRE_PAINT }} />
+      </head>
       <body>
         <a className="skip-link" href="#main-content">
           Skip to content

@@ -1,45 +1,53 @@
+// Takes the share card from the live hero, once, by hand, with the dev server running:
+//   node scripts/create-og-image.mjs [url]
+// Writes public/og-image.png, which is committed; CI never runs this. The card is a screenshot, so it can
+// never drift from the site: real art, real headline, header reduced to the lockup, nothing else.
+//
+// Needs Chrome, through the design-taste-frontend skill's CDP client. A local tool only.
+import { homedir } from "node:os";
+import { join } from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import sharp from "sharp";
 
-// Light editorial card matching the site: cream paper, the ΛI monogram, bronze italic accent.
-const mark = (x, y, scale, fill) => `
-  <g transform="translate(${x} ${y}) scale(${scale})" fill="${fill}">
-    <path d="M443 0H508Q516 0 516 8V518Q516 526 508 526H443Q435 526 435 518V116L89 517Q81 527 72 527H6C0 527 -2 521 2.3 515L435.5 4Q439 0 443 0Z"/>
-    <path d="M623 0H688Q696 0 696 8V518Q696 526 688 526H623Q615 526 615 518V8Q615 0 623 0Z"/>
-  </g>`;
+const { Browser } = await import(pathToFileURL(join(homedir(), ".claude/skills/design-taste-frontend/scripts/lib/cdp.mjs")).href);
 
-const svg = `
-<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="paper" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#f8f4ee"/>
-      <stop offset="1" stop-color="#efebe3"/>
-    </linearGradient>
-    <linearGradient id="bronze" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#7a5730"/>
-      <stop offset="0.6" stop-color="#9c7443"/>
-      <stop offset="1" stop-color="#8f6a3e"/>
-    </linearGradient>
-    <linearGradient id="ring" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#c9ab74"/>
-      <stop offset="0.4" stop-color="#f6ecd8"/>
-      <stop offset="1" stop-color="#bf9f66"/>
-    </linearGradient>
-  </defs>
-  <rect width="1200" height="630" fill="url(#paper)"/>
-  <ellipse cx="960" cy="330" rx="330" ry="118" transform="rotate(-16 960 330)" fill="none" stroke="url(#ring)" stroke-width="28" opacity="0.9"/>
-  <ellipse cx="960" cy="322" rx="330" ry="118" transform="rotate(-16 960 322)" fill="none" stroke="#ffffff" stroke-width="5" opacity="0.6"/>
-  ${mark(64, 58, 0.06, "#20251f")}
-  <rect x="124" y="60" width="1" height="26" fill="#20251f" opacity="0.25"/>
-  <text x="142" y="80" fill="#20251f" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="600">Anton Iosifov</text>
-  <line x1="64" y1="196" x2="92" y2="196" stroke="#ba9367" stroke-width="2"/>
-  <text x="104" y="201" fill="#69716b" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" letter-spacing="3">SOFTWARE ENGINEER</text>
-  <text x="62" y="300" fill="#20251f" font-family="Arial, Helvetica, sans-serif" font-size="84" font-weight="700" letter-spacing="-3">Building digital</text>
-  <text x="62" y="392" fill="#20251f" font-family="Arial, Helvetica, sans-serif" font-size="84" font-weight="700" letter-spacing="-3">products <tspan fill="#5f6761" font-weight="400">that</tspan></text>
-  <text x="62" y="484" fill="#85623a" font-family="Georgia, 'Times New Roman', serif" font-size="88" font-style="italic" font-weight="700" letter-spacing="-2">solve real problems.</text>
-  <text x="64" y="556" fill="#5f6761" font-family="Arial, Helvetica, sans-serif" font-size="22">Web · Mobile · Cloud · Applied AI — from idea to production</text>
-  <rect x="958" y="534" width="178" height="40" rx="20" fill="#586b40"/>
-  <text x="1047" y="560" text-anchor="middle" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700">antoniosifov.com</text>
-</svg>`;
+const URL_TO_SHOOT = process.argv[2] ?? "http://localhost:3457/";
+const OUTPUT = fileURLToPath(new URL("../public/og-image.png", import.meta.url));
+const WIDTH = 1200;
+const HEIGHT = 630;
 
-await sharp(Buffer.from(svg)).png({ compressionLevel: 9 }).toFile("public/og-image.png");
-console.log("public/og-image.png written");
+// The hero composed for a 1.91:1 card, every entrance and float stopped on its resting frame.
+const CARD = `
+  .curtain, .curtain-i, nextjs-portal, .site-nav, .header-side, .hero-lede, .hero-actions, .stats-section,
+  .circuit-field, .circuit, .ribbon-sheen, .through-line, main > :not(.through), .through-work, .scene-rail, .run-mark { display: none !important; }
+  .through { display: block !important; }
+  .hero-copy, .hero-copy > *, .el, .el-float, .el-art { animation: none !important; opacity: 1 !important; transform: none !important; }
+  .el { translate: none !important; }
+  html { scroll-behavior: auto !important; }
+  body { background: var(--bg) !important; }
+  .site-header { background: none !important; box-shadow: none !important; }
+  .header-inner { width: calc(100% - 112px); height: 92px; }
+  .hero { position: relative !important; top: 0 !important; height: ${HEIGHT}px !important; min-height: 0 !important; padding: 60px 0 0 !important; align-content: center !important; }
+  .hero::before { opacity: 1 !important; background: radial-gradient(48% 62% at 76% 54%, rgba(255, 255, 255, 0.07), transparent 72%) !important; }
+  .hero-grid { width: calc(100% - 112px); grid-template-columns: 470px minmax(0, 1fr) !important; gap: 0 !important; }
+  .hero h1 { font-size: 80px !important; }
+  .stage { width: 640px !important; justify-self: end; margin-right: -36px; }
+`;
+
+const browser = await Browser.launch({ width: WIDTH, height: HEIGHT });
+const tab = await browser.newPage({ width: WIDTH, height: HEIGHT });
+await tab.goto(URL_TO_SHOOT, { settleMs: 1500 });
+await tab.eval(async (css) => {
+  const style = document.createElement("style");
+  style.textContent = css;
+  document.head.append(style);
+  await document.fonts.ready;
+  await Promise.all([...document.images].filter((image) => image.closest(".hero")).map((image) => image.decode().catch(() => {})));
+}, CARD);
+await new Promise((resolve) => setTimeout(resolve, 500));
+const shot = Buffer.from(await tab.screenshot({ format: "png" }), "base64");
+await browser.close();
+
+await sharp(shot).png({ compressionLevel: 9, effort: 10 }).toFile(OUTPUT);
+console.log(`public/og-image.png written, ${WIDTH}x${HEIGHT}`);
+process.exit(0);
