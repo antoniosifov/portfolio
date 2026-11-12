@@ -71,6 +71,27 @@ const WORK_IDLE = 0.001;
 const scaleQuad = (q: Quad, k: number) => mapQuad(q, ([x, y]) => [x * k, y * k]);
 const moveQuad = (q: Quad, dx: number, dy: number) => mapQuad(q, ([x, y]) => [x + dx, y + dy]);
 const boxQuad = (b: Box) => rectQuad(b.x, b.y, b.x + b.w, b.y + b.h);
+/** On a phone Work is the phone's screen, so it takes the screen's shape: rounded corners, and a cut where the notch
+ *  is, so the phone's own notch shows through. In Work's coordinates the screen is the rectangle (0, 0, w, h).
+ *  Measured on the unwarped phone art in 430 x 932 screen units: corners 54, notch 118 to 325 and 38 deep with
+ *  15 corners; the cut sits 3 units inside it, so only the notch's black ever shows. `round` takes both away (1 to 0)
+ *  as the screen becomes the window. */
+const phoneScreenClip = (w: number, h: number, round: number) => {
+  const sx = w / 430;
+  const sy = h / 932;
+  const f = (value: number) => value.toFixed(1);
+  const r = 54 * sx * round;
+  let path = `M${f(r)} 0H${f(w - r)}A${f(r)} ${f(r)} 0 0 1 ${f(w)} ${f(r)}V${f(h - r)}A${f(r)} ${f(r)} 0 0 1 ${f(w - r)} ${f(h)}H${f(r)}A${f(r)} ${f(r)} 0 0 1 0 ${f(h - r)}V${f(r)}A${f(r)} ${f(r)} 0 0 1 ${f(r)} 0Z`;
+  const deep = 35 * sy * round;
+  if (deep > 0.5) {
+    const left = 121 * sx;
+    const right = 322 * sx;
+    const c = Math.min(15 * sx, deep);
+    path += `M${f(left)} 0V${f(deep - c)}A${f(c)} ${f(c)} 0 0 0 ${f(left + c)} ${f(deep)}H${f(right - c)}A${f(c)} ${f(c)} 0 0 0 ${f(right)} ${f(deep - c)}V0Z`;
+  }
+  return `path(evenodd, "${path}")`;
+};
+
 const px = (value: number) => `${value.toFixed(2)}px`;
 const num = (value: number) => value.toFixed(4);
 
@@ -484,9 +505,9 @@ function build(tl: Parameters<Plan["build"]>[0], ctx: SceneCtx) {
 
   /** Work's camera: its transform and the clip that keeps it to the part a screen shows. At the top of the run it
    *  waits in its warm-up strip (IDLE_WIDTH), from the first scroll it is on the portal's screen. */
-  const shoot = (to: Quad, done: boolean, top: boolean) => {
+  const shoot = (to: Quad, done: boolean, top: boolean, clip = m!.clip) => {
     css.set(work, "transform", done ? "" : top ? m!.workIdle : homography(m!.R, to));
-    css.set(work, "clip-path", done ? "" : m!.clip);
+    css.set(work, "clip-path", done ? "" : clip);
   };
 
   const renderDesk = (p: number, wake: number, done: boolean, laptopStill: Still | null, phoneStill: Still | null) => {
@@ -582,7 +603,11 @@ function build(tl: Parameters<Plan["build"]>[0], ctx: SceneCtx) {
     const e = sineInOut(seg(p, 0.06, PHONE_LANDED));
     const qPortal = e > 0 ? dolly(m.q0, m.portalEnd, e) : m.q0;
     place(phone, m.portalLocal, e > 0 ? qPortal : null, settled(phoneStill, 1 - still));
-    shoot(dolly(m.workStart, m.R, e), done, p <= 0);
+    // The screen's shape holds until the last stretch, then eases square as the screen becomes the window (one
+    // clip for most of the flight, so its mask is not redrawn every frame).
+    const round = 1 - sineInOut(seg(e, 0.9, 1));
+    const [, , [w, h]] = m.R;
+    shoot(dolly(m.workStart, m.R, e), done, p <= 0, phoneScreenClip(w, h, Number(round.toFixed(2))));
     const zoom = e > 0 ? quadSize(qPortal) / m.s0 : 1;
     const centre = e > 0 ? centroid(qPortal) : m.c0;
 

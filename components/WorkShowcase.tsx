@@ -341,6 +341,41 @@ export function WorkShowcase({
     return () => stops.forEach((stop) => stop());
   }, [landed, shown.grid, shown.list, compact.length, listed.length]);
 
+  // The presentation starts over at the title slide: back there the carousel returns to its first project, so scene
+  // A always opens on Ceru. Work is hidden at that moment (it wakes from .03), so the jump is never seen. Also on load
+  // and on a page restored from the back-forward cache, where a browser (Safari) can bring a sideways scroll back.
+  useEffect(() => {
+    const toFirst = () => {
+      const track = trackRef.current;
+      if (!track || track.scrollLeft < 2) return;
+      track.scrollLeft = 0;
+      setActive(0);
+    };
+    toFirst();
+    const onLoad = () => toFirst();
+    const onShow = (event: PageTransitionEvent) => {
+      if (event.persisted) toFirst();
+    };
+    window.addEventListener("load", onLoad, { once: true });
+    window.addEventListener("pageshow", onShow);
+    const rail = document.querySelector<HTMLElement>('.scene[data-scene="through"]');
+    let atStart = true;
+    const check = () => {
+      if (!rail?.classList.contains("is-live")) return;
+      const p = parseFloat(rail.style.getPropertyValue("--p"));
+      const next = !(p > 0.02);
+      if (next && !atStart) toFirst();
+      atStart = next;
+    };
+    const watch = rail ? new MutationObserver(check) : null;
+    if (rail) watch?.observe(rail, { attributes: true, attributeFilter: ["class", "style"] });
+    return () => {
+      watch?.disconnect();
+      window.removeEventListener("load", onLoad);
+      window.removeEventListener("pageshow", onShow);
+    };
+  }, []);
+
   const applyFilter = (next: Filter) => {
     setFilter(next);
     setActive(0);
