@@ -71,21 +71,29 @@ const WORK_IDLE = 0.001;
 const scaleQuad = (q: Quad, k: number) => mapQuad(q, ([x, y]) => [x * k, y * k]);
 const moveQuad = (q: Quad, dx: number, dy: number) => mapQuad(q, ([x, y]) => [x + dx, y + dy]);
 const boxQuad = (b: Box) => rectQuad(b.x, b.y, b.x + b.w, b.y + b.h);
+/** How much bigger than the phone's screen Work starts: enough to cover the light rim at the screen's edge in the
+ *  art (about 2 of 430 units), well inside the black bezel (about 8). */
+const PHONE_OVERSCAN = 1.02;
+
 /** On a phone Work is the phone's screen, so it takes the screen's shape: rounded corners, and a cut where the notch
  *  is, so the phone's own notch shows through. In Work's coordinates the screen is the rectangle (0, 0, w, h).
  *  Measured on the unwarped phone art in 430 x 932 screen units: corners 54, notch 118 to 325 and 38 deep with
  *  15 corners; the cut sits 3 units inside it, so only the notch's black ever shows. `round` takes both away (1 to 0)
  *  as the screen becomes the window. */
 const phoneScreenClip = (w: number, h: number, round: number) => {
-  const sx = w / 430;
-  const sy = h / 932;
+  // Work overscans the screen by PHONE_OVERSCAN (it covers the art's light rim at the screen's edge), so in Work's
+  // coordinates the screen itself starts a little in from each edge and is a little smaller.
+  const sx = w / PHONE_OVERSCAN / 430;
+  const sy = h / PHONE_OVERSCAN / 932;
+  const ix = (w - w / PHONE_OVERSCAN) / 2;
+  const iy = (h - h / PHONE_OVERSCAN) / 2;
   const f = (value: number) => value.toFixed(1);
-  const r = 54 * sx * round;
+  const r = (54 * sx + ix) * round;
   let path = `M${f(r)} 0H${f(w - r)}A${f(r)} ${f(r)} 0 0 1 ${f(w)} ${f(r)}V${f(h - r)}A${f(r)} ${f(r)} 0 0 1 ${f(w - r)} ${f(h)}H${f(r)}A${f(r)} ${f(r)} 0 0 1 0 ${f(h - r)}V${f(r)}A${f(r)} ${f(r)} 0 0 1 ${f(r)} 0Z`;
-  const deep = 35 * sy * round;
+  const deep = (35 * sy + iy) * round;
   if (deep > 0.5) {
-    const left = 121 * sx;
-    const right = 322 * sx;
+    const left = ix + 121 * sx;
+    const right = ix + 322 * sx;
     const c = Math.min(15 * sx, deep);
     path += `M${f(left)} 0V${f(deep - c)}A${f(c)} ${f(c)} 0 0 0 ${f(left + c)} ${f(deep)}H${f(right - c)}A${f(c)} ${f(c)} 0 0 0 ${f(right)} ${f(deep - c)}V0Z`;
   }
@@ -236,6 +244,8 @@ type Measure = {
   /** The fixed header's height: nothing flies behind the nav. */
   headerH: number;
   slot: Slot | null;
+  /** On a phone, Ceru's slide: its two side phones slide out from behind the centre one as the dive ends. */
+  sides: Slot | null;
   land: Quad | null;
   /** Work's heading is stacked over its filters (1100 px wide and under, WP3): the filter row then lies on the
    *  flying phone's way down, so the phone drops to its landing height first and glides in under the row. */
@@ -382,6 +392,8 @@ function build(tl: Parameters<Plan["build"]>[0], ctx: SceneCtx) {
 
     const slot = phonePlan ? null : landingSlot(work);
     if (m?.slot && m.slot.center !== slot?.center) releaseSlot(m.slot);
+    const sides = phonePlan ? landingSlot(work) : null;
+    if (m?.sides && m.sides.center !== sides?.center) releaseSlot(m.sides);
     let land: Quad | null = null;
     if (slot) land = boxQuad(layoutBox(slot.img, work));
     const title = work.querySelector<HTMLElement>("#work-title");
@@ -399,8 +411,10 @@ function build(tl: Parameters<Plan["build"]>[0], ctx: SceneCtx) {
       portalLocal,
       c0: centroid(q0),
       s0: quadSize(q0),
-      portalEnd: phonePlan ? rectQuad(-2, -2, VW + 2, H + 2) : growQuad(R, 1.006),
-      workStart: phonePlan ? q0 : growQuad(q0, 1.012),
+      // On a phone Work is always PHONE_OVERSCAN bigger than the phone's screen (renderPhone), so the screen ends that
+      // much inside the window and Work ends exactly on it; Work is on top, so the bezel under it never shows.
+      portalEnd: phonePlan ? growQuad(R, 1 / PHONE_OVERSCAN) : growQuad(R, 1.006),
+      workStart: growQuad(q0, phonePlan ? PHONE_OVERSCAN : 1.012),
       workIdle: homography(R, [
         [0, 0],
         [IDLE_WIDTH, 2],
@@ -412,6 +426,7 @@ function build(tl: Parameters<Plan["build"]>[0], ctx: SceneCtx) {
       peel: (phonePlan ? 520 : 900) * Math.max(1, VW / 1440),
       headerH: document.querySelector<HTMLElement>(".site-header")?.offsetHeight ?? 0,
       slot,
+      sides,
       land,
       dropFirst,
     };
@@ -607,7 +622,21 @@ function build(tl: Parameters<Plan["build"]>[0], ctx: SceneCtx) {
     // clip for most of the flight, so its mask is not redrawn every frame).
     const round = 1 - sineInOut(seg(e, 0.9, 1));
     const [, , [w, h]] = m.R;
-    shoot(dolly(m.workStart, m.R, e), done, p <= 0, phoneScreenClip(w, h, Number(round.toFixed(2))));
+    // Work is the phone's current screen grown by PHONE_OVERSCAN at every frame, so it always covers the art's light
+    // rim at the screen's edge (a fixed start and end would let the margin melt away mid-dive).
+    shoot(growQuad(qPortal, PHONE_OVERSCAN), done, p <= 0, phoneScreenClip(w, h, Number(round.toFixed(2))));
+    // Ceru's two side phones wait behind the centre one, then slide out from it as the screen fills the window, as
+    // they do on the desk after the landing. Their own layers while they move, so Work is not repainted.
+    const sides = m.sides;
+    if (sides) {
+      const out = ioCubic(seg(p, 0.58, 0.84));
+      const seen = seg(p, 0.58, 0.64);
+      for (const el of [sides.left, sides.right]) css.set(el, "will-change", p >= 0.5 && !done ? "transform, opacity" : "");
+      css.set(sides.left, "translate", done ? "" : `${((1 - out) * 72).toFixed(2)}% 0`);
+      css.set(sides.right, "translate", done ? "" : `${((out - 1) * 72).toFixed(2)}% 0`);
+      css.set(sides.left, "opacity", done ? "" : num(seen));
+      css.set(sides.right, "opacity", done ? "" : num(seen));
+    }
     const zoom = e > 0 ? quadSize(qPortal) / m.s0 : 1;
     const centre = e > 0 ? centroid(qPortal) : m.c0;
 
