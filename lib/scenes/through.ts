@@ -103,6 +103,18 @@ const phoneScreenClip = (w: number, h: number, round: number) => {
 const px = (value: number) => `${value.toFixed(2)}px`;
 const num = (value: number) => value.toFixed(4);
 
+/** An element's content box from layout (never from a transformed rect), as the `contain-intrinsic-size` that keeps
+ *  it exactly that size while its content is skipped. `auto` first: the size the browser last saw wins once it has
+ *  one, and this is the fallback for a page that starts part way through the flight. */
+function heldSize(el: HTMLElement) {
+  const style = getComputedStyle(el);
+  const n = (value: string) => parseFloat(value) || 0;
+  const border = style.boxSizing === "border-box";
+  const w = n(style.width) - (border ? n(style.paddingLeft) + n(style.paddingRight) + n(style.borderLeftWidth) + n(style.borderRightWidth) : 0);
+  const h = n(style.height) - (border ? n(style.paddingTop) + n(style.paddingBottom) + n(style.borderTopWidth) + n(style.borderBottomWidth) : 0);
+  return `auto ${px(Math.max(0, w))} auto ${px(Math.max(0, h))}`;
+}
+
 /** Inline styles with memory: a value is only written when it changes, and everything written can be undone. */
 function styles() {
   const written = new Map<HTMLElement, Map<string, string>>();
@@ -263,6 +275,36 @@ function build(tl: Parameters<Plan["build"]>[0], ctx: SceneCtx) {
   let header: "clear" | "scrim" | null = null;
   let sheenPaused = false;
   let stageHeld = false;
+  /** On a phone, what of Work the phone's screen can never show during the flight: see `measure`. */
+  let offstage = new Set<HTMLElement>();
+  /** Of those, the parts below Work's first screen (not the slides). */
+  let below = new Set<HTMLElement>();
+  /** Landed, the parts below stay skipped while they are far from the window, as content-visibility: auto (which
+   *  keeps them for a reader, Tab and find), and become whole a screen before they arrive (20-through.css). Drawing
+   *  all of them in the landing frame made it, and the commit after it, the slowest frames of the dive. */
+  const waiting = new Set<Element>();
+  const settle = (el: Element) => {
+    el.removeAttribute("data-waiting");
+    near?.unobserve(el);
+    waiting.delete(el);
+  };
+  const near =
+    phonePlan && typeof IntersectionObserver !== "undefined"
+      ? new IntersectionObserver((entries) => entries.forEach((entry) => entry.isIntersecting && settle(entry.target)), { rootMargin: "100% 0px" })
+      : null;
+  const wait = (on: boolean) => {
+    if (!on) {
+      waiting.forEach(settle);
+      return;
+    }
+    if (!near) return;
+    for (const el of below) {
+      if (waiting.has(el)) continue;
+      waiting.add(el);
+      el.setAttribute("data-waiting", "");
+      near.observe(el);
+    }
+  };
 
   // The punched laptop for the desk, and Ceru's screens for the hero phone. Created here, so
   // React never meets them: HeroStage does not re-render.
@@ -402,6 +444,36 @@ function build(tl: Parameters<Plan["build"]>[0], ctx: SceneCtx) {
     if (slot && title && filters) {
       const head = layoutBox(title, work);
       dropFirst = layoutBox(filters, work).y >= head.y + head.h - 1;
+    }
+
+    // On a phone the screen only ever shows Work's first screen, (0, 0, VW, H) in Work's own box. What lies wholly
+    // below it, and the carousel's slides past the active one's neighbours (sideways out of the track; a neighbour
+    // still snapping into place when the flight starts is kept), is marked data-offstage and skipped while the phone
+    // flies (20-through.css), held at its exact size, so the dive stops painting and layering ~2/3 of Work into every
+    // frame. Re-marked at every measure: on a window as tall as Work's first rows, nothing is.
+    if (phonePlan) {
+      const next = new Set<HTMLElement>();
+      const shell = work.querySelector<HTMLElement>(":scope > .shell");
+      for (const el of [...work.children, ...(shell?.children ?? [])]) {
+        if (el !== shell && el instanceof HTMLElement && layoutBox(el, work).y >= H) next.add(el);
+      }
+      below = new Set(next);
+      for (const el of waiting) if (!below.has(el as HTMLElement)) settle(el);
+      const track = work.querySelector<HTMLElement>(".slides");
+      const active = Number(track?.dataset.active ?? 0) || 0;
+      [...(track?.children ?? [])].forEach((el, i) => {
+        if (el instanceof HTMLElement && Math.abs(i - active) > 1) next.add(el);
+      });
+      for (const el of offstage) {
+        if (next.has(el)) continue;
+        toggle(el, "data-offstage", false);
+        css.clear(el);
+      }
+      for (const el of next) {
+        css.set(el, "contain-intrinsic-size", heldSize(el));
+        toggle(el, "data-offstage", true);
+      }
+      offstage = next;
     }
 
     m = {
@@ -625,6 +697,15 @@ function build(tl: Parameters<Plan["build"]>[0], ctx: SceneCtx) {
     // Work is the phone's current screen grown by PHONE_OVERSCAN at every frame, so it always covers the art's light
     // rim at the screen's edge (a fixed start and end would let the margin melt away mid-dive).
     shoot(growQuad(qPortal, PHONE_OVERSCAN), done, p <= 0, phoneScreenClip(w, h, Number(round.toFixed(2))));
+    // Only while it flies: at the top of the run Work is whole (a reader or Tab walks all of it), and it is whole
+    // again the frame it lands, when everything that was skipped is still below the window. That makes the landing
+    // frame longer; deferring it a frame instead (to one where nothing moves) was measured too, and added one more slow
+    // frame while the scene still runs, which the frame guard counts (runtime.ts). So only what is near is drawn
+    // there: the parts below that are still far away wait (`wait`).
+    const flying = p > 0 && !done;
+    if (done && work.hasAttribute("data-flight")) wait(true);
+    else if (flying || p <= 0) wait(false);
+    toggle(work, "data-flight", flying);
     // Ceru's two side phones wait behind the centre one, then slide out from it as the screen fills the window, as
     // they do on the desk after the landing. Their own layers while they move, so Work is not repainted.
     const sides = m.sides;
@@ -647,10 +728,11 @@ function build(tl: Parameters<Plan["build"]>[0], ctx: SceneCtx) {
     const laptopGone = seg(p, 0.14, 0.34);
     css.set(laptop.fly, "opacity", laptopGone ? num(1 - laptopGone) : "");
     css.set(laptop.fly, "visibility", laptopGone >= 1 ? "hidden" : "");
-    follow(ribbon, 1.1, zoom, centre);
-    idle(ribbon, zoom > 1);
     // Gone before the laptop has moved far enough to uncover the band's cut ends (its ease barely starts by .15).
+    // Once gone it keeps the pose it left in: following a hidden ribbon restyled it in every frame of the dive.
     const ribbonGone = seg(p, 0.05, 0.15);
+    if (ribbonGone < 1) follow(ribbon, 1.1, zoom, centre);
+    idle(ribbon, zoom > 1);
     css.set(ribbon.fly, "opacity", ribbonGone ? num(1 - ribbonGone) : "");
     css.set(ribbon.fly, "visibility", ribbonGone >= 1 ? "hidden" : "");
 
@@ -728,6 +810,10 @@ function build(tl: Parameters<Plan["build"]>[0], ctx: SceneCtx) {
     for (const name of ["data-flight", "data-held", "data-instant"]) section.removeAttribute(name);
     for (const el of [work, dom.copy, dom.stats]) el?.removeAttribute("data-shield");
     work.removeAttribute("data-instant");
+    work.removeAttribute("data-flight");
+    wait(false);
+    near?.disconnect();
+    offstage.forEach((el) => el.removeAttribute("data-offstage"));
     for (const el of [dom.copy, dom.stats, laptop.art]) el?.removeAttribute("data-gone");
     dom.line?.removeAttribute("data-shown");
     stage.removeAttribute("data-flying");

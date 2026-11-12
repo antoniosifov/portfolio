@@ -1,4 +1,5 @@
 import { useEffect, useSyncExternalStore, type RefObject } from "react";
+import { lastScrollY } from "@/lib/motion/chapters";
 
 /** How far the page has to move before the header takes a ground. */
 const SCROLLED_AFTER = 24;
@@ -12,7 +13,9 @@ const subscribeChapter = onWindow("chapter");
 const subscribeScroll = onWindow("scroll", { passive: true });
 
 const readChapter = () => document.documentElement.dataset.chapter ?? "top";
-const readScrolled = () => window.scrollY > SCROLLED_AFTER;
+/** From the scroll event's own reading: `window.scrollY` here forced a restyle and layout after the scenes had
+ *  written, in each scrolled frame and in the header's render at every chapter change (a frame of the dive). */
+const readScrolled = () => lastScrollY() > SCROLLED_AFTER;
 
 /** The chapter being read, as `lib/motion/chapters` keeps it on `html[data-chapter]`. "top" on the server. */
 export function useChapter(): string {

@@ -330,6 +330,22 @@ export function WorkShowcase({
     return () => resize.disconnect();
   }, [filter]);
 
+  // Ceru's phones drift only while the carousel can be seen (from half a screen away). Off screen the drift still
+  // restyled and re-layered them in every frame of the scroll below, scene B included (measured on a phone at 4x CPU
+  // throttle: about a quarter of each of its frames). Paused, a phone holds its pose and runs on from it when the
+  // carousel comes back; the PHONE plan's CSS (30-work.css) is what pauses it.
+  const hasSlides = showcase.length > 0;
+  useEffect(() => {
+    const wrap = trackRef.current?.parentElement;
+    if (!wrap || typeof IntersectionObserver === "undefined") return;
+    const watch = new IntersectionObserver(([entry]) => wrap.toggleAttribute("data-paused", !entry.isIntersecting), { rootMargin: "50% 0px" });
+    watch.observe(wrap);
+    return () => {
+      watch.disconnect();
+      wrap.removeAttribute("data-paused");
+    };
+  }, [hasSlides]);
+
   // One-shot reveals of the cards and the list, armed only once Work has landed.
   useEffect(() => {
     if (!landed) return;

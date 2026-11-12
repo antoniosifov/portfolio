@@ -276,6 +276,24 @@ html.no-curtain .stage-hero .el-chip-spark {
     }
   }
 
+  /* While the phone flies, its screen only ever shows Work's first screen. What lies wholly below it, and the slides
+     past the active one's neighbours, are skipped (through.ts marks them data-offstage and holds each at its exact
+     size), so the dive stops painting them and layering them into every frame: measured at 4x CPU throttle, the full
+     re-layering each frame of the dive needs (Work and the phone take a new perspective every frame) fell from about
+     6.5 to 4.5 ms, and the page's composited layers from 44 to 24. Not at the top of the run, where a reader or Tab
+     walks all of Work, and not once landed; a part that holds the focus is kept. */
+  html.js:not(.calm) .scene-rail.is-live ~ .through-work > .work-section[data-flight] [data-offstage]:not(:focus-within) {
+    content-visibility: hidden;
+  }
+
+  /* Landed, the parts below that are still far from the window are left to the browser (auto: skipped while off
+     screen, yet there for a reader, Tab and find) until through.ts sees them a screen away and makes them whole, before
+     they can show; drawing every one of them in the landing frame made it, and the commit after it, the slowest of the
+     dive. */
+  html.js:not(.calm) .scene-rail.is-live ~ .through-work > .work-section:not([data-flight]) [data-offstage][data-waiting]:not(:focus-within) {
+    content-visibility: auto;
+  }
+
   /* Work lands as the whole screen, so its heading must clear the fixed header. Keyed on the runway, not on
      .is-live, so the height exists before first paint and a reload part way down lands where it was. */
   html.js:not(.calm) :where(.through:has(> .scene-rail:not(.is-rest))) > .through-work > .work-section {
