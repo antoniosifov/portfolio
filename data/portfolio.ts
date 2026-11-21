@@ -382,7 +382,7 @@ export const experience: {
   href?: string;
 }[] = [
   {
-    period: "Jun 2025 — Present",
+    period: "May 2025 — Present",
     role: "Full-Stack Software Engineer",
     current: true,
     stack: ["Node.js", "React", "TypeScript", "Python", "Next.js", "React Native", "Supabase", "PostgreSQL", "OpenAI"],
@@ -469,4 +469,5 @@ export const contactLinks = [
   { label: "GitHub", value: "antoniosifov", href: "https://github.com/antoniosifov" },
   { label: "WhatsApp", value: "+972 53 422 3948", href: "https://wa.me/972534223948" },
 ];
+
 
