@@ -382,7 +382,7 @@ export const experience: {
   href?: string;
 }[] = [
   {
-    period: "Feb 2026 — Present",
+    period: "May 2025 — Present",
     role: "Full-Stack Software Engineer",
     current: true,
     stack: ["Node.js", "React", "TypeScript", "Python", "Next.js", "React Native", "Supabase", "PostgreSQL", "OpenAI"],
