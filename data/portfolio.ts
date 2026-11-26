@@ -469,3 +469,5 @@ export const contactLinks = [
   { label: "GitHub", value: "antoniosifov", href: "https://github.com/antoniosifov" },
   { label: "WhatsApp", value: "+972 53 422 3948", href: "https://wa.me/972534223948" },
 ];
+
+
